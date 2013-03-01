@@ -37,7 +37,7 @@
 
 				<section>
 					<h2>Developing PhoneGap Apps</h2>
-					<p>Snow Mobile 2/16/13</p>
+					<p>Chariot Day 3/2/13</p>
 					<p>
 						<small>Don Coleman <br/>
 						    Chariot Solutions <br/>
@@ -111,7 +111,7 @@
                     </ul>
                     </p>
                     <small>
-                    <a href="http://docs.phonegap.com/en/2.4.0/index.html">http://docs.phonegap.com/en/2.4.0/index.html</a><br/>
+                    <a href="http://docs.phonegap.com/en/2.5.0/index.html">http://docs.phonegap.com/en/2.5.0/index.html</a><br/>
                     <a href="http://phonegap.com/about/feature">http://phonegap.com/about/feature</a>
                     </small>
                     <aside class="notes">TODO replace with screenshot http://phonegap.com/about/feature/</asize>
@@ -162,9 +162,9 @@
                 
                 <section>
                     <p>Unzip archive</p>
-                    <p class="fragment">move somewhere like /usr/local/phonegap-2.4.0</p>
+                    <p class="fragment">move somewhere like /usr/local/phonegap-2.5.0</p>
                     <aside class="notes">
-                        TODO maybe ~/phonegap-2.4.0
+                        TODO maybe ~/phonegap-2.5.0
 					</aside>
                 </section>
 
@@ -188,7 +188,7 @@
                     <section>
                         <p style="font-size: 1.8em">iOS</p>
                         <pre><code contenteditable>
-$ cd /usr/local/phonegap-2.4.0
+$ cd /usr/local/phonegap-2.5.0
 $ cd lib/ios/bin
 $ ./create ~/foo com.example.foo Foo 
 $ cd ~/foo
@@ -229,7 +229,7 @@ $ ./cordova/emulate
                 <section>
                     <h2>Android</h2>
                     <pre><code contenteditable>
-$ cd /usr/local/phonegap-2.4.0
+$ cd /usr/local/phonegap-2.5.0
 $ cd lib/android/bin
 $ ./create ~/foo com.example.foo Foo 
 $ cd ~/foo
@@ -264,7 +264,7 @@ $ ./cordova/run
                           
                 <section>
                     <p>PhoneGap Getting Started Guides</p>
-                    <a href="http://docs.phonegap.com/en/2.4.0/guide_getting-started_index.md.html">http://docs.phonegap.com/en/2.4.0/guide_getting-started_index.md.html</a>
+                    <a href="http://docs.phonegap.com/en/2.5.0/guide_getting-started_index.md.html">http://docs.phonegap.com/en/2.5.0/guide_getting-started_index.md.html</a>
                     <aside class="notes">
                         We'll use the command line
                     </aside>
@@ -276,7 +276,7 @@ $ ./cordova/run
 
                 <section>
                     The www directory is just a web project
-                    <aside class="notes">TODO get new screenshot with cordova 2.4</aside>
+                    <aside class="notes">TODO get new screenshot with cordova 2.5</aside>
                 </section>
                 
                 <section>
@@ -298,7 +298,7 @@ $ ./cordova/run
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
     ...
-        &lt;script src="cordova-2.4.0.js"&gt;&lt;/script&gt;
+        &lt;script src="cordova-2.5.0.js"&gt;&lt;/script&gt;
         &lt;script src="js/index.js"&gt;&lt;/script&gt;
         &lt;script type="text/javascript"&gt;
             app.initialize();
@@ -337,7 +337,7 @@ var app = {
 navigator.camera.getPicture( 
     cameraSuccess, cameraError, [ cameraOptions ] );
                     </code></pre>
-                    <small class="fragment"><a href="http://docs.phonegap.com/en/2.4.0/cordova_camera_camera.md.html">http://docs.phonegap.com/en/2.4.0/cordova_camera_camera.md.html</a></small>
+                    <small class="fragment"><a href="http://docs.phonegap.com/en/2.5.0/cordova_camera_camera.md.html">http://docs.phonegap.com/en/2.5.0/cordova_camera_camera.md.html</a></small>
                 </section>
 
                 <section>
@@ -374,7 +374,7 @@ function onFailure(message) {
     android:name="android.permission.WRITE_EXTERNAL_STORAGE" /&gt;
                     </pre></code>
                     <aside class="notes">
-                        http://docs.phonegap.com/en/2.4.0/cordova_camera_camera.md.html
+                        http://docs.phonegap.com/en/2.5.0/cordova_camera_camera.md.html
                     </aside>
                 </section>
 
@@ -449,27 +449,41 @@ takePicture: function() {
 
                 <section>
                     <section>
-                         <img src="images/camera1.jpg" />
+                         <h2>Demo</h2>
+                    </section>                
+                    <section>
+                         <img src="images/camera1.png" />
                     </section>
                     <section>
-                         <img src="images/camera2.jpg" />
+                         <img src="images/camera2.png" />
                     </section>
                     <section>
-                         <img src="images/camera3.jpg" />
+                         <img src="images/camera3.png" />
                     </section>
                     <section>
-                         <img src="images/camera4.jpg" />
+                         <img src="images/camera4.png" />
                     </section>
+                    <section>
+                         <img src="images/camera5.png" />
+                    </section>
+                    <section>
+                         <img src="images/camera6.png" />
+                    </section>
+                    <section>
+                         <img src="images/camera7.png" />
+                    </section>
+                    <section>
+                         <img src="images/camera8.png" />
+                    </section>                    
                 </section>
 
-                
                 <!-- TODO need a transition here? -->
                 
                 
                 <!-- TODO move this up? or rename -->
                 <section>
                     <p>Lots of other APIs</p>
-                    <a href="http://docs.phonegap.com/en/2.4.0/index.html">http://docs.phonegap.com/en/2.4.0/index.html</a>
+                    <a href="http://docs.phonegap.com/en/2.5.0/index.html">http://docs.phonegap.com/en/2.5.0/index.html</a>
                 </section>
                 
                 <!-- TODO what if you want to do something phonegap doesn't do -->
@@ -635,19 +649,19 @@ takePicture: function() {
                    <section>
                         <pre><code contenteditable>
     $ plugman --list
-    BarcodeScanner - Cross-platform BarcodeScanner for Cordova/PhoneGap
+    BarcodeScanner - Cross-platform BarcodeScanner
     ChildBrowser - ChildBrowser plugin
     Facebook-Connect - Official plugin for Facebook Connect 
     GAPlugin - Google Analytics Plugin
     KeychainPlugin - Keychain Plugin for Apache Cordova
     NFC - Near Field Communication Plugin
-    PushPlugin - Push Notification Plugin for iOS and Android
+    PushPlugin - Push Notification Plugin for iOS &amp; Android
     TestflightPlugin - TestFlight Plugin for Apache Cordova</code></pre>
                     </section>                
 
                     <section>
                          <pre><code contenteditable>    
-    plugman --platform ios --project platforms/ios --plugin BarcodeScanner
+plugman --platform ios --project . --plugin BarcodeScanner
                         </code></pre>
                     </section>
                     
@@ -736,7 +750,10 @@ takePicture: function() {
                     <p>Don Coleman</p>
                     <a href="mailto:don@chariotsolutions.com">don@chariotsolutions.com</a><br/>				    
 				    <a href="http://twitter.com/doncoleman">@doncoleman</a><br/>
-				    <a href="http://don.github.com/slides/2013-02-16-snow-mobile">http://don.github.com/slides/2013-02-16-snow-mobile</a>
+				    <p>
+				    <small><a href="http://don.github.com/slides/2013-03-02-chariot-day">
+				        http://don.github.com/slides/2013-03-02-chariot-day</a></small>
+				    </p>
                 </section>
    						
 			</div>
