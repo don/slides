@@ -73,7 +73,7 @@
                     <p class="fragment">iOS, Android</p>
 					<p class="fragment">Windows Phone, Blackberry</p>
 					<p class="fragment">Symbian, Bada, WebOS</p>
-					<p class="fragment">Tizen, Chrome, Windows 8</p>
+					<p class="fragment">Tizen, FirefoxOS</p>
                 </section>
 
                 <section>
@@ -433,7 +433,7 @@ takePicture: function() {
         }, 
         { // options
             quality: 50,
-            destinationType: navigator.camera.DestinationType.FILE_URI,
+            destinationType: DestinationType.FILE_URI,
             targetWidth: 320,
             targetHeight: 320,
             allowEdit: true,
@@ -477,17 +477,158 @@ takePicture: function() {
                     </section>                    
                 </section>
 
-                <!-- TODO need a transition here? -->
-                
-                
-                <!-- TODO move this up? or rename -->
                 <section>
                     <p>Lots of other APIs</p>
                     <a href="http://docs.phonegap.com/en/2.5.0/index.html">http://docs.phonegap.com/en/2.5.0/index.html</a>
                 </section>
+                                
+                <section>
+                    <p>But PhoneGap doesn't do<br/>
+                    <em>[insert your feature here]</em></p>
+                </section>
+                                                
+                <section>
+                    <h2>Plugins</h2>
+                    <p>Extend PhoneGap</p>
+                    <p class="fragment">
+                        <a href="https://github.com/phonegap/phonegap-plugins">
+                            https://github.com/phonegap/phonegap-plugins</a></p>
+                    <aside class="notes">
+                        Plugins were in this giant repo. Starting to break out into separate repos.
+                        Lots of plugins available<br/>                        
+                        Write your own<br/>
+                        Great way to see how Cordova works<br/>                        
+                    </aside>
+                </section>
                 
-                <!-- TODO what if you want to do something phonegap doesn't do -->
-                                                                
+                <section>
+                    <h2>Plugins aren't a Hack</h2>
+                    <p class="fragment">PhoneGap is built out of plugins</p>
+                </section>                                    
+                
+                <section>
+                    <h2>PhoneGap NFC</h2>
+                    <p>
+                    <a href="https://github.com/chariotsolutions/phonegap-nfc">
+                        https://github.com/chariotsolutions/phonegap-nfc
+                    </a>
+                    </p>
+                    <p class="fragment"><small>Android, BlackBerry 7, BlackBerry 10, Windows Phone 8</small></p>
+                </section>
+                <section>
+                    <h2>Installing a Plugin</h2>
+                    <!-- maybe show screenshot of instructions? -->
+                    <p class="fragment">Clone git repo</p>
+                    <p class="fragment">Copy Java files to project</p>
+                    <p class="fragment">Copy JavaScript files to project</p>
+                    <p class="fragment">Edit config.xml</p>
+                    <p class="fragment">Edit AndroidManifest.xml</p>
+                    <p class="fragment">Edit index.html</p>                    
+                </section>
+
+                <section>
+                    <p>Plugin Specification</p>
+                    <a href="https://github.com/alunny/cordova-plugin-spec">https://github.com/alunny/cordova-plugin-spec</a>
+                </section>                   
+
+                <section>
+                    <h2>plugman</h2>
+                    <p>A command line tool to distribute and package plugins for use with Apache Cordova</p>
+                    <a href="https://github.com/imhotep/plugman">https://github.com/imhotep/plugman</a>
+                </section>
+
+                <section>
+                    <pre><code contenteditable>
+$ plugman
+Usage
+---------
+Add a plugin:
+	plugman --platform <ios|android|bb10|www> --project <directory> --plugin <directory|git-url|name>
+
+Remove a plugin:
+	plugman --remove --platform <ios|android|bb10|www> --project <directory> --plugin <directory|git-url|name>
+
+List plugins:
+	plugman --list
+	</code></pre>
+                </section>              
+
+               <section>
+                    <pre><code contenteditable>
+$ plugman --list
+BarcodeScanner - Cross-platform BarcodeScanner
+ChildBrowser - ChildBrowser plugin
+Facebook-Connect - Official plugin for Facebook Connect 
+GAPlugin - Google Analytics Plugin
+KeychainPlugin - Keychain Plugin for Apache Cordova
+NFC - Near Field Communication Plugin
+PushPlugin - Push Notification Plugin for iOS &amp; Android
+TestflightPlugin - TestFlight Plugin for Apache Cordova</code></pre>
+                </section>                
+
+                <section>
+                     <pre><code contenteditable>    
+plugman --platform android --project . --plugin NFC
+                    </code></pre>
+                </section>
+
+                <section>
+                    <section>
+                        <h2>Demo</h2>
+                    </section>
+                    <section>
+                        <p>Create a project</p>
+                        <pre><code>
+$ cd /usr/local/phonegap-2.5.0/lib/android/bin
+$ ./create /tmp/nfc com.example.nfc Nfc
+                        </pre></code>
+                        
+                        <p>Install PhoneGap NFC</p>
+                        <pre><code>
+$ cd /tmp/nfc 
+$ plugman --platform android --project . --plugin NFC
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>index.html</p>
+                        <pre><code>
+&lt;script type="text/javascript" src="js/phonegap-nfc.js"&gt;
+&lt;/script&gt;
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>index.js</p>
+                        <pre><code>
+deviceready: function () {
+    nfc.addNdefListener(app.onNfc);             
+}
+                        </pre></code>
+                    </section>
+                    <section>
+                        <p>index.js</p>
+                        <pre><code>
+onNfc: function(nfcEvent) {
+    var tag = nfcEvent.tag,
+        records = tag.ndefMessage,
+        payload,
+        message;
+    
+    if (records[0]) {
+        payload = records[0].payload;
+        message = nfc.bytesToString(payload);
+        navigator.notification.alert(message, null, "NFC");            
+    }
+}
+                        </pre></code>
+                    </section>
+                    <section>
+                        <img src="images/nfc_1.png" />
+                    </section>
+                    <section>
+                        <img src="images/nfc_2.png" />
+                    </section>                    
+                </section>
+                                                                                
                 <!-- new section -->
 
                 <section>
@@ -495,7 +636,6 @@ takePicture: function() {
                     <p class="fragment">read the log output</p>
     				<p class="fragment">ensure code is valid with jshint</p>
                 </section>         
-
                          
                 <section>
                     <h2>Web Inspector</h2>
@@ -556,128 +696,28 @@ takePicture: function() {
                 <section>
                     <p>Other ways to debug</p>
                     <aside class="notes">
-                    console.log<br/>
-                    use chrome, disable security
-                    paste a shim in for the stuff you care about
+                    use Chrome
+                     * disable security for cross platform requests
+                     * paste in a shim/mock for the API you need
+                     
+                    console.log
+                    alert
                     
-                    Debug native code in Xcode or IntelliJ or Visual Studio<br/>
-                    Debug embedded webview with Safari or Chrome tools
+                    Debug native code in Xcode or IntelliJ or Visual Studio
                     </aside>
                 </section>
-                
-                <!-- new section -->
-                
-                    <section>
-                        <h2>Plugins</h2>
-                        <p>Extend PhoneGap</p>
-                        <p class="fragment">
-                            <a href="https://github.com/phonegap/phonegap-plugins">
-                                https://github.com/phonegap/phonegap-plugins</a></p>
-                        <aside class="notes">
-                            Plugins were in this giant repo. Starting to break out into separate repos.
-                            Lots of plugins available<br/>                        
-                            Write your own<br/>
-                            Great way to see how Cordova works<br/>                        
-                        </aside>
-                    </section>
-
-                    <section>
-                        <h2>Barcode Scanner</h2>
-                        <small><a href="https://github.com/phonegap/phonegap-plugins/tree/master/iOS/BarcodeScanner
-                        ">https://github.com/phonegap/phonegap-plugins/tree/master/iOS/BarcodeScanner
-                        </a></small>
-                        <!-- maybe show screenshot of instructions? -->
-                        <p class="fragment">Copy barcode.js into www</p>
-    					<p class="fragment">Copy zxing-all-in-one.cpp, zxing-all-in-one.h to Plugins</p>					
-    					<p class="fragment">Copy CDVBarcodeScanner.mm to Plugins</p>
-    					<p class="fragment">Copy scannerOverlay.xib to Resources</p>
-    					<p class="fragment">Add files to the XCode project</p>
-    					<p class="fragment">add plugin to config.xml</p>
-                    </section>
-
-
-                    <!-- TODO pick a real plugin and manually install?? 
-                    Barcode Scanner
-                    Build an iOS app                
-                    -->
-
-                    <!-- What is in a plugin?  -->
-
-                  
-    <!--                
-                    <section>
-                        <p>JavaScript to Native Bridge</p>
-                        <pre><code>
-                    cordova.exec(successCallback,
-                        failureCallback,
-                        service,
-                        action, 
-                        args)
-                        </code></pre>                    
-                    </section>
-    -->                
-
-                    <section>
-                        <p>Plugin Specification</p>
-                        <a href="https://github.com/alunny/cordova-plugin-spec">https://github.com/alunny/cordova-plugin-spec</a>
-                    </section>                   
-
-                    <!-- TODO pluginstall strike out plugman-->
-
-                    <section>
-                        <h2>plugman</h2>
-                        <p>A command line tool to distribute and package plugins for use with Apache Cordova</p>
-                        <a href="https://github.com/imhotep/plugman">https://github.com/imhotep/plugman</a>
-                    </section>
-
-                    <section>
-                        <pre><code contenteditable>
-    $ plugman
-    Usage
-    ---------
-    Add a plugin:
-    	plugman --platform <ios|android|bb10|www> --project <directory> --plugin <directory|git-url|name>
-
-    Remove a plugin:
-    	plugman --remove --platform <ios|android|bb10|www> --project <directory> --plugin <directory|git-url|name>
-
-    List plugins:
-    	plugman --list
-    	</code></pre>
-                    </section>              
-
-                   <section>
-                        <pre><code contenteditable>
-    $ plugman --list
-    BarcodeScanner - Cross-platform BarcodeScanner
-    ChildBrowser - ChildBrowser plugin
-    Facebook-Connect - Official plugin for Facebook Connect 
-    GAPlugin - Google Analytics Plugin
-    KeychainPlugin - Keychain Plugin for Apache Cordova
-    NFC - Near Field Communication Plugin
-    PushPlugin - Push Notification Plugin for iOS &amp; Android
-    TestflightPlugin - TestFlight Plugin for Apache Cordova</code></pre>
-                    </section>                
-
-                    <section>
-                         <pre><code contenteditable>    
-plugman --platform ios --project . --plugin BarcodeScanner
-                        </code></pre>
-                    </section>
-                    
-                    <section>
-                        PhoneGap is built out of plugins
-                    </section>                                    
                 
                 <!-- new section -->
                                 
                 <section>
                     <h2>Managing code</h2>
                     <h2>across multiple platforms</h2>
+                    <small>and other cool stuff</small>
                 </section>
 
                 <section>
-                    <h2>cordova-cli</h2>                    
+                    <h2>cordova-cli</h2>
+                    <p class="fragment">npm install cordova -g</p>                    
                 </section>
                 
                 <section>
@@ -685,7 +725,7 @@ plugman --platform ios --project . --plugin BarcodeScanner
                 </section>
                 
                 <!-- new section -->
-                
+
                 <section>
                     <h2>fruitstrap</h2>
                     <p>Install and debug iPhone apps without using Xcode</p>
@@ -699,8 +739,10 @@ plugman --platform ios --project . --plugin BarcodeScanner
                     <a href="https://github.com/filmaj/medic">https://github.com/filmaj/medic</a>
                 </section>
 
-                
-                <!-- new section -->                
+                <section>
+                    <p>Fil Maj will be speaking about<br/> cordova-cli and medic at ETE</p>
+                    <p><a href="http://goo.gl/0uYwX">http://goo.gl/0uYwX</a><p>
+                </section>
                 
                 <section>
                     <h2>PhoneGap Build</h2>
@@ -726,21 +768,6 @@ plugman --platform ios --project . --plugin BarcodeScanner
                     <img src="images/phonegap_build_home.png" />
                 </section>
 
-<!--
-                <section>
-                    <p>Sample Application</p>
-                    <a href="https://github.com/phonegap/phonegap-start">https://github.com/phonegap/phonegap-start</a>
-                </section>
-
-                <section>
-                    <img src="images/phonegap_build_hello.png" />
-                </section>
-                
-                <section>
-                    <img src="images/phonegap_build_public_page.png" />
-                </section>
-
--->
                 <section>
                     <h1>Questions?</h1>
                 </section>
@@ -748,10 +775,9 @@ plugman --platform ios --project . --plugin BarcodeScanner
                 <section>
                     <h2>Thank You</h2>
                     <p>Don Coleman</p>
-                    <a href="mailto:don@chariotsolutions.com">don@chariotsolutions.com</a><br/>				    
-				    <a href="http://twitter.com/doncoleman">@doncoleman</a><br/>
+				    <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
 				    <p>
-				    <small><a href="http://don.github.com/slides/2013-03-02-chariot-day">
+				    <small><br/><a href="http://don.github.com/slides/2013-03-02-chariot-day">
 				        http://don.github.com/slides/2013-03-02-chariot-day</a></small>
 				    </p>
                 </section>
