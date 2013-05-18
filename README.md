@@ -1,1 +1,1 @@
-http://don.github.com/slides/
+http://don.github.io/slides/
