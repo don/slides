@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>PhoneGap for Makers</title>
+
+		<meta name="description" content="PhoneGap for Makers - build mobile apps with HTML, CSS and JS">
+		<meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+        <!-- <link rel="stylesheet" href="css/theme/default.css" id="theme"> -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		
+		<style>
+      .reveal pre {
+            font-size: 0.6em;
+        }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                
+				<section>
+					<h1>PhoneGap</h1>
+					<h2>for Makers</h2>
+					<p>Maker Faire NY - September 2013</p  >
+					<p>
+						<small>Presented by <a href="http://github.com/don">Don Coleman</a> / <a href="http://twitter.com/doncoleman">@doncoleman</a></small>
+					</p>
+				</section>
+
+                <section>
+                    <blockquote>PhoneGap is an open source solution for building cross-platform mobile apps with standards-based Web technologies like HTML, JavaScript, CSS.</blockquote>
+                </section>
+                
+                <section>
+                    <h1>Cordova</h1>
+                    <h2>vs</h2> 
+                    <h1>PhoneGap</h1>
+                    <aside class="notes">
+                        Nitobi, Adobe, ASF
+
+                         Cordova is the open source project.
+                         PhoneGap is "sort of the 'official' distribution of Cordova"
+
+                         Use PhoneGap and Cordova interchangeably in this presentation   
+
+                         There are other distributions - IBM Worklight, AppMobi, whatever SAP calls
+                         their thing, whatever Salesforce calls theirs.                      
+					</aside>                    
+                </section>
+
+                <!-- does this need a slide? -->
+                <section>
+                    <h2>PhoneGap Supports Many Platforms</h2>
+                    <p class="fragment">iOS, Android</p>
+					<p class="fragment">Windows Phone, Blackberry</p>
+					<p class="fragment">Symbian, Bada, WebOS</p>
+					<p class="fragment">Tizen, FirefoxOS</p>
+					<p class="fragment">Windows 8, OS X, Chrome</p>					
+                </section>
+                
+                <section>
+				    <img src="http://michaelbrooks.ca/deck/building-mobile-apps-with-web-standards/img/31.png"/>
+				    <small>Image from <a href="http://michaelbrooks.ca/deck/building-mobile-apps-with-web-standards/">Michael Brooks "Building Mobile Apps with Web Standards"</a></small>
+				    <!-- Michael Brooks Picture about PhoneGap -->
+				</section>				
+
+                <section>
+                    <h2 style="text-transform: none;">JavaScript API</h2>
+                    <p>
+                    <ul>
+                        <li>Accelerometer</li>
+                        <li>Camera</li>
+                        <li>Capture</li>
+                        <li>Compass</li>
+                        <li>Connection</li>
+                        <li>Contacts</li>
+                        <li>Device</li>
+                        </ul>
+                        <ul>
+                        <li>Events</li>                            
+                        <li>File</li>
+                        <li>Geolocation</li>
+                        <li>Globalization</li>
+                        <li>Media</li>
+                        <li>Notification</li>
+                        <li>Storage</li>
+                    </ul>
+                    </p>
+                    <small>
+                    <a href="http://docs.phonegap.com/en/3.0.0/index.html">http://docs.phonegap.com/en/3.0.0/index.html</a><br/>
+                    <a href="http://phonegap.com/about/feature">http://phonegap.com/about/feature</a>
+                    </small>
+                    <aside class="notes">TODO replace with screenshot http://phonegap.com/about/feature/</asize>
+                </section>
+
+                <!-- TODO this slide sucks Fix or Remove -->
+                <section>
+                    <p>Your app is a native app</p>
+                    <p class="fragment">PhoneGap does not provide a UI</p>
+                    <p class="fragment">Use any frameworks you want</p>
+                    <p class="fragment">Usually write as a Single Page App</p>
+                    <aside class="notes">
+                        Compiled
+                        Deployed through the app store
+                        User's don't know or care that it's build with HTML
+                    </aside>
+                </section>
+
+                <!-- THIS IS A NEW SECTION -->
+                <section>
+                    <h2>Getting Started</h2>
+                </section>
+
+                <section>
+                    <h2>Platform Tools</h2>
+                    <p>Xcode</p>
+                    <p>Android SDK</p>
+                    <p>Visual Studio</p>                        
+                    <p>BlackBerry Webworks SDK</p>   
+                    <p>&nbsp;</p>
+                    <p class="fragment"><em>An alternative is to try <a href="http://build.phonegap.com">PhoneGap Build</a>.</em></p>
+                                                             
+                    <aside class="notes">
+                        This is a necessary evil
+                        Might be able to avoid later with PhoneGap Build
+					</aside>
+                </section>
+                
+                <section>
+                    <img src="images/nodejs.png" />
+                    <aside class="notes">
+                        Installation changed with PhoneGap 3.0.
+                        Previously was download as a zip file
+                        Now an install
+                        
+                        NodeJS used for tooling
+                        NPM
+                        Don't worry if you don't know node
+                    </aside>
+                </section>    
+                
+                <section>
+                    <h2 style="text-transform: lowercase;">$ npm install cordova -g</h2>    
+                </section>               
+
+                <section>
+                    <section>
+                        <h2>Demo</h2>
+                        <h3>Generate a project</h3>
+                        <aside class="notes">
+                            Generate a scaffold project
+                            Demonstrate ./cordova/run to build and deploy
+                            Show that it's just HTML by changing the text in index.html and redeploy
+                            Talk about device ready here?
+    					</aside>
+                    </section>
+
+                    <section>
+                        <pre><code contenteditable>
+$ cordova create foo com.example.foo Foo
+$ cd foo
+$ cordova platform add android
+$ cordova run 
+                        </code></pre>
+                        <aside class="notes"></aside>
+                    </section>
+
+                    <section>
+                        <img src="images/cordova-generated-android-project.png" />
+                    </section>                    
+
+                </section>
+
+                <section>
+                    <img src="images/cordova-project.png" />
+                </section>                    
+
+                <section>
+                    <img src="images/cordova-www.png" />
+                </section>
+
+                <section>
+                    <img src="images/cordova-platforms-dir.png" />
+                </section>
+
+                <section>
+                    <img src="images/build-copies-www-to-android-project.png" />
+                </section>
+                
+                <section>
+                    <p>PhoneGap Getting Started Guides</p>
+                    <a href="http://docs.phonegap.com/en/3.0.0/guide_getting-started_index.md.html">http://docs.phonegap.com/en/3.0.0/guide_getting-started_index.md.html</a>
+                    <aside class="notes">
+                        We'll use the command line
+                    </aside>
+                </section>
+
+                <section>
+                    So we created a project, now what?
+                </section>
+
+                <section>
+                    The www directory is just a web project                    
+                    <img src="images/cordova-www.png">
+                </section>
+                
+                <section>
+                    <p>index.html</p>
+                    <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        ...
+            &lt;script src="cordova.js"&gt;&lt;/script&gt;
+            &lt;script src="js/index.js"&gt;&lt;/script&gt;
+            &lt;script type="text/javascript"&gt;
+                app.initialize();
+            &lt;/script&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <p>index.js</p>
+                    <pre><code>
+    var app = {
+        initialize: function() {
+            this.bindEvents();
+        },
+        bindEvents: function() {
+            document.addEventListener(
+                'deviceready', this.onDeviceReady, false);
+        },
+        onDeviceReady: function() {
+            // your code here
+        }
+    };
+                    </code></pre>
+                    <aside class="notes">
+                        It is important to not call PhoneGap apis before the deviceready fires
+                    </aside>
+                </section>
+
+                <!-- camera is OK, need to simplify, basic ideas
+                    apis are easy
+                    no direct return value
+                    success vs failure
+                    ideally get a simpler API call or make something up?
+                -->
+                <section>
+                    <p>API Example - Camera</p>
+                    <pre><code contenteditable>
+navigator.camera.getPicture(cameraSuccess, cameraError, options);
+                    </code></pre>
+                    <small class="fragment"><a href="http://docs.phonegap.com/en/3.0.0/cordova_camera_camera.md.html">http://docs.phonegap.com/en/3.0.0/cordova_camera_camera.md.html</a></small>
+                </section>
+
+              <!-- <section>
+                  <p>Install the Camera Plugin</p>
+                  <pre><code contenteditable>                    
+  $ cordova plugin add \
+       https://git-wip-us.apache.org/repos/asf/cordova-plugin-camera.git
+                  </code></pre>
+              </section> -->
+
+
+                <section>
+                    <p>Callbacks</p>
+                    <pre><code contenteditable>
+    function cameraSuccess(imageURI) {
+      image.src = imageURI;
+    }
+
+    function cameraError(message) {
+      alert('Failed because: ' + message);
+    }
+                    </code></pre>
+                </section>                
+
+
+                <section>
+                    <p>API Call - Asynchronous</p>                    
+                    <pre><code>
+  navigator.camera.getPicture(
+      cameraSuccess, 
+      cameraError, 
+      { 
+          quality: 50, 
+          destinationType: Camera.DestinationType.FILE_URI 
+      }
+  );                         
+                    </code></pre>
+                </section>
+
+                <section>
+                    <p>Lots of other APIs</p>
+                    <a href="http://docs.phonegap.com/en/3.0.0">http://docs.phonegap.com/en/3.0.0</a>
+                </section>
+
+                <section>
+                    <p>But PhoneGap doesn't do<br/>
+                    <em>[insert your feature here]</em></p>
+                </section>
+
+                <section>
+                    <h2>Plugins</h2>
+                    <p>Extend PhoneGap</p>
+                    <p class="fragment">
+                        <a href="https://github.com/phonegap/phonegap-plugins">
+                            https://github.com/phonegap/phonegap-plugins</a></p>
+                    <p class="fragment"><a href="http://docs.phonegap.com/en/3.0.0/guide_hybrid_plugins_index.md.html#Plugin%20Development%20Guide">Plugin Development Guide<a></p>
+                    <aside class="notes">
+                        Plugins were in this giant repo. Starting to break out into separate repos.
+                        Lots of plugins available<br/>                        
+                        Write your own<br/>
+                        Great way to see how Cordova works<br/>                        
+                    </aside>
+                </section>                
+				                
+                <section>
+                    <h2>Bluetooth Serial</h2><h3>PhoneGap Plugin</h3>
+                    <a href="https://github.com/don/BluetoothSerial">https://github.com/don/BluetoothSerial</a>
+                    <aside class="notes">
+                        Make a connection over bluetooth
+                        Treat it like a serial port                        
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Installing</h2>
+            		<pre><code>
+$ cordova plugin install https://github.com/don/BluetoothSerial				        
+                    </code></pre>
+            	</section>
+            	
+                <section>
+                    <h2>Connecting</h2>
+				    <pre><code>
+    var macAddress = "00:00:AA:BB:CC:DD";
+    
+    var connected = function() {
+      // connected, do something
+    };
+    
+    var disconnected = funtion(error) { 
+      // disconnected
+    };
+
+    bluetoothSerial.connect(macAddress, connected, disconnected);				    
+                    </code></pre>
+			    </section>
+
+	            <section>
+                    <h2>Receiving Data</h2>
+				    <pre><code>
+  var onMessage = function(data) {
+    console.log(data);
+  };
+
+  bluetoothSerial.subscribe("\n", onMessage, onFailure);
+                    </code></pre>
+				</section>
+				
+				<section>                
+				    <section>
+				        <h2>Demo</h2>
+                        Phone receives data from Arduino
+                    </section>
+                    <section>
+                        <img src="images/bluetooth-counter.png">
+                    </section>
+				</section>
+				                
+				<section>
+				    <h2>Sending Data</h2>
+				    <pre><code>
+  bluetoothSerial.write("Hello Arduino");
+				    </code></pre>
+				</section>
+				
+				<section>
+                    Control NeoPixel LED on Arduino from Android
+                    <img src="images/neopixel.jpg">
+				</section>
+                				
+				<section>				    
+				    <h2 style="text-transform: lowercase;">c red, green, blue</h2>    
+				</section>				
+				
+				<section>
+				    <h2 style="text-transform: lowercase;">0,0,255\n</h2>    
+				</section>				
+				                								
+				<section>
+                    <h2>Demo</h2>
+                    Phone controls LED strip on Arduino
+                </section>
+												
+                <section>
+                    <ul style="list-style-type: none;">
+                        <li><a href="http://www.seeedstudio.com/depot/bluetooth-shield-p-866.html">Seeed Bluetooth Shield</a></li>
+                        <li><a href="http://www.adafruit.com/products/1138">NeoPixel LED</a></li>
+                        <li><a href="http://github.com/don/BluetoothSerial">Bluetooth Serial Phonegap Plugin</a></li>
+                        <li>TODO Arduino Count Sketch</li> 
+                        <li>TODO PhoneGap Count App</li>                                                                       
+                        <li>TODO Arduino LED Sketch</li>                        
+                        <li>TODO PhoneGap LED App</li>                                                                                                                       
+                        <li><a href="https://github.com/hakimel/reveal.js">Reveal.js (for slides)</a> </li>                                                
+                    </ul>
+                   <br/>                                                           
+                </section>
+
+                <section>
+                    <h2>Thank You</h2>
+                    <p>Don Coleman</p>
+                    <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+                    <p>
+                        <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+                    </p>            
+                    <p>
+                    <a href="http://don.github.io/slides/">
+                        http://don.github.io/slides/</a>
+                    </p>
+                    <!-- should be using css -->
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>            
+                    <p>
+                        <small>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PhoneGap for Makers</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2013-09-21-phonegap-for-makers" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="http://github.com/don/slides/2013-09-21-phonegap-for-makers" rel="dct:source">http://github.com/don/slides/2013-09-21-phonegap-for-makers</a>.
+                        </small>            
+                    </p>
+                </section>
+                
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
