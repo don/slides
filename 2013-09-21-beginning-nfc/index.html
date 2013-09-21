@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Beginning NFC</title>
+
+		<meta name="description" content="Beginning NFC">
+		<meta name="author" content="Don Coleman">
+		<meta name="author" content="Brian Jepson">
+		
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+        <!-- <link rel="stylesheet" href="css/theme/default.css" id="theme"> -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		
+		<style>
+      .reveal pre {
+            font-size: 0.6em;
+        }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                
+				<section>
+					<h1 style="text-transform: none;">Beginning NFC</h1>
+					<h3 style="text-transform: none;">Book Preview</h3>
+					<p>Maker Faire NY - September 21, 2013</p  >
+					<p>
+						<small><a href="http://github.com/don">Don Coleman</a> <a href="http://twitter.com/doncoleman">@doncoleman</a></small><br/>
+						<small><a href="http://github.com/don">Brian Jepson</a> <a href="http://twitter.com/bjepson">@bjepson</a></small>						
+					</p>
+				</section>
+                
+                <section>
+                    <img src="images/cover.png">
+                </section>
+
+                <section>
+                    TODO Picture of NFC tag?
+                    <aside class="notes">
+                        Introduction to NFC and NDEF
+                    </aside>
+                </section>
+
+                <section>
+                    <img src="images/Build-Bot2.png">                    
+                    <aside class="notes">
+                        Very Quick Intro to PhoneGap
+                    </aside>                    
+                </section>
+                
+                <section>
+                    TODO Screenshot of PhoneGap NFC Reader
+                    <aside class="notes">
+                        Read at tag
+                        Write a tag
+                    </aside>                    
+                </section>
+                            
+                <section>
+                    <img src="images/06_NDEF_Shields_color.jpg">
+                </section>
+
+                <section>
+                    <img src="images/06_Hotel_reader_device_bb.png">
+                </section>
+                
+                <section>
+                    <img src="images/06_Hotel_lock-photo_color.jpg">
+                </section>
+                
+                <!-- TODO need to edit this -->
+                <section>
+                    <h2>Thank You</h2>
+                    <p>Don Coleman</p>
+                    <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+                    <p>
+                        <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+                    </p>            
+                    <p>
+                    <a href="http://don.github.io/slides/">
+                        http://don.github.io/slides/</a>
+                    </p>
+                    <!-- should be using css -->
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>            
+                    <p>
+                        <small>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">PhoneGap for Makers</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2013-09-21-phonegap-for-makers" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2013-09-21-phonegap-for-makers" rel="dct:source">https://github.com/don/slides/tree/gh-pages/2013-09-21-phonegap-for-makers</a>.
+                        </small>            
+                    </p>
+                </section>
+                                
+            </div>
+            
+        </div>
+                                
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
