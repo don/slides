@@ -6,7 +6,7 @@
 
 		<title>Arduino NFC</title>
 
-		<meta name="description" content="Arduino NFC presentation for Maker Faire Bay Area May 2013">
+		<meta name="description" content="Arduino NFC presentation for Maker Faire NY Sept 22, 2013">
 		<meta name="author" content="Don Coleman">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
@@ -47,7 +47,7 @@
 
 				<section>
 					<h1>Arduino NFC</h1>
-					<h3>Maker Faire - May 2013</h3>
+					<h3>Maker Faire NY - September 22, 2013</h3>
 					<p>
 						<small>Presented by <a href="http://github.com/don">Don Coleman</a> / <a href="http://twitter.com/doncoleman">@doncoleman</a></small>
 					</p>
@@ -278,6 +278,7 @@
                     
                 <section>
                     <h2>Mime Media Record</h2>
+                    <h3 style="text-transform: lowercase;">{ "message": "hello, world" }</h3>                                        
                     <ul>
                         <li>TNF = Mime Media</li>
                         <li>Type = application/json</li>
@@ -289,6 +290,11 @@
                     <!-- this slide is odd, but should talk about helper methods so people know
                     they don't need to worry about all this. -->
                     <h2>Helper Methods</h2>
+                    <b>TODO Fix This</b><br/>
+                    ndefMessage.addEmptyRecord();<br/>
+                    ndefMessage.addTextRecord("hello, world");<br/>
+                    ndefMessage.addUriRecord("http://arduino.cc");<br/>
+                    ndefMessage.addMimeMediaRecord("text/json", { "message": "hello, world" });<br/>
                 </section>
                                 
                 <section>
@@ -313,64 +319,48 @@
                 
                 <section>
                     <p>Adafruit NFC Shield</p>
-                    <img src="images/shield.png"/>
+                    <img src="images/adafruit-nfc-shield.png"/>
                     <a href="http://www.adafruit.com/products/789">http://www.adafruit.com/products/789</a>
+                </section>
+
+                <section>
+                    <p>Seeed Studio NFC Shield</p>
+                    <img src="images/seeed-studio-nfc-shield.png"/>
+                    <a href="http://www.seeedstudio.com/depot/nfc-shield-v20-p-1370.html">http://www.seeedstudio.com/depot/nfc-shield-v20-p-1370.html</a>
                 </section>
                 
                 <section>
-                    <h2>Adafruit's Library</h2>
-                    <a href="https://github.com/adafruit/Adafruit_NFCShield_I2C">https://github.com/adafruit/Adafruit_NFCShield_I2C</a>
-                    <aside class="notes">
-                        Great starting point but too low level.
-                                                
-                        Notify when a tag enters the field.
-                        Low level Mifare Classic, authenticate blocks, read block, write block.
-                        Read Mifare Ultralight blocks.
-                        
-                        I had to learn WAY too much about NFC to use it.
-                        And I had written NFC code for Android, BlackBerry and Windows Phone!                        
-                    </aside>                        
+                    <h2>PN532 Library</h2>
+                    <a href="https://github.com/Seeed-Studio/PN532">https://github.com/Seeed-Studio/PN532</a>
+                    <small style="padding-top:10px">Based on Adafruit's Library and modified by Yuihi Xiong to support both I2C and SPI</small>
                 </section>
-                
+                                
                 <section>
                     <h2>NDEF Library</h2>
                     <h3>for Arduino</h3>
-                    <a href="https://github.com/don/Ndef">https://github.com/don/Ndef</a>
+                    <a href="https://github.com/don/NDEF">https://github.com/don/NDEF</a>
                     <aside class="notes">
                         I like NDEF - don't really care about the details. I want tags that can be used across devices.
                         Used phonegap-nfc as a starting point.
                         Wanted code to make this simpler.  Making progress but still needs work.
                     </aside>                    
                 </section>
-                                
-                <!--
-                <section>
-                    <h1>Installing</h1>
-                    <pre><code>
-$ cd ~/Documents/Arduino/libraries
-$ git clone
-    git@github.com:adafruit/Adafruit_NFCShield_I2C.git
-$ git clone 
-    git@github.com:don/Ndef.git
-                    </code></pre>
-                </section>
-                -->
-                
-                <!--
-                 <section>
-                     <h1>#include</h1>
-                     <pre><code>                        
-  #include &lt;Wire.h&gt;
-  #include &lt;Adafruit_NFCShield_I2C.h&gt;
-  #include &lt;NfcAdapter.h&gt;
-                    </code></pre>                
-                 </section>
-                -->
-                
-                <section>
+                                                
+                <!-- <section>
                     <h2>Installing</h2>
                     <img src="images/install.png" />                      
-                </section>                                
+                </section>                                 -->
+
+
+                <section>
+                    <h2>I2C</h2>
+                    <img src="images/i2c.png" />                      
+                </section>
+
+                <section>
+                    <h2>SPI</h2>
+                    <img src="images/spi.png" />                      
+                </section>
 
                 <section>
                     <h2>Setup</h2>
