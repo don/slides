@@ -1,0 +1,613 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Arduino NFC</title>
+
+		<meta name="description" content="Arduino NFC presentation for Maker Faire Bay Area May 2013">
+		<meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+        <!-- <link rel="stylesheet" href="css/theme/default.css" id="theme"> -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		
+		<style>
+		    .reveal pre {
+		        font-size: 1em;
+		        /* width: 100%;  TODO fix width elsewhere */
+		    }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h1>Arduino NFC</h1>
+					<h3>Maker Faire - May 2013</h3>
+					<p>
+						<small>Presented by <a href="http://github.com/don">Don Coleman</a> / <a href="http://twitter.com/doncoleman">@doncoleman</a></small>
+					</p>
+				</section>
+
+                <section>
+                    <h1>What is NFC?</h1>
+                    <aside class="notes">
+                        Subset of RFID.                        
+                        Wireless communications.
+                        4 to 20 cm.
+                        In practice, make contact with devices.                        
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>What can I do with NFC?</h2>
+                    <ul>
+                        <li class="fragment fade-in">Mobile Payments</li>                        
+                        <li class="fragment fade-in">Sharing Data between Phones</li>                        
+                        <li class="fragment fade-in">Contact Info on Conference Badge</li>                        
+                        <li class="fragment fade-in">Pair with Bluetooth Device</li>
+                        <li class="fragment fade-in">Mass Transit Card</li>                        
+                        <li class="fragment fade-in">Smart Poster</li>                        
+                        <li class="fragment fade-in"><b>Hack Stuff</b></li>                                              
+                    </ul>
+                    <aside class="notes">
+                        We can't do payments, since we don't have access to the secure elements.<br/>   http://www.amazon.com/HomeSpot-NFC-enabled-Bluetooth-Receiver-System/dp/B009OBCAW2
+                    </aside>
+                </section>                
+
+                <section>
+                    <h1>Devices</h1>
+                    <aside class="notes">
+                        TODO add pictures
+                        
+                        phone
+                        shield
+                        usb dongle                    
+                    </aside>                    
+                </section>
+
+                <section>
+                    <h1>Tags</h1>
+                    <aside class="notes">
+                        TODO add picture of tags
+                        
+                        hold up physical tags
+                    </aside>
+                </section>
+
+                <section>
+                    <img src="images/nfc_tags.jpg"/>
+                </section>
+
+                <section>
+                  <p>Tags hold a tiny amount of data</p>
+                  <p>Think <b>bytes</b></p>
+                  <small>not kilobytes, megabytes, or gigabytes</small>
+                  <aside class="notes">
+                    Even a 1K tag only holds 716 bytes of data
+                  </aside> 
+                </section>
+                                              
+                <section>
+                    <h1>Tag Types</h1>                    
+                    <aside class="notes">
+                        Different types of tags<br/>
+                        Capacity
+                        Security
+                        Features
+
+                        Mifare Classic tags are very popular.
+                        Mifare Classic isn't really a NFC tag but can act like one.
+                        Mifare Classic tags don't work with Nexus 4, BlackBerry or Windows Phone.
+                        We will be using Mifare Classic today since it works great with this hardware.
+                    </aside>
+                </section>
+
+                <section>
+                    <h3>Common properties</h3>
+                    <ul>
+                        <li>UID</li>
+                        <li>Type</li>
+                        <li>Technology</li>
+                        <li>Capacity</li>
+                        <li>Is Locked</li>
+                        <li>Is Lockable</li>
+                    </ul>
+                    <aside class="notes">
+                      Type is like Mifare Classic or Type 2
+                      Technology is like Mifare Ultralight C for a Type 2 tag
+                    </aside> 
+                </section>
+
+                <section>
+                    <h2>Each tag type </h2>
+                    <ul style="list-style:none">
+                      <li class="fragment">Stores data in different binary format</li>
+                      <li class="fragment">Has different security features</li>
+                      <li class="fragment">Has different ways to read and write</li>
+                    </ul>
+                </section>
+ 
+                <section>
+                    <h1>NDEF</h1>
+                    <h3>NFC Data Exchange Format</h3>
+                    <aside class="notes">
+                        NDEF is an abstraction that allows us to read and write data to tags without worrying about the underlying implementation
+                    </aside>                    
+                </section>
+                
+                <section>
+                    <h1>NDEF Message</h1>
+                    <aside class="notes">
+                        Contains 1 or more NDEF Records
+                    </aside>
+                </section>
+
+                <section>
+                    <h1>NDEF Record</h1>
+                    <aside class="notes">
+                        Messages contains a payload (or data) and some meta data about that payload
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>NDEF Record</h2>
+                    <ul>
+                        <li>TNF (Type Name Format)</li>
+                        <li>Type</li>
+                        <li>Payload</li>
+                        <li>Record Id</li>                        
+                    </ul>
+                    <aside class="notes">
+                        TNF - constants
+                        Type - works with TNF to describe the payload
+                        
+                        Ignore the Record ID for now. We don't need it.
+                        Let's look at some examples to make this clearer
+                    </aside>
+                </section>
+
+                <section>
+                  <h2>TNF - Type Name Format</h2>
+                  <p>Indicates the structure of the value of the type field</p>                  
+                  <aside class="notes">
+                    Meta Data about the Type
+                  </aside>
+                </section>
+
+                <section>
+                  <h2>TNF Constants</h2>
+                  <ul>
+                    <li>Empty</li>
+                    <li>Well Known</li>
+                    <li>Mime Media</li>
+                    <li>External</li>
+<!--
+                    <li>Unknown</li>
+                    <li>Unchanged</li>
+                    <li>Reserved</li>
+-->                
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Type</h2>
+                  <p>Identifier describing the type of the Payload</p>
+                  <p>Must follow rules implied by TNF</p>
+                  <aside class="notes">
+                    Must follow structure, encoding and format implied by the TNF
+
+                    e.g. Well Known has Record Type Definition Constants
+                    There are lots of specs for all this stuff
+                    
+                    Meta Data about the Payload
+                  </aside>
+                </section>
+
+                <section>
+                  <h2>Payload</h2> 
+                  <p>Data for the user application</p>
+                  <aside class="notes">Sructure is opaque.  Just bytes on a tag.</aside>
+                </section>
+
+                <section>
+                    <h2>Empty Record</h2>
+                    <ul>
+                        <li>TNF = Empty</li>
+                    </ul>
+                    <aside class="notes">
+                        Empty records can *not* have  type, payload or id
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Text Record</h2>
+                    <h3 style="text-transform: lowercase;">hello, world</h3>
+                    <ul>
+                        <li>TNF = Well Known</li>
+                        <li>Type = T</li>
+                        <li>Payload = 2 + en + hello, world</li>
+                    </ul>
+                    <aside class="notes">
+                        There is a spec that defines how to encode the payload
+                        
+                        The text is prefixed with the language code
+                        The first byte of the tag has the length of the language code                        
+                    </aside>                    
+                </section>
+                
+                <section>
+                    <h2>URI Record</h2>
+                    <h3 style="text-transform: lowercase;">http://arduino.cc</h3>
+                    <ul>
+                        <li>TNF = Well Known</li>
+                        <li>Type = U</li>
+                        <li>Payload = 0x3 + arduino.cc</li>
+                    </ul>
+                    <aside class="notes">
+                        There's a spec for this too.
+                                                
+                        http:// is shortened to 0x3
+                        if the full url is encoded, prefix is 0x0
+                    </aside>
+                </section>
+                    
+                <section>
+                    <h2>Mime Media Record</h2>
+                    <ul>
+                        <li>TNF = Mime Media</li>
+                        <li>Type = application/json</li>
+                        <li>Payload = { "message": "hello, world" }</li>
+                    </ul>
+                </section>
+                    
+                <section>
+                    <!-- this slide is odd, but should talk about helper methods so people know
+                    they don't need to worry about all this. -->
+                    <h2>Helper Methods</h2>
+                </section>
+                                
+                <section>
+                    <h2>Quick Review...</h2>
+                </section>                
+                
+                <section>
+                    <h2>NDEF Message</h2>
+                    <p>One or more NDEF Records</p>
+                    <aside class="notes">
+                        Let's recap...
+                    </aside>                    
+                </section>
+
+                <section>
+                    <h2>NDEF Record</h2>
+                    <p class="fragment">Contains a payload of data<p>
+                    <p class="fragment">Information describing the payload</p>
+                </section>
+
+                <!-- Arduino -->
+                
+                <section>
+                    <p>Adafruit NFC Shield</p>
+                    <img src="images/shield.png"/>
+                    <a href="http://www.adafruit.com/products/789">http://www.adafruit.com/products/789</a>
+                </section>
+                
+                <section>
+                    <h2>Adafruit's Library</h2>
+                    <a href="https://github.com/adafruit/Adafruit_NFCShield_I2C">https://github.com/adafruit/Adafruit_NFCShield_I2C</a>
+                    <aside class="notes">
+                        Great starting point but too low level.
+                                                
+                        Notify when a tag enters the field.
+                        Low level Mifare Classic, authenticate blocks, read block, write block.
+                        Read Mifare Ultralight blocks.
+                        
+                        I had to learn WAY too much about NFC to use it.
+                        And I had written NFC code for Android, BlackBerry and Windows Phone!                        
+                    </aside>                        
+                </section>
+                
+                <section>
+                    <h2>NDEF Library</h2>
+                    <h3>for Arduino</h3>
+                    <a href="https://github.com/don/Ndef">https://github.com/don/Ndef</a>
+                    <aside class="notes">
+                        I like NDEF - don't really care about the details. I want tags that can be used across devices.
+                        Used phonegap-nfc as a starting point.
+                        Wanted code to make this simpler.  Making progress but still needs work.
+                    </aside>                    
+                </section>
+                                
+                <!--
+                <section>
+                    <h1>Installing</h1>
+                    <pre><code>
+$ cd ~/Documents/Arduino/libraries
+$ git clone
+    git@github.com:adafruit/Adafruit_NFCShield_I2C.git
+$ git clone 
+    git@github.com:don/Ndef.git
+                    </code></pre>
+                </section>
+                -->
+                
+                <!--
+                 <section>
+                     <h1>#include</h1>
+                     <pre><code>                        
+  #include &lt;Wire.h&gt;
+  #include &lt;Adafruit_NFCShield_I2C.h&gt;
+  #include &lt;NfcAdapter.h&gt;
+                    </code></pre>                
+                 </section>
+                -->
+                
+                <section>
+                    <h2>Installing</h2>
+                    <img src="images/install.png" />                      
+                </section>                                
+
+                <section>
+                    <h2>Setup</h2>
+                    <img src="images/setup.png" />                      
+                </section>
+
+                  <section>
+                      <h2>Write Tag</h2>
+                      <img src="images/write_tag.png" />                      
+                      <aside class="notes">
+                         Currently tagPresent() BLOCKS, in the future this should return fast
+                         so the main loop can continue executing.
+                      </aside>
+                  </section>
+
+                  <section>
+                      <h2>Read Tag</h2>
+                      <img src="images/read_tag.png" />
+                      <aside class="notes">
+                          Print method is just a convenience for development and debugging. Probably prints too much information for a normal application.
+                      </aside>                     
+                  </section>
+
+<!--
+code in slides
+                 <section>
+                     <h2>Set Up</h2>
+                     <pre><code>
+  NfcAdapter nfc = NfcAdapter();
+
+  void setup(void) {
+      nfc.begin();
+  }                        
+                     </code></pre>
+                 </section>
+
+                
+                 <section>
+                     <h2>Write Tag</h2>
+                     <pre><code>
+if (nfc.tagPresent()) {
+    NdefMessage message = NdefMessage();
+    message.addTextRecord("hello, world");
+    nfc.write(message);
+}
+                     </code></pre>
+                     <aside class="notes">
+                        Currently tagPresent() BLOCKS, in the future this should return fast
+                        so the main loop can continue executing.
+                     </aside>
+                 </section>
+
+                 <section>
+                     <h2>Read Tag</h2>
+                     <pre><code>
+    if (nfc.tagPresent()) {
+        NfcTag tag = nfc.read();
+        tag.print();
+    }                        
+                     </code></pre>
+                     <aside class="notes">
+                         Print method is just a convenience for development and debugging. Probably prints too much information for a normal application.
+                     </aside>                     
+                 </section>
+-->
+
+                 <section>
+                    <img src="images/read-tag.png" />
+                 </section>                
+                 
+                <section>
+                    <h1>DEMO</h1>
+ 				</section>
+
+        <section>
+            <h1>Memory</h1>
+            <h3>you will run out</h3>
+            <aside class="notes">
+                Use the Ardunio Due if you're reading and writing big tags.
+            </aside>
+ 				</section>
+
+        <section>
+            <h1>Peer to Peer</h1>
+            <h3>(not yet)</h3>                    
+ 				</section>
+
+        <section>
+            <img src="images/NFCShield.jpg" />
+            <a href="http://www.seeedstudio.com/depot/nfc-shield-v20-p-1370.html">Seeed Studio NFC Shield V2.0</a>
+        </section>
+        
+        <!-- Tools -->
+
+        <!-- 
+        <section>
+            <img src="images/phonegap-nfc-reader.png">
+            <aside class="notes">
+               We're going to be using an Arduino, but having a phone helps a lot
+            </aside>
+        </section>
+        -->
+        
+        <section>
+          <h2>Android Apps for NFC</h2>
+          <p>
+            Read Tags
+            <a href="https://github.com/don/phonegap-nfc-reader">PhoneGap NFC Reader</a>
+          </p>
+          <p>
+            Format and Unformat Mifare Classic Tags
+            <a href="https://play.google.com/store/apps/details?id=com.nxp.nfc.tagwriter">NXP Tag Writer</a>
+          </p>
+          <p>
+            View Raw Data on Tag
+            <a href="https://play.google.com/store/apps/details?id=at.mroland.android.apps.nfctaginfo">NFC Tag Info</a>
+          </p>
+        </section>        
+
+        <section>
+          <h2>Technical Specs</h2>
+          <a href="http://www.nfc-forum.org/specs/spec_license">http://www.nfc-forum.org/specs/spec_license</a>
+        </section>
+ 				
+		<section>
+		    <a href="http://shop.oreilly.com/product/0636920021193.do"><img src="images/BeginningNFC.jpg"/></a>
+		</section>
+
+        <section>
+            <h1>Questions?</h1>
+        </section>
+
+        <section>
+            <h2>Thank You</h2>
+            <p>Don Coleman</p>
+            <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+            <p>
+                <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+            </p>            
+            <p>
+            <a href="http://don.github.io/slides/">
+                http://don.github.io/slides/</a>
+            </p>
+            <!-- should be using css -->
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>            
+            <p>
+                    <small>
+                <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Arduino NFC</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2013-05-18-arduino-nfc" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2013-05-18-arduino-nfc" rel="dct:source">https://github.com/don/slides/tree/gh-pages/2013-05-18-arduino-nfc</a>.
+                    </small>          
+            </p>
+        </section>
+                
+        <!-- 
+        <section>
+            <h1>Links</h1>
+            Adafruit NFC Library<br/>
+            Adafruit NFC Primer<br/>
+            NDEF Specs<br/>
+            NDEF Library<br/>
+            Adafruit NeoPixel Code<br/>
+        </section>
+        
+ 				<section>
+                    <h1>...</h1>
+                    <aside class="notes">
+                        Other stuff to put in slides
+                        
+                        Writing to a tag overwrites data
+                        If new message is shorter old data is still there
+                        
+                        When there are multiple records, the first record determines how the message is handled (typically)
+                        
+                        Where can you get tags? Order some from Adafruit. Note incompatible phones
+                           - samsung techtiles $$$$
+                           - other internet places - check the type!!!
+                           - I have some mifare classic with 7 byte ids that don't work
+                        
+                        Phone is really useful for doing this stuff.  Read and write data, verify
+                        List the 2 commercial apps
+                        Show NFC Reader
+                        Write a custom writer for this
+                        
+                        Problems
+                         - blocks on read
+                         - only writes Mifare Classic
+                         - only reads Mifare Classic and Type 2 (or maybe just Mifare Ultralight)
+                         - can't reliably determine tag type
+                         - error handling needs improvement
+                         - does not format before writing - use your phone for now 
+                         - needs lots of read helpers for parsing, similar to create helpers
+                         - TextRecord.getPayloadAsText();
+                         - URIRecord.getURI();
+                         
+                        Links to the specs
+                        Links to Adafruit's resources
+                        
+                    </aside>
+ 			    </section>
+ 			    
+ 			    -->    		
+                
+ 				
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
