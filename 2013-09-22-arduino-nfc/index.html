@@ -290,11 +290,14 @@
                     <!-- this slide is odd, but should talk about helper methods so people know
                     they don't need to worry about all this. -->
                     <h2>Helper Methods</h2>
-                    <b>TODO Fix This</b><br/>
-                    ndefMessage.addEmptyRecord();<br/>
-                    ndefMessage.addTextRecord("hello, world");<br/>
-                    ndefMessage.addUriRecord("http://arduino.cc");<br/>
-                    ndefMessage.addMimeMediaRecord("text/json", { "message": "hello, world" });<br/>
+                    <ul style="list-style-type: none">
+                        <li>message.addEmptyRecord();</li>
+                        <li>message.addTextRecord("hello, world");</li>
+                        <li>message.addUriRecord("http://arduino.cc");</li>
+                        <li>message.addMimeMediaRecord(<br/>
+                            &nbsp;&nbsp;&nbsp;"text/json", { "message": "hello, world" }<br/>
+                            );</li>                        
+                    </ul>
                 </section>
                                 
                 <section>
