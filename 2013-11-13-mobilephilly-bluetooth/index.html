@@ -106,75 +106,40 @@
                     <small><a href="https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml">https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml</a></small>
                     
                 </section>
+
+                <!-- -->
+
+                <section>
+                    <h1>Arduino</h1>
+                </section>
+                
+                <section>
+                    <img src="images/uno.jpg" />
+                </section>
+                
+                <section>
+                    <img src="images/arduino-bluetooth.jpg" />
+                </section>
+
+                <section>
+                    <img src="images/arduino-ide.png"/>                    
+                </section>
+
+                <section>
+                    <img src="images/software-serial.png"/>
+                    <small><a href="http://arduino.cc/en/Reference/SoftwareSerialConstructor" alt="Arduino Docs">http://arduino.cc/en/Reference/SoftwareSerialConstructor</a></small>
+                </section>
                 
                 <!-- -->
                 
                 <section>
-                    <h1>PhoneGap</h1>
+                    <img src="images/cordova_bot.png" style="border: none;"/>
+                    <h2 style="text-transform: none;">PhoneGap</h2>
+                    <h2 style="text-transform: none;">Apache Cordova</h>                    
                 </section>
                 
                 <section>
                     <h2 style="text-transform: lowercase;">$ npm install cordova -g</h2>    
-                </section>
-
-                <section>
-                    <h1>TODO plugin slide</h1>
-                </section>
-                          
-                <section>
-                    <p>PhoneGap Getting Started Guides</p>
-                    <a href="http://docs.phonegap.com/en/3.0.0/guide_getting-started_index.md.html">http://docs.phonegap.com/en/3.0.0/guide_getting-started_index.md.html</a>
-                    <aside class="notes">
-                        We'll use the command line
-                    </aside>
-                </section>
-
-                <section>
-                    So we created a project, now what?
-                </section>
-
-                <section>
-                    The www directory is just a web project                    
-                    <img src="images/cordova-www.png">
-                </section>
-                
-                <section>
-                    <p>index.html</p>
-                    <pre><code>
-    &lt;!DOCTYPE html&gt;
-    &lt;html&gt;
-        ...
-            &lt;script src="cordova.js"&gt;&lt;/script&gt;
-            &lt;script src="js/index.js"&gt;&lt;/script&gt;
-            &lt;script type="text/javascript"&gt;
-                app.initialize();
-            &lt;/script&gt;
-        &lt;/body&gt;
-    &lt;/html&gt;
-                    </code></pre>
-                    <aside class="notes">
-                    </aside>
-                </section>
-
-                <section>
-                    <p>index.js</p>
-                    <pre><code>
-    var app = {
-        initialize: function() {
-            this.bindEvents();
-        },
-        bindEvents: function() {
-            document.addEventListener(
-                'deviceready', this.onDeviceReady, false);
-        },
-        onDeviceReady: function() {
-            // your code here
-        }
-    };
-                    </code></pre>
-                    <aside class="notes">
-                        It is important to not call PhoneGap apis before the deviceready fires
-                    </aside>
                 </section>
 				                
                 <section>
@@ -189,7 +154,7 @@
                 <section>
                     <h2>Installing</h2>
             		<pre><code>
-$ cordova plugin install https://github.com/don/BluetoothSerial				        
+$ cordova plugin install com.megster.cordova.bluetoothserial				        
                     </code></pre>
             	</section>
             	
@@ -237,12 +202,7 @@ $ cordova plugin install https://github.com/don/BluetoothSerial
   bluetoothSerial.write("Hello Arduino");
 				    </code></pre>
 				</section>
-				
-				<section>
-                    Control NeoPixel LED on Arduino from Android
-                    <img src="images/neopixel.jpg">
-				</section>
-                				
+				                				
 				<section>				    
 				    <h2 style="text-transform: lowercase;">c red, green, blue</h2>    
 				</section>				
@@ -250,30 +210,31 @@ $ cordova plugin install https://github.com/don/BluetoothSerial
 				<section>
 				    <h2 style="text-transform: lowercase;">c0,0,255\n</h2>    
 				</section>				
-				                								
-				<section>
-                    <h2>Demo</h2>
-                    Phone controls LED strip on Arduino
+				           
+			    <section>
+				    <section>
+                        <h2>Demo</h2>
+                        Phone controls LED strip on Arduino
+                    </section>
+                    <section>
+                        Control NeoPixel LED on Arduino from Android
+                        <img src="images/neopixel.jpg">
+    				</section>
                 </section>
 								
 				<section>
-				    <h1>iBeacon</h1>
+				    <h1 style="text-transform: none;">iBeacon</h1>
 				</section>
 
 				<section>
-				    <h1>CoreLocation, not CoreBluetooth</h1>
-				    CLBeacon
-				    CLBeaconRegion
-				    CLLocationManagerDelegate
+				    <h1 style="text-transform: none;">CoreLocation</h1>
+				    <p style="text-transform: none;">(not CoreBluetooth)</p>
+				    CLBeacon, CLBeaconRegion, CLLocationManagerDelegate
 				    <aside class="notes">
                         AirLocate Example
                     </aside>                    
 				</section>
 				
-				<section>
-				    iOS Screenshot
-				</section>
-
 				<section>
 				    <img src="images/air-locate.png">
 				</section>
@@ -283,7 +244,8 @@ $ cordova plugin install https://github.com/don/BluetoothSerial
 				</section>
 				
 				<section>
-				    http://radiusnetworks.com
+				    <h2 style="text-transform: none;">Radius Networks</h2>
+				    <a href="http://radiusnetworks.com">http://radiusnetworks.com</a>
 				</section>
 
 				<section>
@@ -294,11 +256,19 @@ $ cordova plugin install https://github.com/don/BluetoothSerial
                     <h2>Demo</h2>
                     iBeacon, iOS and Hue Lights
                 </section>
+
+				<section>
+				    <img src="images/rfduino.jpg">
+				    <small><a href="http://www.rfduino.com">http://www.rfduino.com</a></small>
+				</section>
+
 												
                 <section>
                     <ul style="list-style-type: none;">
+                        <li><a href="http://arduino.cc">Arduino</a></li>                        
+                        <li><a href="http://redbearlab.com/blemini/">RedBearLabs BLEmini</a></li>
                         <li><a href="http://www.seeedstudio.com/depot/bluetooth-shield-p-866.html">Seeed Bluetooth Shield</a></li>
-                        <li><a href="http://www.adafruit.com/products/1138">NeoPixel LED</a></li>
+                        <li><a href="http://www.adafruit.com/products/1138">Adafruit NeoPixel LED</a></li>
                         <li><a href="http://github.com/don/BluetoothSerial">Bluetooth Serial Phonegap Plugin</a></li>
                         <!-- <li>TODO Arduino Count Sketch</li> 
                         <li>TODO PhoneGap Count App</li>                                                                       
