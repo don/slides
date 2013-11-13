@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Connecting iOS and Android to Arduino with Bluetooth</title>
+
+		<meta name="description" content="Connecting iOS and Android to Arduino with Bluetooth">
+		<meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+        <!-- <link rel="stylesheet" href="css/theme/default.css" id="theme"> -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		
+		<style>
+      .reveal pre {
+            font-size: 0.6em;
+        }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                
+				<section>
+					<h1>Connecting iOS and Android to Arduino with Bluetooth</h1>
+					<p>Mobile Philly - November 13, 2013</p  >
+					<p>
+						<small>Presented by <a href="http://github.com/don">Don Coleman</a> / <a href="http://twitter.com/doncoleman">@doncoleman</a></small>
+					</p>
+				</section>
+
+                <section>
+                    <h1>Bluetooth</h1>
+                </section>
+
+                <section>
+                    <h1>Alternatives</h1>
+                </section>
+
+                <section>
+                    <h1>Bluetooth Classic</h1>
+                </section>
+
+                <section>
+                    <h1>Bluetooth Low Energy</h1>
+                </section>
+
+                <section>
+                    <h1>Bluetooth Smart</h1>
+                    <h1>Bluetooth Smart Ready</h1>                    
+                </section>
+
+                <section>
+                    <h1>Adopted Specifications</h1>
+                </section>
+
+                <section>
+                    <h1>Definition Browser</h1>
+                </section>
+
+                <section>
+                    <h1>Definition</h1>
+                </section>
+                
+                <!-- -->
+                
+                <section>
+                    <h1>PhoneGap</h1>
+                </section>
+                
+                <section>
+                    <h2 style="text-transform: lowercase;">$ npm install cordova -g</h2>    
+                </section>
+
+                <section>
+                    <h1>TODO plugin slide</h1>
+                </section>
+                          
+                <section>
+                    <p>PhoneGap Getting Started Guides</p>
+                    <a href="http://docs.phonegap.com/en/3.0.0/guide_getting-started_index.md.html">http://docs.phonegap.com/en/3.0.0/guide_getting-started_index.md.html</a>
+                    <aside class="notes">
+                        We'll use the command line
+                    </aside>
+                </section>
+
+                <section>
+                    So we created a project, now what?
+                </section>
+
+                <section>
+                    The www directory is just a web project                    
+                    <img src="images/cordova-www.png">
+                </section>
+                
+                <section>
+                    <p>index.html</p>
+                    <pre><code>
+    &lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+        ...
+            &lt;script src="cordova.js"&gt;&lt;/script&gt;
+            &lt;script src="js/index.js"&gt;&lt;/script&gt;
+            &lt;script type="text/javascript"&gt;
+                app.initialize();
+            &lt;/script&gt;
+        &lt;/body&gt;
+    &lt;/html&gt;
+                    </code></pre>
+                    <aside class="notes">
+                    </aside>
+                </section>
+
+                <section>
+                    <p>index.js</p>
+                    <pre><code>
+    var app = {
+        initialize: function() {
+            this.bindEvents();
+        },
+        bindEvents: function() {
+            document.addEventListener(
+                'deviceready', this.onDeviceReady, false);
+        },
+        onDeviceReady: function() {
+            // your code here
+        }
+    };
+                    </code></pre>
+                    <aside class="notes">
+                        It is important to not call PhoneGap apis before the deviceready fires
+                    </aside>
+                </section>
+				                
+                <section>
+                    <h2>Bluetooth Serial</h2><h3>PhoneGap Plugin</h3>
+                    <a href="https://github.com/don/BluetoothSerial">https://github.com/don/BluetoothSerial</a>
+                    <aside class="notes">
+                        Make a connection over bluetooth
+                        Treat it like a serial port                        
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>Installing</h2>
+            		<pre><code>
+$ cordova plugin install https://github.com/don/BluetoothSerial				        
+                    </code></pre>
+            	</section>
+            	
+                <section>
+                    <h2>Connecting</h2>
+				    <pre><code>
+    var macAddress = "00:00:AA:BB:CC:DD";
+    
+    var connected = function() {
+      // connected, do something
+    };
+    
+    var disconnected = funtion(error) { 
+      // disconnected
+    };
+
+    bluetoothSerial.connect(macAddress, connected, disconnected);				    
+                    </code></pre>
+			    </section>
+
+	            <section>
+                    <h2>Receiving Data</h2>
+				    <pre><code>
+  var onMessage = function(data) {
+    console.log(data);
+  };
+
+  bluetoothSerial.subscribe("\n", onMessage, onFailure);
+                    </code></pre>
+				</section>
+				
+				<section>                
+				    <section>
+				        <h2>Demo</h2>
+                        Phone receives data from Arduino
+                    </section>
+                    <section>
+                        <img src="images/bluetooth-counter.png">
+                    </section>
+				</section>
+				                
+				<section>
+				    <h2>Sending Data</h2>
+				    <pre><code>
+  bluetoothSerial.write("Hello Arduino");
+				    </code></pre>
+				</section>
+				
+				<section>
+                    Control NeoPixel LED on Arduino from Android
+                    <img src="images/neopixel.jpg">
+				</section>
+                				
+				<section>				    
+				    <h2 style="text-transform: lowercase;">c red, green, blue</h2>    
+				</section>				
+				
+				<section>
+				    <h2 style="text-transform: lowercase;">c0,0,255\n</h2>    
+				</section>				
+				                								
+				<section>
+                    <h2>Demo</h2>
+                    Phone controls LED strip on Arduino
+                </section>
+								
+				<section>
+				    <h1>iBeacon</h1>
+				</section>
+
+				<section>
+				    <h1>CoreLocation, not CoreBluetooth</h1>
+				    CLBeacon
+				    CLBeaconRegion
+				    CLLocationManagerDelegate
+				    <aside class="notes">
+                        AirLocate Example
+                    </aside>                    
+				</section>
+				
+				<section>
+				    iOS Screenshot
+				</section>
+				
+				<section>
+				    http://radiusnetworks.com
+				</section>
+
+				<section>
+				    Radius Screenshot
+				</section>
+				
+				
+
+								
+				<section>
+                    <h2>Demo</h2>
+                    iBeacon, iOS and Hue Lights
+                </section>
+												
+                <section>
+                    <ul style="list-style-type: none;">
+                        <li><a href="http://www.seeedstudio.com/depot/bluetooth-shield-p-866.html">Seeed Bluetooth Shield</a></li>
+                        <li><a href="http://www.adafruit.com/products/1138">NeoPixel LED</a></li>
+                        <li><a href="http://github.com/don/BluetoothSerial">Bluetooth Serial Phonegap Plugin</a></li>
+                        <!-- <li>TODO Arduino Count Sketch</li> 
+                        <li>TODO PhoneGap Count App</li>                                                                       
+                        <li>TODO Arduino LED Sketch</li>                        
+                        <li>TODO PhoneGap LED App</li>                                                                                                                        -->
+                        <li><a href="https://github.com/hakimel/reveal.js">Reveal.js (for slides)</a> </li>                                                
+                    </ul>
+                   <br/>                                                           
+                </section>
+
+                <section>
+                    <h2>Thank You</h2>
+                    <p>Don Coleman</p>
+                    <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+                    <p>
+                        <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+                    </p>            
+                    <p>
+                    <a href="http://don.github.io/slides/">
+                        http://don.github.io/slides/</a>
+                    </p>
+                    <!-- should be using css -->
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>            
+                    <p>
+                        <small>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Connecting iOS and Android to Arduino with Bluetooth</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2013-11-13-mobilephilly-bluetooth" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2013-11-13-mobilephilly-bluetooth" rel="dct:source">https://github.com/don/.../2013-11-13-mobilephilly-bluetooth</a>.
+                        </small>            
+                    </p>
+                </section>
+                
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
