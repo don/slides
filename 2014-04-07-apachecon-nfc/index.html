@@ -1,0 +1,607 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Writing NFC Apps with Apache Cordova</title>
+
+		<meta name="description" content="Writing NFC Apps with Apache Cordova - ApacheCon North America, April 7, 2014">
+		<meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+        <!-- <link rel="stylesheet" href="css/theme/default.css" id="theme"> -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+
+		<style>
+		    .reveal pre {
+		        font-size: 1em;
+		        /* width: 100%;  TODO fix width elsewhere */
+		    }
+
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6 {
+/*			margin: 0 0 20px 0;
+			color: #333333;
+			font-family: "Quicksand", sans-serif;
+			line-height: 0.9em;
+			letter-spacing: -0.08em;
+			text-transform: uppercase;
+			text-shadow: none; */
+			text-transform: none;
+		    }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h2>Writing NFC Apps
+					with Apache Cordova</h2>
+					<h3>ApacheCon North America</h3>
+					<h3>April 7, 2014</h3>
+					<p>
+						<small>Presented by <a href="http://github.com/don">Don Coleman</a> / <a href="http://twitter.com/doncoleman">@doncoleman</a></small>
+					</p>
+				</section>
+
+				<section>
+					<h1>NFC Plugin</h1>
+					<a href="https://github.com/chariotsolutions/phonegap-nfc">https://github.com/chariotsolutions/phonegap-nfc</a>
+				</section>
+
+                <section>
+                    <h1>What is NFC?</h1>
+                    <aside class="notes">
+                        Subset of RFID.
+                        Wireless communications.
+                        4 to 20 cm.
+                        In practice, make contact with devices.
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>What can I do with NFC?</h2>
+                    <ul style="list-style-type: none">
+                        <li class="fragment fade-in">Mobile Payments</li>
+                        <li class="fragment fade-in">Sharing Data between Phones</li>
+                        <li class="fragment fade-in">Pair with Bluetooth Device</li>
+                        <li class="fragment fade-in">Mass Transit Card</li>
+                        <li class="fragment fade-in">Smart Poster</li>
+                    </ul>
+                    <aside class="notes">
+                        We can't do payments, since we don't have access to the secure elements.<br/>   http://www.amazon.com/HomeSpot-NFC-enabled-Bluetooth-Receiver-System/dp/B009OBCAW2
+                    </aside>
+                </section>
+
+                <section>
+                    <h1>Devices</h1>
+                    <aside class="notes">
+                        TODO add pictures
+
+                        phone
+                        shield
+                        usb dongle
+                    </aside>
+                </section>
+
+<!--                 <section>
+                    <h1>Tags</h1>
+                    <aside class="notes">
+                        hold up physical tags
+                    </aside>
+                </section> -->
+
+                <section>
+                    <img src="images/nfc_tags.jpg"/>
+                </section>
+
+                <section>
+                  <p>Tags hold a tiny amount of data</p>
+                  <p>Think <b>bytes</b></p>
+                  <small>not kilobytes, megabytes, or gigabytes</small>
+                  <aside class="notes">
+                    Even a 1K tag only holds 716 bytes of data
+                  </aside>
+                </section>
+
+<!--
+                <section>
+                    <h1>Tag Types</h1>
+                    <aside class="notes">
+                        Different types of tags<br/>
+                        Capacity
+                        Security
+                        Features
+
+                        Mifare Classic tags are very popular.
+                        Mifare Classic isn't really a NFC tag but can act like one.
+                        Mifare Classic tags don't work with Nexus 4, BlackBerry or Windows Phone.
+                        We will be using Mifare Classic today since it works great with this hardware.
+                    </aside>
+                </section>
+-->
+
+				<section>
+					<h2>Each tag type </h2>
+					<ul style="list-style:none">
+					<li>Stores data in different binary format</li>
+					<li>Has different security features</li>
+					<li>Has different ways to read and write</li>
+					</ul>
+				</section>
+
+                <section>
+                    <h3>Common properties</h3>
+                    <ul>
+                        <li>UID</li>
+                        <li>Type</li>
+                        <li>Technology</li>
+                        <li>Capacity</li>
+                        <li>Is Read Only</li>
+                        <li>Is Lockable</li>
+                    </ul>
+                    <aside class="notes">
+                      Type is like Mifare Classic or Type 2
+                      Technology is like Mifare Ultralight C for a Type 2 tag
+                    </aside>
+                </section>
+
+                <section>
+                    <h1>NDEF</h1>
+                    <h3>NFC Data Exchange Format</h3>
+                    <aside class="notes">
+                        NDEF is an abstraction that allows us to read and write data to tags without worrying about the underlying implementation
+                    </aside>
+                </section>
+
+                <section>
+                    <h1>NDEF Message</h1>
+                    <aside class="notes">
+                        Contains 1 or more NDEF Records
+                    </aside>
+                </section>
+
+                <section>
+                    <h1>NDEF Record</h1>
+                    <aside class="notes">
+                        Messages contains a payload (or data) and some meta data about that payload
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>NDEF Record</h2>
+                    <ul>
+                        <li>TNF (Type Name Format)</li>
+                        <li>Type</li>
+                        <li>Payload</li>
+                        <li>Record Id</li>
+                    </ul>
+                    <aside class="notes">
+                        TNF - constants
+                        Type - works with TNF to describe the payload
+
+                        Ignore the Record ID for now. We don't need it.
+                        Let's look at some examples to make this clearer
+                    </aside>
+                </section>
+
+                <section>
+                  <h2>Payload</h2>
+                  <p>Data for the user application</p>
+                  <aside class="notes">Sructure is opaque.  Just bytes on a tag.</aside>
+                </section>
+
+                <section>
+                  <h2>TNF - Type Name Format</h2>
+                  <p>Indicates the structure of the value of the type field</p>
+                  <aside class="notes">
+                    Meta Data about the Type
+                  </aside>
+                </section>
+
+                <section>
+                  <h2>TNF Constants</h2>
+                  <ul>
+                    <li>Empty 0x0</li>
+                    <li>Well Known 0x1</li>
+                    <li>Mime Media 0x2</li>
+<!--                <li>Absolute URL 0x3</li> -->
+                    <li>External 0x4</li>
+<!--
+                    <li>Unknown</li>
+                    <li>Unchanged</li>
+                    <li>Reserved</li>
+-->
+                  </ul>
+                </section>
+
+                <section>
+                  <h2>Type</h2>
+                  <p>Identifier describing the type of the Payload</p>
+                  <p>Must follow rules implied by TNF</p>
+                  <aside class="notes">
+                    Must follow structure, encoding and format implied by the TNF
+
+                    e.g. Well Known has Record Type Definition Constants
+                    There are lots of specs for all this stuff
+
+                    Meta Data about the Payload
+                  </aside>
+                </section>
+
+                <section>
+                    <h2>Text Record</h2>
+                    <h3 style="text-transform: lowercase;">hello, world</h3>
+                    <ul>
+                        <li>TNF = Well Known</li>
+                        <li>Type = T</li>
+                        <li>Payload = 2 + en + hello, world</li>
+                    </ul>
+                    <aside class="notes">
+                        There is a spec that defines how to encode the payload
+
+                        The text is prefixed with the language code
+                        The first byte of the tag has the length of the language code
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>URI Record</h2>
+                    <h3 style="text-transform: lowercase;">http://cordova.io</h3>
+                    <ul>
+                        <li>TNF = Well Known</li>
+                        <li>Type = U</li>
+                        <li>Payload = 0x3 + cordova.io</li>
+                    </ul>
+                    <aside class="notes">
+                        There's a spec for this too.
+
+                        http:// is shortened to 0x3
+                        if the full url is encoded, prefix is 0x0
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>Mime Media Record</h2>
+                    <h3 style="text-transform: lowercase;">{ "message": "hello, world" }</h3>
+                    <ul>
+                        <li>TNF = Mime Media</li>
+                        <li>Type = application/json</li>
+                        <li>Payload = { "message": "hello, world" }</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <!-- this slide is odd, but should talk about helper methods so people know
+                    they don't need to worry about all this. -->
+                    <h2>Helper Methods</h2>
+                    <ul style="list-style-type: none">
+                        <li>ndef.textRecord("hello, world");</li>
+                        <li>ndef.uriRecord("http://cordova.io");</li>
+                        <li>ndef.mimeMediaRecord("text/json", '{...}');</li>                        
+                    </ul>
+                </section>
+
+                <section>
+                    <h2>Quick Review...</h2>
+                </section>
+
+                <section>
+                    <h2>NDEF Message</h2>
+                    <p>One or more NDEF Records</p>
+                    <aside class="notes">
+                        Let's recap...
+                    </aside>
+                </section>
+
+                <section>
+                    <h2>NDEF Record</h2>
+                    <p class="fragment">Contains a payload of data<p>
+                    <p class="fragment">Information describing the payload</p>
+                </section>
+
+				<!-- Cordova -->
+				
+				<section>
+                    <h2>Cordova NFC Plugin</h2>
+                </section>
+
+				<section>
+                    <pre>
+$ cordova create nfc com.example.nfc NFC
+
+$ cd nfc
+
+$ cordova platform add android
+
+$ cordova plugin add \
+    com.chariotsolutions.nfc.plugin                        
+                    </pre>
+                </section>
+
+
+				<section>
+					<h2>Add a Listener</h2>
+					<pre><code>
+  nfc.addNdefListener(
+    eventListener,
+    success,
+    failure
+  );
+					</code></pre>
+					<aside class="notes">
+						mention history and why this differs from other Cordova plugins
+					</aside>
+				</section>
+
+  				<section>
+  					<h2>Add a Listener</h2>
+  					<pre><code>
+  nfc.addNdefListener(
+    app.onNfc,
+    success,
+    failure
+  );
+  					</code></pre>
+  				</section>
+
+
+				<section>
+					<h2>Handle the Event</h2>
+					<pre><code data-trim="" contenteditable="" class="javascript">
+onNfc: function(nfcEvent) {
+    var tag = nfcEvent.tag,
+        ndefMessage = tag.ndefMessage;
+
+    alert(JSON.stringify(ndefMessage));
+}
+					</code></pre>
+				</section>
+
+                <section>
+                	<h2>Decode the Payload</h2>
+                <pre><code class="javascript">
+  util.isType(record, tnf, type);
+                </code></pre>
+                </section>
+
+<section>
+<pre style="font-size: 0.74em"><code class="javascript">
+if (util.isType(rec, TNF_WELL_KNOWN, RTD_URI)) {    
+  value = ndef.uriHelper.decodePayload(payload);
+  
+} else if (util.isType(rec, TNF_WELL_KNOWN, RTD_TEXT)) {
+  value = ndef.textHelper.decodePayload(payload);
+  
+} else if // ... 
+  </code></pre>
+
+</section>
+
+
+<section>
+	<h2>Write Data</h2>
+	<p class="fragment fade-in">Must call write within an event handler</p>
+</section>
+
+<section>
+	<h2>Write Data</h2>
+	<pre><code class="javascript">
+var message = [
+  ndef.uriRecord("http://cordova.io")
+];
+
+ndef.write(message, success, failure);
+	</code></pre>
+</section>
+
+<section>
+	<h2>Write Data</h2>
+	<pre><code class="javascript">
+var message = [
+  ndef.uriRecord("http://cordova.io"),
+  ndef.textRecord("hello, world")
+];
+
+ndef.write(message, success, failure);
+	</code></pre>
+</section>
+
+
+<section>
+	<h2>Read the Tag</h2>
+</section>
+
+
+<section>
+	<h2>Peer to Peer - Share Data</h2>
+	<pre><code class="javascript">
+var message = [
+  ndef.uriRecord("http://cordova.io")
+];
+
+ndef.share(message, success, failure);
+	</code></pre>
+	<aside class="notes">
+		Unfortunately you need to do "Touch To Beam". IMO this worked much better in Android 2.3.
+
+		Do NOT need to call from within event handler
+	</aside>
+</section>
+
+<section>
+	<h2>Handover</h2>
+    Start with NFC, complete with WiFi or Bluetooth
+</section>
+
+<section>
+	<h2>Handover</h2>
+	<pre><code class="javascript">takePicture: function() {
+  navigator.camera.getPicture(
+    app.onCameraSuccess, failure);
+},
+
+onCameraSuccess: function (imageURI) {
+  nfc.handover(imageURI, success, fail);
+}
+</code></pre>
+</section>
+
+<section>
+    <!-- TODO replace with a screenshot  -->
+	<h2>Launching your App</h2>
+	<pre><code class="xml">
+&lt;intent-filter&gt;
+  &lt;action android:name=
+  "android.nfc.action.NDEF_DISCOVERED"/&gt;
+  &lt;data android:mimeType="text/plain"/&gt;
+  &lt;category android:name=
+  "android.intent.category.DEFAULT"/&gt;
+&lt;/intent-filter&gt;
+	</code></pre>
+</section>
+
+
+<section>
+    <h2>Recap</h2>
+    <ul style="list-style-type: none">
+        <li class="fragment fade-in">Read message from tag or peer</li>
+        <li class="fragment fade-in">Decode payload using TNF and Type</li>
+        <li class="fragment fade-in">Write message to a tag</li>
+        <li class="fragment fade-in">Share a message with a peer</li>
+        <li class="fragment fade-in">Use handover for large messages</li>
+        <li class="fragment fade-in">Launch app when scanning a tag</li>
+    </ul>
+</section>
+
+<!--
+        <section>
+            <a href="https://github.com/don/phonegap-nfc-reader">         
+                <img src="images/phonegap-nfc-reader.png" alt="PhoneGap NFC Reader" />
+            </a>
+        </section>
+        
+        <section>
+            <a href="https://play.google.com/store/apps/details?id=com.nxp.nfc.tagwriter">
+                <img src="images/nfc-tagwriter.png"  alt="NXP Tag Writer"/>
+            </a>
+        </section>
+        
+        <section>
+            <a href="https://play.google.com/store/apps/details?id=at.mroland.android.apps.nfctaginfo">
+                <img src="images/nfc-taginfo.png" alt="NFC Tag Info" />
+                <img src="images/nfc-taginfo-hex.png"  alt="NFC Tag Info (HEX)" />          
+            </a>
+        </section>
+-->
+
+		<section>
+		  <h2>Other NDEF Libraries</h2>
+		  <ul>
+		    <li>Node <a href="https://www.npmjs.org/package/ndef">https://www.npmjs.org/package/ndef</a>
+		    <li>Arduino <a href="https://github.com/don/NDEF">https://github.com/don/NDEF</a>
+		  </ul>
+        </section>
+
+        <section>
+          <h2>Technical Specs</h2>
+          <a href="http://www.nfc-forum.org/specs">http://www.nfc-forum.org/specs</a>
+        </section>
+        
+        <section>
+            <h2>Cordova Hackathon</h2>
+            <p>Tomorrow, Tuesday April 8, 2014</p>
+            <p>10:30am - 5:30pm</p>
+            <p>McCourt room at ApacheCon</p>
+        </section>
+        
+		<section>
+		    <a href="http://shop.oreilly.com/product/0636920021193.do"><img src="images/BeginningNFC.jpg"/></a>
+		</section>
+
+        <section>
+            <h2>Thank You</h2>
+            <p>Don Coleman</p>
+            <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+            <p>
+                <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+            </p>
+            <p>
+            <a href="http://don.github.io/slides/2014-04-07-apachecon-nfc">
+                http://don.github.io/slides</a>
+            </p>
+            <!-- should be using css -->
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>
+                    <small>
+                <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Writing NFC Apps with Apache Cordova</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2014-04-07-apachecon-nfc" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a><br/> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2014-04-07-apachecon-nfc" rel="dct:source">https://github.com/don/slides/tree/gh-pages/2014-04-07-apachecon-nfc</a>.
+                    </small>
+            </p>
+        </section>
+
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
