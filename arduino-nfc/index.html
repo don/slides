@@ -16,7 +16,7 @@
 
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<!-- link rel="stylesheet" href="css/theme/default.css" id="theme" -->
-		<link rel="stylesheet" href="css/theme/sky.css" id="theme">		
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -49,7 +49,7 @@
 			.reveal h6 {
 			text-transform: none;
 		    }
-		    
+
 		    .reveal section img {
 		        border: none;
 		    }
@@ -84,14 +84,15 @@
                 <section>
                     <h2>What can I do with NFC?</h2>
                     <ul style="list-style-type: none">
-                        <li class="fragment fade-in">Mobile Payments</li>
-                        <li class="fragment fade-in">Sharing Data between Phones</li>
-                        <li class="fragment fade-in">Pair with Bluetooth Device</li>
-                        <li class="fragment fade-in">Mass Transit Card</li>
-                        <li class="fragment fade-in">Smart Poster</li>
+                        <li>Mobile Payments</li>
+                        <li>Sharing Data between Phones</li>
+                        <li>Pair with Bluetooth Device</li>
+                        <li>Mass Transit Card</li>
+                        <li>Smart Poster</li>
                     </ul>
                     <aside class="notes">
-                        We can't do payments, since we don't have access to the secure elements.<br/>   http://www.amazon.com/HomeSpot-NFC-enabled-Bluetooth-Receiver-System/dp/B009OBCAW2
+                        We can't do payments, since we don't have access to the secure elements.<br/>
+						http://www.amazon.com/HomeSpot-NFC-enabled-Bluetooth-Receiver-System/dp/B009OBCAW2
                     </aside>
                 </section>
 
@@ -151,7 +152,7 @@
                         NDEF is an abstraction that allows us to read and write data to tags without worrying about the underlying implementation
                     </aside>
                 </section>
-                
+
                 <!-- TODO smaller title? picture? -->
                 <section>
                     <h1>NDEF Message</h1>
@@ -247,11 +248,11 @@
 
                 <section>
                     <h2>URI Record</h2>
-                    <h3 style="text-transform: lowercase;">http://cordova.io</h3>
+                    <h3 style="text-transform: lowercase;">http://arduino.cc</h3>
                     <ul>
                         <li>TNF = Well Known</li>
                         <li>Type = U</li>
-                        <li>Payload = 0x3 + cordova.io</li>
+                        <li>Payload = 0x3 + arduino.cc</li>
                     </ul>
                     <aside class="notes">
                         There's a spec for this too.
@@ -271,16 +272,19 @@
                     </ul>
                 </section>
 
-                <!-- TODO http://don.github.io/slides/2013-09-22-arduino-nfc/#/22 -->
                 <section>
                     <!-- this slide is odd, but should talk about helper methods so people know
                     they don't need to worry about all this. -->
-                    <h2>Helper Methods</h2>
-                    <ul style="list-style-type: none">
-                        <li>ndef.textRecord("hello, world");</li>
-                        <li>ndef.uriRecord("http://cordova.io");</li>
-                        <li>ndef.mimeMediaRecord("text/json", '{...}');</li>                        
-                    </ul>
+	                <h2>Helper Methods</h2>
+	                <ul style="list-style-type: none">
+	                    <li>message.addTextRecord("hello, world");</li>
+						<li>&nbsp;</li>
+	                    <li>message.addUriRecord("http://arduino.cc");</li>
+						<li>&nbsp;</li>
+	                    <li>message.addMimeMediaRecord(<br/>
+	                        &nbsp;&nbsp;&nbsp;"text/json", { "message": "hello, world" }<br/>
+	                        );</li>
+	                </ul>
                 </section>
 
                 <section>
@@ -329,32 +333,34 @@
                         I like NDEF - don't really care about the details. I want tags that can be used across devices.
                         Used phonegap-nfc as a starting point.
                         Wanted code to make this simpler.  Making progress but still needs work.
-                    </aside>                    
+                    </aside>
                 </section>
 
                 <!-- <section>
                     <h2>Installing</h2>
-                    <img src="images/install.png" />                      
+                    <img src="images/install.png" />
                 </section>                                 -->
 
                 <section>
-                    <h2>I2C</h2>
-                    <img src="images/i2c.png" />                      
+                    <h2>Imports</h2>
+                    <img src="images/i2c.png" />
                 </section>
 
+<!--
                 <section>
                     <h2>SPI</h2>
-                    <img src="images/spi.png" />                      
+                    <img src="images/spi.png" />
                 </section>
+-->
 
                 <section>
                     <h2>Setup</h2>
-                    <img src="images/setup.png" />                      
+                    <img src="images/setup.png" />
                 </section>
 
                 <section>
                   <h2>Write Tag</h2>
-                  <img src="images/write_tag.png" />                      
+                  <img src="images/write_tag.png" />
                   <aside class="notes">
                      Currently tagPresent() BLOCKS, in the future this should return fast
                      so the main loop can continue executing.
@@ -366,12 +372,27 @@
                   <img src="images/read_tag.png" />
                   <aside class="notes">
                       Print method is just a convenience for development and debugging. Probably prints too much information for a normal application.
-                  </aside>                     
+                  </aside>
                 </section>
 
                 <section>
                     <img src="images/read-tag.png" />
-                </section>                
+                </section>
+
+<!-- TODO remove extra code -->
+				<section>
+				<pre><code lang="c">if (nfc.tagPresent()) {
+  NfcTag tag = nfc.read();
+  NdefMessage message = tag.getNdefMessage();
+  NdefRecord record = message[0];
+
+  if (record.getTnf() == TNF_MIME_MEDIA &&
+      record.getType() == "text/led") {
+    String payload = getPayloadAsString(record);
+    color = parseColor(payload);
+  }
+}</code></pre>
+				</section>
 
                 <section>
                     <h1>DEMO</h1>
@@ -382,20 +403,63 @@
                     <h1>Memory</h1>
                     <h3>you will run out</h3>
                     <aside class="notes">
-                        Use the Ardunio Due if you're reading and writing big tags.
+                        Use the Arduino Due if you're reading and writing big tags.
                     </aside>
          		</section>
-         		
-         		<section>
-         		    TODO Picture of Shield with Due
-                </section>
 
                 <section>
                     <h1 style="text-transform: none">Peer to Peer</h1>
                     <p>Logical Link Control Protocol (LLCP)</p>
                     <p>Simple NDEF Exchange Protocol (SNEP)</p>
-                    <p><a href="https://github.com/Seeed-Shield/NFC_Shield_DEV">https://github.com/Seeed-Shield/NFC_Shield_DEV</a></p>
          		</section>
+
+                <!-- initialize -->
+				<section>
+				  <h2>Setup for P2P</h2>
+					<pre><code>  #include "SPI.h"
+  #include "PN532_SPI.h"
+  #include "snep.h"
+  #include "NdefMessage.h"
+
+  PN532_SPI pn532spi(SPI, 10);
+  SNEP nfc(pn532spi);
+  uint8_t ndefBuf[128];
+					</code></pre>
+				</section>
+
+				<!-- write -->
+        <section>
+          <h2>Write to Peer</h2>
+          <pre><code>
+  NdefMessage message = NdefMessage();
+  message.addUriRecord("http://arduino.cc");
+
+  int messageSize = message.getEncodedSize();
+  message.encode(ndefBuf);
+  nfc.write(ndefBuf, messageSize));
+          </code></pre>
+        </section>
+
+				<!-- read -->
+        <section>
+          <h2>Read from Peer</h2>
+        	<pre><code>
+  int msgSize = nfc.read(ndefBuf, sizeof(ndefBuf));
+  if (msgSize > 0) {
+    NdefMessage msg = NdefMessage(ndefBuf, msgSize);
+    msg.print();
+  } else {
+    Serial.println("Error reading message");
+  }
+        	</code></pre>
+        </section>
+        
+        <section>
+            <h1>DEMO</h1>
+            TODO - link to code<p>
+            TODO - screenshots
+ 				</section>
+        
 
                 <section>
                   <h2>Android Apps for NFC</h2>
@@ -411,7 +475,7 @@
                     View Raw Data on Tag
                     <a href="https://play.google.com/store/apps/details?id=at.mroland.android.apps.nfctaginfo">NFC Tag Info</a>
                   </p>
-                </section>        
+                </section>
 
                 <section>
                   <h2>Technical Specs</h2>
