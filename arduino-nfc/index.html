@@ -53,6 +53,7 @@
 		    .reveal section img {
 		        border: none;
 		    }
+
 		</style>
 	</head>
 
@@ -71,45 +72,50 @@
 					</p>
 				</section>
 
-                <section>
-                    <h1>What is NFC?</h1>
-                    <aside class="notes">
-                        Subset of RFID.
-                        Wireless communications.
-                        4 to 20 cm.
-                        In practice, make contact with devices.
-                    </aside>
-                </section>
+          <!--
+          <section>
+              <h1>What is NFC?</h1>
+              <aside class="notes">
+                  Subset of RFID.
+                  Wireless communications.
+                  4 to 20 cm.
+                  In practice, make contact with devices.
+              </aside>
+          </section>
 
-                <section>
-                    <h2>What can I do with NFC?</h2>
-                    <ul style="list-style-type: none">
-                        <li>Mobile Payments</li>
-                        <li>Sharing Data between Phones</li>
-                        <li>Pair with Bluetooth Device</li>
-                        <li>Mass Transit Card</li>
-                        <li>Smart Poster</li>
-                    </ul>
-                    <aside class="notes">
-                        We can't do payments, since we don't have access to the secure elements.<br/>
-						http://www.amazon.com/HomeSpot-NFC-enabled-Bluetooth-Receiver-System/dp/B009OBCAW2
-                    </aside>
-                </section>
+          <section>
+              <h2>What can I do with NFC?</h2>
+              <ul style="list-style-type: none">
+                  <li>Mobile Payments</li>
+                  <li>Sharing Data between Phones</li>
+                  <li>Pair with Bluetooth Device</li>
+                  <li>Mass Transit Card</li>
+                  <li>Smart Poster</li>
+              </ul>
+              <aside class="notes">
+                  We can't do payments, since we don't have access to the secure elements.<br/>
+      http://www.amazon.com/HomeSpot-NFC-enabled-Bluetooth-Receiver-System/dp/B009OBCAW2
+              </aside>
+          </section>
+          
+          <section>
+              <h1>Devices</h1>
+              <aside class="notes">
+                  TODO add pictures
 
-                <section>
-                    <h1>Devices</h1>
-                    <aside class="notes">
-                        TODO add pictures
+                  phone
+                  shield
+                  usb dongle
+              </aside>
+          </section>
+          
+          -->
 
-                        phone
-                        shield
-                        usb dongle
-                    </aside>
-                </section>
-
-                <section>
-                    <img src="images/nfc_tags.jpg"/>
-                </section>
+          <section>
+              <img src="images/nfc_tags.jpg"/>
+          </section>
+                
+                <!--
 
                 <section>
                   <p>Tags hold a tiny amount of data</p>
@@ -120,14 +126,14 @@
                   </aside>
                 </section>
 
-				<section>
-					<h2>Each tag type </h2>
-					<ul style="list-style:none">
-					<li>Stores data in different binary format</li>
-					<li>Has different security features</li>
-					<li>Has different ways to read and write</li>
-					</ul>
-				</section>
+        				<section>
+        					<h2>Each tag type </h2>
+        					<ul style="list-style:none">
+        					<li>Stores data in different binary format</li>
+        					<li>Has different security features</li>
+        					<li>Has different ways to read and write</li>
+        					</ul>
+        				</section>
 
                 <section>
                     <h3>Common properties</h3>
@@ -144,6 +150,7 @@
                       Technology is like Mifare Ultralight C for a Type 2 tag
                     </aside>
                 </section>
+                -->
 
                 <section>
                     <h1>NDEF</h1>
@@ -152,8 +159,19 @@
                         NDEF is an abstraction that allows us to read and write data to tags without worrying about the underlying implementation
                     </aside>
                 </section>
+                
+                <section>
+                    <h2>NDEF Message</h2>
+                    <p>One or more NDEF Records</p>
+                </section>
 
-                <!-- TODO smaller title? picture? -->
+                <section>
+                    <h2>NDEF Record</h2>
+                    <p>Contains a payload of data<p>
+                    <p>Information describing the payload</p>
+                </section>
+                
+                <!-- 
                 <section>
                     <h1>NDEF Message</h1>
                     <aside class="notes">
@@ -161,7 +179,6 @@
                     </aside>
                 </section>
 
-                <!-- kill this slide? -->
                 <section>
                     <h1>NDEF Record</h1>
                     <aside class="notes">
@@ -175,7 +192,6 @@
                         <li>TNF (Type Name Format)</li>
                         <li>Type</li>
                         <li>Payload</li>
-                        <li>Record Id</li>
                     </ul>
                     <aside class="notes">
                         TNF - constants
@@ -199,23 +215,21 @@
                     Meta Data about the Type
                   </aside>
                 </section>
+                -->
 
+                <!--
                 <section>
                   <h2>TNF Constants</h2>
                   <ul>
                     <li>Empty 0x0</li>
                     <li>Well Known 0x1</li>
                     <li>Mime Media 0x2</li>
-<!--                <li>Absolute URL 0x3</li> -->
                     <li>External 0x4</li>
-<!--
-                    <li>Unknown</li>
-                    <li>Unchanged</li>
-                    <li>Reserved</li>
--->
                   </ul>
                 </section>
+                -->
 
+                <!--
                 <section>
                   <h2>Type</h2>
                   <p>Identifier describing the type of the Payload</p>
@@ -229,6 +243,7 @@
                     Meta Data about the Payload
                   </aside>
                 </section>
+                -->
 
                 <section>
                     <h2>Text Record</h2>
@@ -262,6 +277,7 @@
                     </aside>
                 </section>
 
+<!--
                 <section>
                     <h2>Mime Media Record</h2>
                     <h3 style="text-transform: lowercase;">{ "message": "hello, world" }</h3>
@@ -273,8 +289,6 @@
                 </section>
 
                 <section>
-                    <!-- this slide is odd, but should talk about helper methods so people know
-                    they don't need to worry about all this. -->
 	                <h2>Helper Methods</h2>
 	                <ul style="list-style-type: none">
 	                    <li>message.addTextRecord("hello, world");</li>
@@ -285,7 +299,7 @@
 	                        &nbsp;&nbsp;&nbsp;"text/json", { "message": "hello, world" }<br/>
 	                        );</li>
 	                </ul>
-                </section>
+                </section>                
 
                 <section>
                     <h2>Quick Review...</h2>
@@ -304,6 +318,7 @@
                     <p class="fragment">Contains a payload of data<p>
                     <p class="fragment">Information describing the payload</p>
                 </section>
+                -->
 
                 <!-- Arduino -->
 
@@ -320,22 +335,22 @@
                 </section>
 
                 <section>
-                    <h2>PN532 Library</h2>
-                    <a href="https://github.com/Seeed-Studio/PN532">https://github.com/Seeed-Studio/PN532</a>
-                    <small style="padding-top:10px">Based on Adafruit's Library and modified by Yihui Xiong to support both I2C and SPI</small>
-                </section>
-
-                <section>
                     <h2>NDEF Library</h2>
                     <h3>for Arduino</h3>
-                    <a href="https://github.com/don/NDEF">https://github.com/don/NDEF</a>
+                    <a href="https://github.com/don/ndef">https://github.com/don/ndef</a>
                     <aside class="notes">
                         I like NDEF - don't really care about the details. I want tags that can be used across devices.
                         Used phonegap-nfc as a starting point.
                         Wanted code to make this simpler.  Making progress but still needs work.
                     </aside>
                 </section>
-
+                
+                <section>
+                    <h2>PN532 Library</h2>
+                    <a href="https://github.com/Seeed-Studio/PN532">https://github.com/Seeed-Studio/PN532</a>
+                    <small style="padding-top:10px">Based on Adafruit's Library and modified by Yihui Xiong to support both I2C and SPI</small>
+                </section>
+                
                 <!-- <section>
                     <h2>Installing</h2>
                     <img src="images/install.png" />
@@ -378,42 +393,53 @@
                 <section>
                     <img src="images/read-tag.png" />
                 </section>
+                
+                <section>
+                    <h2>NDEF Record</h2>
+                    <ul>
+                        <li>TNF = Mime Media</li>
+                        <li>Type = text/led</li>
+                        <li>Payload = 0,0,255</li>
+                    </ul>
+                </section>
 
-<!-- TODO remove extra code -->
 				<section>
-				<pre><code lang="c">if (nfc.tagPresent()) {
-  NfcTag tag = nfc.read();
-  NdefMessage message = tag.getNdefMessage();
-  NdefRecord record = message[0];
+				<pre class="stretch"><code lang="c"> 
+ 
+ if (nfc.tagPresent()) {
+   NfcTag tag = nfc.read();
+   NdefMessage message = tag.getNdefMessage();
+   NdefRecord record = message[0];
 
-  if (record.getTnf() == TNF_MIME_MEDIA &&
-      record.getType() == "text/led") {
-    String payload = getPayloadAsString(record);
-    color = parseColor(payload);
-  }
-}</code></pre>
+   if (record.getTnf() == TNF_MIME_MEDIA &&
+       record.getType() == "text/led") {
+     String payload = getPayloadAsString(record);
+     color = parseColor(payload);
+   }
+ }</code></pre>
 				</section>
 
-                <section>
-                    <h1>DEMO</h1>
-                    <a href="https://gist.github.com/don/6665981">https://gist.github.com/don/6665981</a>
+        <section>
+            <h1>DEMO</h1>
+            TODO fix URL
+            <a href="https://gist.github.com/don/6665981">https://gist.github.com/don/6665981</a>
  				</section>
 
-                <section>
-                    <h1>Memory</h1>
-                    <h3>you will run out</h3>
-                    <aside class="notes">
-                        Use the Arduino Due if you're reading and writing big tags.
-                    </aside>
-         		</section>
+        <!-- <section>
+            <h1>Memory</h1>
+            <h3>you will run out</h3>
+            <aside class="notes">
+                Use the Arduino Due if you're reading and writing big tags.
+            </aside>
+        </section> -->
+        
+        <section>
+            <h1 style="text-transform: none">Peer to Peer</h1>
+            <!-- p>Logical Link Control Protocol (LLCP)</p -->
+            <p>Simple NDEF Exchange Protocol (SNEP)</p>
+        </section>
 
-                <section>
-                    <h1 style="text-transform: none">Peer to Peer</h1>
-                    <p>Logical Link Control Protocol (LLCP)</p>
-                    <p>Simple NDEF Exchange Protocol (SNEP)</p>
-         		</section>
-
-                <!-- initialize -->
+        <!-- initialize -->
 				<section>
 				  <h2>Setup for P2P</h2>
 					<pre><code>  #include "SPI.h"
@@ -444,9 +470,9 @@
         <section>
           <h2>Read from Peer</h2>
         	<pre><code>
-  int msgSize = nfc.read(ndefBuf, sizeof(ndefBuf));
-  if (msgSize > 0) {
-    NdefMessage msg = NdefMessage(ndefBuf, msgSize);
+  int size = nfc.read(ndefBuf, sizeof(ndefBuf));
+  if (size > 0) {
+    NdefMessage msg = NdefMessage(ndefBuf, size);
     msg.print();
   } else {
     Serial.println("Error reading message");
@@ -519,6 +545,7 @@
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
+			  width: 1000,
 				controls: true,
 				progress: true,
 				history: true,
