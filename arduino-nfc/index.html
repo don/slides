@@ -261,6 +261,7 @@
                     </aside>
                 </section>
 
+<!--
                 <section>
                     <h2>URI Record</h2>
                     <h3 style="text-transform: lowercase;">http://arduino.cc</h3>
@@ -276,7 +277,7 @@
                         if the full url is encoded, prefix is 0x0
                     </aside>
                 </section>
-
+-->
 <!--
                 <section>
                     <h2>Mime Media Record</h2>
@@ -335,6 +336,12 @@
                 </section>
 
                 <section>
+                    <h2>PN532 Library</h2>
+                    <a href="https://github.com/Seeed-Studio/PN532">https://github.com/Seeed-Studio/PN532</a>
+                    <small style="padding-top:10px">Based on Adafruit's Library and modified by Yihui Xiong to support both I2C and SPI</small>
+                </section>
+
+                <section>
                     <h2>NDEF Library</h2>
                     <h3>for Arduino</h3>
                     <a href="https://github.com/don/ndef">https://github.com/don/ndef</a>
@@ -344,13 +351,7 @@
                         Wanted code to make this simpler.  Making progress but still needs work.
                     </aside>
                 </section>
-                
-                <section>
-                    <h2>PN532 Library</h2>
-                    <a href="https://github.com/Seeed-Studio/PN532">https://github.com/Seeed-Studio/PN532</a>
-                    <small style="padding-top:10px">Based on Adafruit's Library and modified by Yihui Xiong to support both I2C and SPI</small>
-                </section>
-                
+                                
                 <!-- <section>
                     <h2>Installing</h2>
                     <img src="images/install.png" />
@@ -415,6 +416,7 @@
        record.getType() == "text/led") {
      String payload = getPayloadAsString(record);
      color = parseColor(payload);
+     // turn on the lights
    }
  }</code></pre>
 				</section>
@@ -455,7 +457,7 @@
 
 				<!-- write -->
         <section>
-          <h2>Write to Peer</h2>
+          <h2>Send Message to Peer</h2>
           <pre><code>
   NdefMessage message = NdefMessage();
   message.addUriRecord("http://arduino.cc");
@@ -468,7 +470,7 @@
 
 				<!-- read -->
         <section>
-          <h2>Read from Peer</h2>
+          <h2>Receive Message from Peer</h2>
         	<pre><code>
   int size = nfc.read(ndefBuf, sizeof(ndefBuf));
   if (size > 0) {
