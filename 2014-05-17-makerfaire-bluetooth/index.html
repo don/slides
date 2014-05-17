@@ -260,7 +260,8 @@
                         Treat it like a serial port
                     </aside>
                 </section>
-                
+
+<!--                
                 <section>
                     <img src="images/counter_js.png"/>
                 </section>
@@ -280,7 +281,7 @@
     },
                     </code></pre>
                 </section>
-
+-->
 
 				<section>
 				    <section>
@@ -329,15 +330,6 @@
 </section>
 
 <section>
-	<h2>BLE hardware</h2>
-	<ul>
-	    <li><a href="http://redbearlab.com/blemini/">RedBearLab BLEmini</a></li>
-	    <li><a href="http://redbearlab.com/bleshield/">RedBearLab BLE Shield</a></li>
-	    <li><a href="http://adafru.it/1697">Adafruit Bluefruit LE</a></li>
-	</ul>
-</section>
-
-<section>
 	<h2>BLE doesn't have SPP</h2>
 	<p>but available hardware has "serial like" services</p>
 </section>
@@ -349,6 +341,16 @@
     		<li>TX - read, notify</li> <!-- TX from radio perspective -->
 		</ul>
 </section>
+
+<section>
+	<h2>BLE hardware</h2>
+	<ul>
+	    <li><a href="http://redbearlab.com/blemini/">RedBearLab BLEmini</a></li>
+	    <li><a href="http://redbearlab.com/bleshield/">RedBearLab BLE Shield</a></li>
+	    <li><a href="http://adafru.it/1697">Adafruit Bluefruit LE</a></li>
+	</ul>
+</section>
+
 
 <!--
 <section>
@@ -418,7 +420,18 @@
 </section>
 -->
 
-<!-- TODO repeat setup slides? -->
+     <section>
+        <img src="images/bluefruit-tx-rx.png" />
+     </section>
+
+				<section>
+					<pre><code>
+  #include &lt;SoftwareSerial.h&gt;
+  // ...
+  SoftwareSerial bluetooth(RxD,TxD);
+  // ...
+					</code></pre>
+				</section>
 
 <section>
 	<pre><code language="c">  void loop() {
@@ -496,6 +509,16 @@
 </section>
 
 <section>
+    <img style="box-shadow: none" src="images/nodejs.png"/>
+    <div>
+    <p>BLE Central</p>
+    <p><a href="https://github.com/sandeepmistry/noble">https://github.com/sandeepmistry/noble</a></p>
+    <p>BLE Peripheral</p>
+    <p><a href="https://github.com/sandeepmistry/bleno">https://github.com/sandeepmistry/bleno</a></p>
+    </div>
+</section>
+
+<section>
 		<img src="images/rfduino.jpg">
 		<a href="http://rfduino.com">http://rfduino.com</a>
 </section>
@@ -569,20 +592,9 @@ rfduino.discover(seconds, success, failure);
 </section>
 --> 
 
-<section>
-    <img style="box-shadow: none" src="images/nodejs.png"/>
-    <div>
-    <p>BLE Central</p>
-    <p><a href="https://github.com/sandeepmistry/noble">https://github.com/sandeepmistry/noble</a></p>
-    <p>BLE Peripheral</p>
-    <p><a href="https://github.com/sandeepmistry/bleno">https://github.com/sandeepmistry/bleno</a></p>
-    </div>
-</section>
-
-
                 <section>
                     <ul style="list-style-type: none;">
-                        <li><a href="http://cordova.io">Cordova</a></li>                        
+                        <li><a href="http://cordova.io">Cordova (aka PhoneGap)</a></li>                        
                         <li><a href="http://arduino.cc">Arduino</a></li>
                         <li><a href="http://redbearlab.com/blemini/">RedBearLab BLEmini</a></li>
             						<li><a href="http://www.adafruit.com/products/1588">Adafruit Bluefruit EZ-Link</a></li>
