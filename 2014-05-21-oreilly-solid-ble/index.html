@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>Understanding BLE</title>
+
+    <meta name="description" content="Understanding Bluetooth Low Energy - O'Reilly SolidCon 2014">
+    <meta name="author" content="Don Coleman">
+
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <link rel="stylesheet" href="css/reveal.min.css">
+    <!-- link rel="stylesheet" href="css/theme/default.css" id="theme" -->
+    <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+      if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+      }
+    </script>
+
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <style>
+      .reveal pre {
+        font-size: 1em;
+        width: 100%;
+      }
+
+      .reveal h1,
+      .reveal h2,
+      .reveal h3,
+      .reveal h4,
+      .reveal h5,
+      .reveal h6 {
+        text-transform: none;
+      }
+
+      .reveal section img {
+          border: none;
+      }
+      
+      .reveal ul {
+        list-style-type: none              
+      }  
+
+    </style>
+  </head>
+
+  <body>
+
+    <div class="reveal">
+
+      <!-- Any section element inside of this container is displayed as a slide -->
+      <div class="slides">
+
+        <section>
+          <h2>Understanding</h2>
+          <h2>Bluetooth Low Energy</h2>
+          <p>O'Reilly SolidCon - May 21, 2014</p>
+          <p>
+            <small>Presented by <a href="http://github.com/don">Don Coleman</a> / <a href="http://twitter.com/doncoleman">@doncoleman</a></small>
+          </p>
+        </section>
+        
+        <section>
+          <img src="images/bluetooth.png">
+        </section>
+
+        <section>
+          <!-- based on - Figure 3.1 from “Bluetooth Low Energy” by Robin Heydon -->
+          <img width="60%" src="images/architecture.svg">
+        </section>
+        
+        <section>
+          <h2>Lightbulb Service</h2>
+            <ul>
+              <li>Light Switch</li>
+              <li>Dimmer Level</li>
+              <li>Power Consumption</li>
+            </ul>
+        </section>
+
+        <section>
+          <h2>Lightbulb Service</h2>
+          <p>1DFB0A3<b>0</b>-569D-4B38-A511-AA912168F7DD</p>
+            <ul>
+              <li>1DFB0A3<b>1</b>-569D-4B38-A511-AA912168F7DD Light Switch</li>
+              <li>1DFB0A3<b>2</b>-569D-4B38-A511-AA912168F7DD Dimmer Level</li>
+              <li>1DFB0A3<b>3</b>-569D-4B38-A511-AA912168F7DD Power Consumption</li>
+            </ul>
+        </section>
+
+        <section>
+          <h2>Properties</h2>
+          <!--
+          <ul>
+            <li>Read</li>
+            <li>Write</li>
+            <li>Write Command</li>
+            <li>Notification</li>
+            <li>Indication</li>            
+          </ul>
+          -->            
+        </section>
+
+        <section>
+          <h2>Descriptors</h2>
+          <!--
+            Human readable description
+            Valid range
+            Format - UTF-8, int, float
+          -->
+        </section>
+
+        <section>
+          <h2>Attributes</h2>
+          <!--
+            Value
+            Handle
+          -->
+        </section>
+        
+        <!-- this looks bad -->
+        <section>
+          <h2>Lightbulb Service</h2>
+            <table class="reveal">
+              <thead>
+                <tr><th>Characteristic</th><th>Properties</th><th>Value</th><th>Comment</th></tr>
+              </thead>
+              <tbody>                
+                <tr><td>Light Switch</td><td>Read, Write</td><td>1</td><td>0 = off, 1 = on</td></tr>
+                <tr><td>Dimmer Level</td><td>Read, Write</td><td>75</td><td>0 to 100 percent</td></tr>
+                <tr><td>Power Consumption</td><td>Read</td><td>308</td><td>Watts</td></tr>
+              </tbody>
+            </table>
+        </section>
+        
+        <section>
+          <h2>Advertising</h2>
+          <img width="50%" src="images/advertise.svg" />
+        </section>
+        
+        <section>
+          <h2>Advertising</h2>
+          <ul>
+            <li>5425B44A-024A-4D39-88D2-D9F016199B29</li>
+            <li>Services: [ 0x180A, 0xFF10, 0XFF20, …] </li>
+            <li>Manufacturer Data: <00007465 6d70></li>
+            <li>Connectable: True</li>
+            <li>TX Power Level: 4</li>
+            <li>RSSI: -80</li>              
+            <li>Name: Smart Lightbulb</li>                          
+          </ul>          
+        </section>
+        
+        <section>
+          <h2>Scan and Discover Peripherals</h2>
+        </section>
+        
+        <section>
+          <h2>Connect</h2>
+          <img width="80%" src="images/connect.svg" />          
+        </section>
+
+        <section>
+          <h2>Explore</h2>
+          <!-- discover -->
+          <ul>
+          <li>Get a list of services</li>
+          <li>&nbsp;&nbsp;For each service, get a list of characteristics</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;For each characteristic, get properties</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save handle to read or write later</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Subscribe to be notified on changes</li>
+          <ul>
+        </section>
+
+        <!-- attribute protocol -->
+        
+       <section>
+          <h2>Read Value</h2>
+          <img width="80%" src="images/read.svg">
+        </section>
+        
+        <section>
+          <h2>Write Value</h2>
+          <img width="80%" src="images/write.svg">          
+        </section>
+        
+        <section>
+          <h2>Write Command</h2>
+          <img width="80%" src="images/command.svg">          
+        </section>
+
+        <section>
+          <h2>Battery Service</h2>
+          <ul>
+            <li>Battery Level | Read, Notify | 0 to 100%</li>
+          </ul>
+        </section>
+        
+        <section>
+          <h2>Battery Service</h2>
+          <h2>0x180F</h2>
+          <p class="fragment">0000<b>180F</b>-0000-1000-8000-00805F9B34FB</p>
+        </section>
+
+        <section>
+          <h2>Notification</h2>
+          <img width="80%" src="images/notification.svg">                    
+        </section>
+
+        <section>
+          <h2>Indication</h2>
+          <img width="80%" src="images/indication.svg">                    
+        </section>
+
+        <section>
+          <h2>Security</h2>
+        </section>
+        
+        <!--
+        <section>
+          <h2>Permissions</h2>
+        </section>
+        -->
+        
+        <section>
+          <h2>Bonding</h2>
+        </section>
+        
+        <!-- this slide is awkward, want to review what the Central does -->
+        <section>
+          <ul>
+            <li>Discover Advertising Peripherals</li>
+            <li>Connect</li>
+            <li>Explore the Services and Characteristics</li>
+            <li>Read and Write characteristics</li>
+            <li>Subscribe to be notified</li>
+          </ul>
+        </section>
+        
+        <section>
+          <h2>Beacons</h2>
+          <!-- source http://beekn.net/wp-content/uploads/2013/12/estimote-2-beacons.png -->
+          <!-- <img src="images/estimote-2-beacons.png"> -->
+          <a href="http://www.radiusnetworks.com/ibeacon/">
+            <img src="images/radbeacon-tag.png">
+          </a>
+        </section>
+        
+        <section>
+          <h2>Proximity</h2>
+        </section>
+     <!--        
+        <section>
+          <h2></h2>
+        </section>
+        
+        <section>
+          <h2></h2>
+        </section>
+      -->
+        <section>
+            <h2>Thank You</h2>
+            <p>Don Coleman</p>
+            <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+            <p>
+                <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+            </p>
+            <p>
+            <a href="http://don.github.io/slides/">
+                http://don.github.io/slides/</a>
+            </p>
+            <!-- should be using css -->
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+            <p>
+                <small>
+            <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Understanding Bluetooth Low Energy</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2014-05-21-oreilly-solidcon-ble" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2014-05-21-oreilly-solidcon-ble" rel="dct:source">https://github.com/don/.../2014-05-21-oreilly-solidcon-ble</a>.
+                </small>
+            </p>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
+
+    <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        width: 1200,
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
+
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+
+    </script>
+    <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-1093669-12', 'don.github.io');
+          ga('send', 'pageview');
+
+        </script>
+
+  </body>
+</html>
