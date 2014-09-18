@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Add Bluetooth to your Project</title>
+
+		<meta name="description" content="Add Bluetooth to your Project - Maker Faire NY 2014">
+		<meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<!-- link rel="stylesheet" href="css/theme/default.css" id="theme" -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">		
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style>
+		    .reveal pre {
+              font-size: 1em;
+		      width: 100%;
+		    }
+
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6 {
+			text-transform: none;
+		    }
+		    
+		    .reveal section img {
+		        border: none;
+		    }
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h2>Add Bluetooth to your Project</h2>
+					<p>Maker Faire - September 20, 2014</p>
+					<p>
+					<a href="http://github.com/don">Don Coleman</a> <br/> <a href="http://twitter.com/doncoleman">@doncoleman</a>
+					</p>
+				</section>
+
+                <section>
+                    <h2>Phone &lt;===&gt; Arduino</h2>
+                </section>
+
+                <!-- <section>
+                    <img style="box-shadow: none" src="images/bluetooth.png" />
+                </section> -->
+
+                <section>
+                    <img src="images/uno.jpg" />
+                </section>
+
+                <section>
+                    <img src="images/arduino-bluetooth-tx-rx.png" />
+                </section>
+
+                <section>
+                    <img src="images/bluefruit-tx-rx.png" />
+                </section>
+
+                <section>
+                    <img src="images/PhoneBluetoothArduino.png" />
+                </section>
+
+				<section>
+					<pre><code>
+  #include &lt;SoftwareSerial.h&gt;
+
+  #define RxD 6
+  #define TxD 7
+
+  SoftwareSerial bluetooth(RxD,TxD);
+					</code></pre>
+				</section>
+
+<section>
+	<pre><code>
+  void setup() {
+    Serial.begin(9600);
+    bluetooth.begin(9600);
+  }
+	</code></pre>
+</section>
+
+<section>
+	<pre><code>
+  void loop() {
+    temperature = readTempSensor();
+    bluetooth.println(temperature);
+    delay(2000);
+  }
+	</code></pre>
+</section>
+
+<section>
+	<pre><code>  void loop() {
+    if (bluetooth.available()) {
+      if (bluetooth.read() == 65) {
+          digitalWrite(LED, HIGH);
+      } else {
+          digitalWrite(LED, LOW);      
+      }
+    }
+  }
+	</code></pre>
+</section>
+
+<section>
+	<pre><code>
+  void loop() {
+    if (bluetooth.find("c")) {
+      red = bluetooth.parseInt();
+      green = bluetooth.parseInt();
+      blue = bluetooth.parseInt();
+      showColor(red, green, blue);
+    }
+  }
+	</code></pre>
+</section>
+
+<section>
+    <section>
+	    <img src="images/LED_Android_Screenshot.png" />
+        <p><a href="https://github.com/don/BluetoothSerial">https://github.com/don/BluetoothSerial</a></p>           <aside class="notes">
+            Make a connection over bluetooth
+            Treat it like a serial port from JavaScript
+        </aside>
+    </section>
+    <section>
+        <img src="images/LED.jpg">
+    </section>
+</section>
+
+<section>
+    <h2>Bluetooth Low Energy</h2>
+    <aside class="notes">
+        Why do we care about BLE?
+        iOS mostly
+        
+        Low Power Usage
+        Devices that run on coin cell batteries for years
+        Discovery instead of pairing
+    </aside>
+</section>
+
+<section>
+    <img src="images/PhoneBluetoothArduino.png" />
+</section>
+
+<section>
+    <img src="images/iPhoneBluetoothLEArduino.png" />
+</section>
+
+<section>
+    <img src="images/RedBearLab_BLEShield.jpg" />
+    <aside class="notes">
+        No wiring with the shield
+    </aside>    
+</section>
+
+<section>
+    <img src="images/adafruit_products_8001Final.png" />
+    <aside class="notes">
+        More wiring than other solutions so far
+    </aside>
+</section>
+
+<section>
+	<pre><code>  #include &lt;SPI.h&gt;
+  #include "Adafruit_BLE_UART.h"
+
+  Adafruit_BLE_UART uart = ...
+
+  void setup() {
+    uart.begin();
+  }
+  </code></pre>
+  <aside class="notes">
+      uart basically behaves like Serial
+      
+      can also register callback function instead of polling
+      uart.setRXcallback(rxCallback);
+      uart.setACIcallback(aciCallback);
+      
+      gets a bit more difficult because need to deal with pointers in callback signature
+   </aside>    
+  
+</section>
+
+<section>
+    <img src="images/bluetoothlock_wiring_640.jpg" />
+    <p><span style="color:red">MAKE: PROJECTS</span> <a href="http://makezine.com/projects/controlling-a-lock-with-an-arudino-and-bluetooth-le/">Bluetooth Low Energy Lock</a><p>
+</section>
+
+<section>
+    <img src="images/RedBearLab_Blend_nRF51822.jpg" />
+</section>
+
+<section>
+    <img src="images/BluetoothLowEnergy.jpg" />
+    <aside class="notes">
+        These replace the Arduino 
+        Board contains an ARM CPU and a BLE radio
+        Program using Arduino IDE        
+    </aside>    
+</section>
+
+<section>
+    <img src="images/LightBlue.png"/>
+    <aside class="notes">
+        BLE is different
+        No pairing
+        Discover devices and services
+        characteristics have attribtutes, properties, and permissions
+        send and receive 20 bytes at a time
+        low power, run on a battery for years
+        
+        Phone is BLE Central
+        Our Arduino is a BLE Peripheral
+        The Central needs to initiate the connectionto the peripheral
+    </aside>
+</section>
+
+<section>
+    <img src="images/LightBlue_RFduino.png"/>
+    <aside class="notes">
+        Most Arduino hardware provides a serial like service
+    </aside>
+</section>
+
+<section>
+    <img src="images/LightBlue_Smartbotics.png"/>
+    <aside class="notes">
+        "Real" BLE devices provide services more more details
+    </aside>    
+</section>
+
+<section>
+    <img src="images/itp.png">
+    <p><a href="http://makezine.com/2014/06/16/the-bluetooth-le-doc-a-thon-at-itp-camp/"><span style="color:red">Make:</span> Bluetooth LE at ITP Camp</a></p>
+    
+    <aside class="notes">
+        Guan Yang arduino-nrf8001
+        Sandeep Mistry arduino-BLEPeripheral
+        Alasdair Allen
+        Tom Igo
+        JB Kim
+        
+        Custom Services (self describing)
+        Use Arduino IDE
+    </aside>    
+</section>
+
+<section>
+    <h2>BLE Peripherial</h2>
+    <p>Supports nRF8001 and nRF51822 based boards</p>
+    <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral">https://github.com/sandeepmistry/arduino-BLEPeripheral</a>
+    <aside class="notes">
+        Custom Services, no longer need nRFgo Studio
+    </aside>
+</section>
+
+<section>
+    <img src="images/lighting_and_button.png"><!-- diagram from Alasdair Allan -->
+    <p><a href="http://vimeo.com/98221324">Video</a></p>
+</section>
+
+<section>
+    <img style="box-shadow: none" src="images/raspberrypi.jpg"/><!-- photo from Adafruit -->
+    <p><a href="https://www.adafruit.com/products/1914">Raspberry Pi</a></p>
+</section>
+
+<section>
+    <img style="box-shadow: none" src="images/CSR4.jpg"/><!-- photo from Adafruit -->
+    <p><a href="https://www.adafruit.com/products/1327">Bluetooth 4.0 Module</a></p>
+</section>
+
+<section>
+    <img style="box-shadow: none" src="images/nodejs.png"/>
+    <div>
+    <p>BLE Central</p>
+    <p><a href="https://github.com/sandeepmistry/noble">https://github.com/sandeepmistry/noble</a></p>
+    <p>BLE Peripheral</p>
+    <p><a href="https://github.com/sandeepmistry/bleno">https://github.com/sandeepmistry/bleno</a></p>
+    </div>
+</section>
+             
+<section>
+    <ul style="list-style-type: none;">
+        <li><a href="http://arduino.cc">Arduino</a></li>
+        <li><a href="http://redbearlab.com">RedBearLab</a></li>
+		<li><a href="http://www.adafruit.com/products/1588">Adafruit Bluefruit EZ-Link</a></li>
+		<li><a href="http://www.adafruit.com/products/1697">Adafruit Bluefruit LE</a></li>
+        <!-- <li><a href="https://www.adafruit.com/search?q=neopixel&b=1">Adafruit NeoPixel LED</a></li> -->
+		<li><a href="http://rfduino.com">RFduino</a></li>
+        <li><a href="http://github.com/guanix/arduino-nRF8001">arduino-nRF8001</a></li>     
+        <li><a href="http://github.com/sandeepmistry/arduino-BLEPeripheral">arduino-BLEPeripheral</a></li>     
+        <!-- <li><a href="http://github.com/sandeepmistry/noble">Noble</a></li>
+        <li><a href="http://github.com/sandeepmistry/bleno">Bleno</a></li>      -->
+        <li><a href="http://cordova.io">Cordova (aka PhoneGap)</a></li>                                
+        <li><a href="http://github.com/don/BluetoothSerial">Bluetooth Serial Cordova Plugin</a></li>
+        <li><a href="http://github.com/don/cordova-plugin-ble-central">BLE Cordova Plugin</a></li>
+        <li><a href="http://github.com/don/cordova-plugin-rfduino">RFduino Cordova Plugin</a></li>                     <li><a href="https://github.com/hakimel/reveal.js">Reveal.js (for slides)</a> </li>
+    </ul>
+   <br/>
+</section>
+
+                <section>
+                    <h2>Thank You</h2>
+                    <p>Don Coleman</p>
+                    <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+                    <p>
+                        <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+                    </p>
+                    <p>
+                    <a href="http://don.github.io/slides/">
+                        http://don.github.io/slides/</a>
+                    </p>
+                    <!-- should be using css -->
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>
+                        <small>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Add Bluetooth to your  Project</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2014-09-20-makerfaire-bluetooth" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2014-09-20-makerfaire-bluetooth" rel="dct:source">https://github.com/don/.../2014-09-20-makerfaire-bluetooth</a>.
+                        </small>
+                    </p>
+                </section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+		<script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-1093669-12', 'don.github.io');
+          ga('send', 'pageview');
+
+        </script>
+
+	</body>
+</html>
