@@ -1,0 +1,359 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Arduino NFC</title>
+
+		<meta name="description" content="Arduino NFC - Maker Faire NY 2014">
+		<meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<!-- link rel="stylesheet" href="css/theme/default.css" id="theme" -->
+		<link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+		<script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+		<style>
+		    .reveal pre {
+              font-size: 1em;
+		      width: 100%;
+		    }
+
+			.reveal h1,
+			.reveal h2,
+			.reveal h3,
+			.reveal h4,
+			.reveal h5,
+			.reveal h6 {
+			text-transform: none;
+		    }
+
+		    .reveal section img {
+		        border: none;
+		    }
+
+		</style>
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h2>Arduino NFC</h2>
+					<p>Maker Faire - September 21, 2014</p>
+					<p>
+					<a href="http://github.com/don">Don Coleman</a> <br/> <a href="http://twitter.com/doncoleman">@doncoleman</a>
+					</p>
+				</section>
+
+          <section>
+              <img src="images/nfc_tags.jpg"/>
+          </section>
+                
+
+                <section>
+                    <h1>NDEF</h1>
+                    <h3>NFC Data Exchange Format</h3>
+                    <aside class="notes">
+                        NDEF is an abstraction that allows us to read and write data to tags without worrying about the underlying implementation
+                    </aside>
+                </section>
+                
+                <section>
+                    <h2>NDEF Message</h2>
+                    <p>One or more NDEF Records</p>
+                </section>
+
+                <section>
+                    <h2>NDEF Record</h2>
+                    <p>Contains a payload of data<p>
+                    <p>Information describing the payload</p>
+                </section>
+                
+                <section>
+                    <h2>Text Record</h2>
+                    <h3 style="text-transform: lowercase;">hello, world</h3>
+                    <ul>
+                        <li>TNF = Well Known</li>
+                        <li>Type = T</li>
+                        <li>Payload = 2 + en + hello, world</li>
+                    </ul>
+                    <aside class="notes">
+                        There is a spec that defines how to encode the payload
+
+                        The text is prefixed with the language code
+                        The first byte of the tag has the length of the language code
+                    </aside>
+                </section>
+
+                <section>
+                    <p>Adafruit NFC Shield</p>
+                    <img src="images/adafruit-nfc-shield.png"/>
+                    <a href="http://www.adafruit.com/products/789">http://www.adafruit.com/products/789</a>
+                </section>
+
+                <section>
+                    <p>Seeed Studio NFC Shield</p>
+                    <img src="images/seeed-studio-nfc-shield.png"/>
+                    <a href="http://www.seeedstudio.com/depot/nfc-shield-v20-p-1370.html">http://www.seeedstudio.com/depot/nfc-shield-v20-p-1370.html</a>
+                </section>
+
+                <section>
+                    <h2>PN532 Library</h2>
+                    <a href="https://github.com/Seeed-Studio/PN532">https://github.com/Seeed-Studio/PN532</a>
+                    <small style="padding-top:10px">Based on Adafruit's Library and modified by Yihui Xiong to support both I2C and SPI</small>
+                </section>
+
+                <section>
+                    <h2>NDEF Library</h2>
+                    <h3>for Arduino</h3>
+                    <a href="https://github.com/don/ndef">https://github.com/don/ndef</a>
+                    <aside class="notes">
+                        I like NDEF - don't really care about the details. I want tags that can be used across devices.
+                        Used phonegap-nfc as a starting point.
+                        Wanted code to make this simpler.  Making progress but still needs work.
+                    </aside>
+                </section>
+                                
+                <section>
+                    <h2>Imports</h2>
+                    <img src="images/i2c.png" />
+                </section>
+
+                <section>
+                    <h2>Setup</h2>
+                    <img src="images/setup.png" />
+                </section>
+
+                <section>
+                  <h2>Write Tag</h2>
+                  <img src="images/write_tag.png" />
+                  <aside class="notes">
+                     Currently tagPresent() BLOCKS, in the future this should return fast
+                     so the main loop can continue executing.
+                  </aside>
+                </section>
+
+                <section>
+                  <h2>Read Tag</h2>
+                  <img src="images/read_tag.png" />
+                  <aside class="notes">
+                      Print method is just a convenience for development and debugging. Probably prints too much information for a normal application.
+                  </aside>
+                </section>
+
+                <section>
+                    <img src="images/read-tag.png" />
+                </section>
+                
+                <section>
+                    <h2>NDEF Record</h2>
+                    <ul>
+                        <li>TNF = Mime Media</li>
+                        <li>Type = text/led</li>
+                        <li>Payload = 0,0,255</li>
+                    </ul>
+                </section>
+
+				<section>
+				<pre class="stretch"><code lang="c"> 
+ 
+ if (nfc.tagPresent()) {
+   NfcTag tag = nfc.read();
+   NdefMessage message = tag.getNdefMessage();
+   NdefRecord record = message[0];
+
+   if (record.getTnf() == TNF_MIME_MEDIA &&
+       record.getType() == "text/led") {
+     String payload = getPayloadAsString(record);
+     color = parseColor(payload);
+     // turn on the lights
+   }
+ }</code></pre>
+				</section>
+
+        <section>
+            <h1>DEMO</h1>
+            <!--
+            TODO fix URL
+            <a href="https://gist.github.com/don/6665981">https://gist.github.com/don/6665981</a>
+            -->
+ 				</section>
+        
+        <section>
+            <h1 style="text-transform: none">Peer to Peer</h1>
+            <!-- p>Logical Link Control Protocol (LLCP)</p -->
+            <p>Simple NDEF Exchange Protocol (SNEP)</p>
+        </section>
+
+        <!-- initialize -->
+				<section>
+				  <h2>Setup for P2P</h2>
+					<pre><code>  #include "SPI.h"
+  #include "PN532_SPI.h"
+  #include "snep.h"
+  #include "NdefMessage.h"
+
+  PN532_SPI pn532spi(SPI, 10);
+  SNEP nfc(pn532spi);
+  uint8_t ndefBuf[128];
+					</code></pre>
+				</section>
+
+				<!-- write -->
+        <section>
+          <h2>Send Message to Peer</h2>
+          <pre><code>
+  NdefMessage message = NdefMessage();
+  message.addUriRecord("http://arduino.cc");
+
+  int messageSize = message.getEncodedSize();
+  message.encode(ndefBuf);
+  nfc.write(ndefBuf, messageSize));
+          </code></pre>
+        </section>
+
+				<!-- read -->
+        <section>
+          <h2>Receive Message from Peer</h2>
+        	<pre><code>
+  int size = nfc.read(ndefBuf, sizeof(ndefBuf));
+  if (size > 0) {
+    NdefMessage msg = NdefMessage(ndefBuf, size);
+    msg.print();
+  } else {
+    Serial.println("Error reading message");
+  }
+        	</code></pre>
+        </section>
+        
+        <section>
+            <h1>DEMO</h1>
+            <!--
+            TODO - link to code<p>
+            TODO - screenshots
+            -->
+ 				</section>
+        
+
+                <section>
+                  <h2>Android Apps for NFC</h2>
+                  <p>
+                    Read Tags
+                    <a href="https://github.com/don/phonegap-nfc-reader">PhoneGap NFC Reader</a>
+                  </p>
+                  <p>
+                    Format and Unformat Mifare Classic Tags
+                    <a href="https://play.google.com/store/apps/details?id=com.nxp.nfc.tagwriter">NXP Tag Writer</a>
+                  </p>
+                  <p>
+                    View Raw Data on Tag
+                    <a href="https://play.google.com/store/apps/details?id=at.mroland.android.apps.nfctaginfo">NFC Tag Info</a>
+                  </p>
+                </section>
+
+                <section>
+                  <h2>Technical Specs</h2>
+                  <a href="http://www.nfc-forum.org/specs">http://www.nfc-forum.org/specs</a>
+                </section>
+
+        		<section>
+        		    <a href="http://shop.oreilly.com/product/0636920021193.do"><img src="images/BeginningNFC.jpg"/></a>
+        		</section>
+
+                <section>
+                    <h2>Thank You</h2>
+                    <p>Don Coleman</p>
+                    <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+                    <p>
+                        <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+                    </p>
+                    <p>
+                    <a href="http://don.github.io/slides/">
+                        http://don.github.io/slides/</a>
+                    </p>
+                    <!-- should be using css -->
+                    <p>&nbsp;</p>
+                    <p>&nbsp;</p>
+                    <p>
+                        <small>
+                    <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Arduino NFC</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2014-09-21-makerfaire-nfc" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2014-09-21-makerfaire-nfc" rel="dct:source">https://github.com/don/.../2014-09-21-makerfaire-nfc</a>.
+                        </small>
+                    </p>
+                </section>
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+			  width: 1000,
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Parallax scrolling
+				// parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+				// parallaxBackgroundSize: '2100px 900px',
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+		<script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-1093669-12', 'don.github.io');
+          ga('send', 'pageview');
+
+        </script>
+
+	</body>
+</html>
