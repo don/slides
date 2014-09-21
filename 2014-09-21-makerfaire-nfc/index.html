@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 	<head>
@@ -189,7 +189,7 @@
    NdefMessage message = tag.getNdefMessage();
    NdefRecord record = message[0];
 
-   if (record.getTnf() == TNF_MIME_MEDIA &&
+   if (record.getTnf() == TNF_MIME_MEDIA &amp;&amp;
        record.getType() == "text/led") {
      String payload = getPayloadAsString(record);
      color = parseColor(payload);
@@ -200,10 +200,7 @@
 
         <section>
             <h1>DEMO</h1>
-            <!--
-            TODO fix URL
-            <a href="https://gist.github.com/don/6665981">https://gist.github.com/don/6665981</a>
-            -->
+            <p><a href="https://gist.github.com/don/6665981">https://gist.github.com/don/6665981</a></p>
  				</section>
         
         <section>
@@ -255,6 +252,7 @@
         
         <section>
             <h1>DEMO</h1>
+			<p><a href="https://gist.github.com/don/7f77f54cc7e9d1140936">https://gist.github.com/don/7f77f54cc7e9d1140936</a></p>
             <!--
             TODO - link to code<p>
             TODO - screenshots
@@ -274,14 +272,31 @@
                   </p>
                   <p>
                     View Raw Data on Tag
+                    <a href="https://play.google.com/store/apps/details?id=com.nxp.taginfolite">NFC TagInfo by NXP</a>
+                  </p>
+                  <p>
+                    View Raw Data on Tag
                     <a href="https://play.google.com/store/apps/details?id=at.mroland.android.apps.nfctaginfo">NFC Tag Info</a>
                   </p>
                 </section>
 
-                <section>
-                  <h2>Technical Specs</h2>
-                  <a href="http://www.nfc-forum.org/specs">http://www.nfc-forum.org/specs</a>
-                </section>
+				<section>
+				    <ul style="list-style-type: none;">
+				        <li><a href="http://arduino.cc">Arduino</a></li>
+					    <li><a href="http://www.adafruit.com/products/789">Adafruit NFC Shield</a></li>
+					    <li><a href="http://www.seeedstudio.com/depot/nfc-shield-v20-p-1370.html">Seeed Studio NFC Shield</a></li>
+					    <li><a href="https://gist.github.com/don/6665981">NFC NeoPixel Tag Sketch</a></li>
+					    <li><a href="https://gist.github.com/don/7f77f54cc7e9d1140936">NFC NeoPixel P2P Sketch</a></li>
+					    <li><a href="https://github.com/chariotsolutions/phonegap-nfc">PhoneGap NFC</a></li>
+					    <li><a href="https://github.com/don/phonegap-nfc-reader">PhoneGap NFC Reader</a></li>
+					    <li><a href="http://www.adafruit.com/products/1463">Adafruit NeoPixel Ring</a></li>
+				        <li><a href="http://nfc-forum.org/our-work/specifications-and-application-documents/specifications/nfc-forum-technical-specifications/">NFC Forum Technical Specs</a></li>
+				        <li><a href="https://github.com/hakimel/reveal.js">Reveal.js (for slides)</a> </li>
+				    </ul>
+				   <br/>
+				</section>
+
+
 
         		<section>
         		    <a href="http://shop.oreilly.com/product/0636920021193.do"><img src="images/BeginningNFC.jpg"/></a>
