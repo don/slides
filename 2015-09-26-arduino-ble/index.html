@@ -149,6 +149,7 @@
 
             <section>
               <h2>16 bit UUIDs</h2>
+              <p>Can be expanded to 128 bit UUIDs</p>              
               <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
               <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
               <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
@@ -223,8 +224,6 @@ BLEDescriptor dimmerDescriptor
   Serial.begin(9600);
   pinMode(LED_PIN, OUTPUT);
 
-  blePeripheral.setAdvertisedServiceUuid(
-                                ledService.uuid());
   blePeripheral.addAttribute(ledService);
   blePeripheral.addAttribute(switchCharacteristic);
   blePeripheral.addAttribute(switchDescriptor);
@@ -245,10 +244,10 @@ BLEDescriptor dimmerDescriptor
   dimmerCharacteristic.setEventHandler(
               BLEWritten, dimmerCharacteristicWritten);
 
+  blePeripheral.setAdvertisedServiceUuid(
+                                    ledService.uuid());
   blePeripheral.setLocalName("LED");
   blePeripheral.begin();
-
-  Serial.println(F("Bluetooth LED"));
 }	 	 
 	</code></pre>
 </section>
@@ -317,7 +316,7 @@ BLEDescriptor dimmerDescriptor
             </section>
                         
             <section>
-              <h2>Thermometer Service - bbb0</h2>
+              <h2>Thermometer Service - BBB0</h2>
               <img src="images/thermometer_service.png" />
             </section>
             
@@ -330,6 +329,18 @@ BLEDescriptor dimmerDescriptor
 
             <section>
               <img width="50%" src="images/Thermometer_bb.png"/>
+            </section>
+            
+            <section>
+              <h3>Service, Characteristic, &amp; Descriptor</h3>
+            	<pre style="font-size:0.8em"><code>
+  BLEService thermometerService = BLEService("BBB0");
+  BLEFloatCharacteristic temperatureCharacteristic 
+      = BLEFloatCharacteristic("BBB1",
+                               BLERead | BLENotify);
+  BLEDescriptor temperatureDescriptor 
+      = BLEDescriptor("2901", "degrees C");
+            	</code></pre>
             </section>
 
             <section>
@@ -417,10 +428,10 @@ BLEDescriptor dimmerDescriptor
                 </p>
                 <p>
                 Slides <a href="http://don.github.io/slides/">
-                    http://don.github.io/slides/</a>
+                    don.github.io/slides/</a>
                 </p>
-                Code <a href="http://github.com/don/?????">
-                    http://github.com/don/????</a>
+                Code <a href="http://github.com/don/mfny2015-arduino-ble">
+                    github.com/don/mfny2015-arduino-ble</a>
                 </p>
 
                 <!-- should be using css -->
