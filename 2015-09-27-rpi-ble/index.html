@@ -85,17 +85,24 @@
 -->
 
             <section>
-              <img src="images/iOS-RPi.jpg">
-            </section>
-
-            <section>
               <img src="images/RPi-Arduino.jpg">
             </section>
 
             <section>
-              <h2>Bluetooth Classic</h2>
-			<p>vs</p>
-				<h2>Bluetooth Low Energy</h2>
+              <img src="images/iOS-RPi.jpg">
+            </section>
+
+<!--
+            <section>
+              <img src="images/RPi-Arduino.jpg">
+            </section>
+-->
+            <section>
+                <img src="images/TxRx.jpg">
+            </section>
+
+            <section>
+                <img src="images/iOS-RPi-BLE.jpg">
             </section>
 
             <section>
@@ -133,22 +140,20 @@
               <img src="images/uuid.png" />
             </section>
 
-            <!-- TODO consider skipping -->
+            <!-- TODO consider skipping
             <section>
               <h2>16 bit UUIDs</h2>
+              <p>Can be expanded to 128 bit UUIDs</p>
               <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
               <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
               <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
             </section>
+            -->
 
             <section>
               <h2>Lightbulb Service - FF10</h2>
               <img src="images/lightbulb-service.png" />
             </section>
-
-            <section>
-                <img width="80%" src="images/robosmart.jpg" />
-            </section>            
 
             <section>
               <img src="images/RPi-led_bb.png"/>
@@ -162,9 +167,6 @@
 
             <section>
             	<pre><code>
-  $ sudo apt-get install bluetooth \ 
-      bluez-utils libbluetooth-dev \
-      libudev-dev
   $ cd path/to/project
   $ npm install bleno
   $ npm install onoff
@@ -202,7 +204,7 @@ util.inherits(SwitchCharc, Characteristic);
   <h3>Handle Read Requests</h3>
 	<pre><code>SwitchCharc.prototype.onReadRequest 
 	  = function(offset, callback) {
-  console.log("read request");
+
   var data = new Buffer(1);
   data[0] = led.readSync();
   callback(this.RESULT_SUCCESS, data);
@@ -215,7 +217,7 @@ util.inherits(SwitchCharc, Characteristic);
 	<pre><code>SwitchChar.prototype.onWriteRequest 
 	  = function(data, offset, 
 	    withoutResponse, callback) {
-  console.log(data.toString('hex'));
+
   led.writeSync(data[0]);
   callback(this.RESULT_SUCCESS);
 }
@@ -238,8 +240,7 @@ util.inherits(SwitchCharc, Characteristic);
 	<pre><code>bleno.on('stateChange', function(state) {
 
   if (state === 'poweredOn') {
-    bleno.startAdvertising(
-       'Light', [lightService.uuid]);
+    bleno.startAdvertising('LED', ['FF10']);
   } else {
     bleno.stopAdvertising();
   }
@@ -258,11 +259,6 @@ util.inherits(SwitchCharc, Characteristic);
 </section>
 
             <section>
-              <h2>Advertising</h2>
-              <img width="50%" src="images/advertise.svg" />
-            </section>
-
-            <section>
               <img src="images/lightblue-discover.png" />
             </section>
 
@@ -273,7 +269,8 @@ util.inherits(SwitchCharc, Characteristic);
             <section>
               <h2>Demo</h2>
             </section>
-            
+
+<!--            
             <section>
               <img width="100%" src="images/ble_advertisement.png" />
             </section>
@@ -281,9 +278,9 @@ util.inherits(SwitchCharc, Characteristic);
             <section>
               <img width="100%" src="images/ble_connection.png" />
             </section>
-            
+-->            
             <section>
-              <h2>Thermometer Service - bbb0</h2>
+              <h2>Thermometer Service - BBB0</h2>
               <img src="images/thermometer_service.png" />
             </section>
             
@@ -326,11 +323,10 @@ util.inherits(SwitchCharc, Characteristic);
             </section>
             
             <section>
-              <pre><code>  $ sudo apt-get install bluetooth \ 
-      bluez-utils libbluetooth-dev \
-      libudev-dev
+              <pre><code>
   $ cd path/to/project
-  $ npm install noble</code></pre>
+  $ npm install noble
+             </code></pre>
               Be sure to check out the <a href="https://github.com/sandeepmistry/noble/wiki/Getting-started">Getting Started</a> guide.
             </section>
 
@@ -348,10 +344,13 @@ util.inherits(SwitchCharc, Characteristic);
             <section>
               <img src="images/RPi-button_bb.png"/>
             </section>
-              
-                        
+
+            <section>
+                <img width="80%" src="images/robosmart.jpg" />
+            </section>            
+                                 
 <section>
-  <h3>ble-button.js</h3>
+  <h3>button.js</h3>
   <pre><code>var Gpio = require('onoff').Gpio,
     button = new Gpio(23, 'in', 'both');
 
@@ -483,10 +482,10 @@ var noble = require('noble');
                 </p>
                 <p>
                 Slides <a href="http://don.github.io/slides/">
-                    http://don.github.io/slides/</a>
+                    don.github.io/slides/</a>
                 </p>
-                Code <a href="http://github.com/don/?????">
-                    http://github.com/don/????</a>
+                Code <a href="https://github.com/don/mfny2015-rpi-ble">
+                    github.com/don/mfny2015-rpi-ble</a>
                 </p>
 
                 <!-- should be using css -->
