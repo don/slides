@@ -38,7 +38,7 @@
         <style>
 
          .reveal pre {
-            font-size: 1em;
+            font-size: 0.65em;
             width: 100%;
           }
 
@@ -156,7 +156,7 @@
             <section>
               <h2>Advertising</h2>
               <ul>
-                <li>5425B44A-024A-4D39-88D2-D9F016199B29</li>
+                <li>78:C5:E5:9A:88:EE</li>
                 <li>Services: [ 0x180A, 0xFF10, 0XFF20, …] </li>
                 <li>Manufacturer Data: <00007465 6d70></li>
                 <li>Connectable: True</li>
@@ -284,6 +284,17 @@
             </section>
 
             <section>
+                <img width="40%" src="images/nrf-scan.png" />
+            </section>
+            <section>
+                <img width="40%" src="images/nrf-connected.png" />
+            </section>
+            <section>
+                <img width="40%" src="images/nrf-ff10.png" />
+            </section>
+
+<!--
+            <section>
                 <img width="40%" src="images/lightblue-peripherals.png" />
             </section>
             <section>
@@ -292,92 +303,255 @@
             <section>
                 <img width="40%" src="images/lightblue-characteristic.png" />
             </section>
-
+-->
             <section>
-                <h2>Core Bluetooth</h2>
-            </section>
-
-            <!-- https://gist.github.com/don/d1c727144c3dc6f5dd0e -->
-             <section>
-                 <h2>Central Manager</h2>
-                 <img src="images/c_01_central_manager.png"/>
+                <h2>Android Bluetooth</h2>
             </section>
 
             <section>
-                <h2>Central Manager Delegate</h2>
-                <img src="images/c_02_central_manager_delegate.png"/>
-           </section>
-
-            <section>
-                <h2>Scanning and Discovery</h2>
-                <img src="images/c_03_scanning_and_discovery.png"/>
-            </section>
-
-            <!-- note we're setting the delegate -->
-            <section>
-                <h2>Connecting</h2>
-                <img src="images/c_04_connecting.png"/>
+                <h2>Permissions</h2>
+                <ul>
+                    <li>android.permission.BLUETOOTH</li>
+                    <li>android.permission.BLUETOOTH_ADMIN</li>
+                </ul>
             </section>
 
             <section>
-                <h2>Discovered Services</h2>
-                <img src="images/c_07_did_discover_services.png"/>
+                <h2>Permissions (android-23)</h2>
+                <ul>
+                    <li>android.permission.BLUETOOTH</li>
+                    <li>android.permission.BLUETOOTH_ADMIN</li>
+                    <li>android.permission.ACCESS_COARSE_LOCATION</li>
+                    <li>android.permission.ACCESS_FINE_LOCATION</li>
+                </ul>
             </section>
 
             <section>
-                <h2>Discovered Characteristics</h2>
-                <img src="images/c_08_did_discover_characteristics.png"/>
+                Marshmallow needs to ask for permissions at runtime
+                <small>
+                    <a href="http://developer.android.com/training/permissions/requesting.html">http://developer.android.com/training/permissions/requesting.html</a>
+                </small>
             </section>
 
-            <section>
-                <h2>Read Characteristic</h2>
-                <img src="images/c_09_read_characteristic.png"/>
-            </section>
+<section>
+    <h3>Bluetooth Adapter</h3>
+    <pre><code>
+  BluetoothManager manager =
+       activity.getSystemService(Context.BLUETOOTH_SERVICE);
+  BluetoothAdapter adapter = manager.getAdapter();
+    </code></pre>
+</section>
 
-            <section>
-                <h2>Write Characteristic</h2>
-                <img src="images/c_10_write_characteristic.png"/>
-            </section>
+<section>
+    <h3>Scanning</h3>
+    <pre><code>
+  bluetoothAdapter.startLeScan(callback);
+    </code></pre>
+</section>
 
-            <!-- peripheral must support this, there is no callback -->
-            <section>
-                <h2>Write Without Response</h2>
-                <img src="images/c_11_write_without_response.png"/>
-            </section>
+<section>
+    <h3>Scanning (better)</h3>
+    <pre><code>
+  bluetoothAdapter.startLeScan(serviceUuids, callback);
+    </code></pre>
+</section>
 
-            <section>
-                <h2>Demo</h2>
-            </section>
+<section>
+    <h3>BluetoothAdapter.LeScanCallback</h3>
+    <pre><code>
+  public void onLeScan(BluetoothDevice device,
+                       int rssi,
+                       byte[] scanRecord) {
+    // do something
+  }
+    </code></pre>
+</section>
 
-            <section>
-              <h2>Thermometer Service - bbb0</h2>
-              <img src="images/thermometer_service.png" />
-            </section>
+<section>
+    Scanning 5.0, 21+
+</section>
 
-            <section>
-                <h2>Notification</h2>
-                <img src="images/c_12_notification.png" />
-            </section>
+<section>
+    <h3>ScanCallback</h3>
+<pre><code>
+  ScanCallback scanCallback = new ScanCallback() {
+    public void onScanResult(int callbackType, ScanResult result) {
+    }
 
-            <!-- do this when characteristics are discovered
-            discovery filtered services and characteristics so not checking here
-            subscribe for notifications
-            then read to get the initial value
-            -->
-            <section>
-                <h2>Notification</h2>
-                <img src="images/c_13_notification.png" />
-            </section>
+    public void onScanFailed(int errorCode) {
+    }
+  };
 
-            <!-- notification and read are handled in the same callback -->
-            <section>
-                <h2>Callback</h2>
-                <img src="images/c_14_notification_callback.png" />
-            </section>
+</code></pre>
+</section>
 
-            <section>
-                <img  width="40%" src="images/thermometer.png" />
-            </section>
+<section>
+    <h3>Scanning</h3>
+    <pre><code>
+  BluetoothLeScanner scanner = adapter.getBluetoothLeScanner();
+  List&lt;ScanFilter&gt; scanFilters = new ArrayList&lt;&gt;();
+  scanFilters.add(
+    new ScanFilter.Builder().setServiceUuid(
+      new ParcelUuid(BLEThermometer.SERVICE_UUID)).build()
+  );
+  ScanSettings scanSettings = new ScanSettings.Builder().build();
+  scanner.startScan(scanFilters, scanSettings, scanCallback);
+    </code></pre>
+</section>
+
+<section>
+    <h3>BluetoothGatt</h3>
+    <h3>BluetoothGattCallback</h3>
+</section>
+
+<!--
+connect
+    device.connectGatt(...)
+
+callback.onConnectionStateChange received STATE_CONNECTED
+    gatt.discoverServices()
+
+wait for callback.onServicesDiscovered to be called
+    get the characteristics and save to a member variable
+    read values
+    register for notifications
+-->
+
+<section>
+    <h3>Connection to Device</h3>
+    <pre><code>
+  device.connectGatt(context, autoConnect, bluetoothGattCallback);
+    </code></pre>
+</section>
+
+<section>
+    <h3>Connection State Change</h3>
+    <pre><code>
+  public void onConnectionStateChange(BluetoothGatt gatt,
+                            int status, int state) {
+
+    if (state == BluetoothGatt.STATE_CONNECTED) {
+      this.gatt = gatt;
+      gatt.discoverServices();
+    }
+  }
+    </code></pre>
+</section>
+
+<section>
+    <!-- don't access services or characteristics until this happens -->
+    <h3>Services Discovered</h3>
+    <pre><code>
+public void onServicesDiscovered(BluetoothGatt gatt, int status) {
+  BluetoothGattService service = gatt.getService(SERVICE_UUID);
+  switchCharacteristic = service.getCharacteristic(SWITCH_UUID);
+  brightnessCharacteristic = service.getCharacteristic(DIMMER_UUID);
+}
+    </code></pre>
+</section>
+
+<section>
+    <h3>Read Characteristic</h3>
+    <pre><code>
+    gatt.readCharacteristic(switchCharacteristic);
+    </code></pre>
+</section>
+
+<section>
+    <h3>Read Characteristic Callback</h3>
+    <pre><code>
+  public void onCharacteristicRead(gatt, characteristic, status) {
+    UUID uuid = characteristic.getUuid();
+
+    if (uuid.equals(SWITCH_UUID)) {
+      int switchState =
+        characteristic.getIntValue(FORMAT_UINT8, 0);
+
+       // update UI
+      }
+  }
+    </code></pre>
+</section>
+
+<section>
+    <h3>Write Characteristic</h3>
+    <pre><code>
+  byte data[] = { 0x01 };
+  characteristic.setValue(data);
+  gatt.writeCharacteristic(characteristic);
+    </code></pre>
+</section>
+
+<section>
+    <h3>Write Characteristic</h3>
+    <pre><code>
+  switchCharacteristic.setValue(1, FORMAT_UINT8, 0);
+  gatt.writeCharacteristic(switchCharacteristic);
+    </code></pre>
+</section>
+
+<section>
+    <h3>Write Characteristic Callback</h3>
+    <pre><code>
+  public void onCharacteristicWrite(BluetoothGatt gatt,
+      BluetoothGattCharacteristic characteristic, int status) {
+    Log.d(TAG, "Wrote " + characteristic);
+  }
+
+</code></pre>
+</section>
+
+<section>
+    <h2>Demo</h2>
+</section>
+
+<section>
+  <h2>Thermometer Service - bbb0</h2>
+  <img src="images/thermometer_service.png" />
+</section>
+
+<section>
+    <h3>Register for Notification</h3>
+    <pre><code>
+if (gatt.setCharacteristicNotification(characteristic, true)) {
+  // 0x2902 client characteristic configuration
+  UUID uuid = UUID.fromString("00002902-0000-1000-8000-00805F9B34FB");
+
+  BluetoothGattDescriptor descriptor =
+                characteristic.getDescriptor(uuid);
+  descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION);
+  gatt.writeDescriptor(descriptor);
+}
+    </code></pre>
+</section>
+
+<section>
+    <h3>On Characteristic Changed</h3>
+    <pre><code>
+  public void onCharacteristicChanged(BluetoothGatt gatt,
+               BluetoothGattCharacteristic characteristic) {
+
+    if (characteristic.getUuid().equals(TEMPERATURE_UUID)) {
+      float temperature = getFloat(characteristic, 0);
+      Log.d(TAG, String.valueOf(temperature));
+
+      float fahrenheit = 1.8f * temperature + 32;
+      Log.d(TAG, String.valueOf(fahrenheit));
+
+      // update the UI
+    }
+  }
+
+</code></pre>
+</section>
+
+<section>
+    <h2>Demo</h2>
+</section>
+
+<section>
+    The API is async but MUST BE CALLED SERIALLY
+</section>
 
             <section>
                 <img width="80%" src="images/beacons.jpg" />
@@ -387,52 +561,38 @@
                 <img width="80%" src="images/estimote.jpg" />
             </section>
 
+            <!-- broadcast only -->
             <section>
                 <h2>iBeacon</h2>
                 <ul>
-                    <li>UUID: ad5d9ece-9331-48c2-b597-2845aac4a8f0</li>
+                    <li>UUID: 12345678-aaaa-bbbb-cccc-123456789abc</li>
                     <li>Major: 0x01</li>
-                    <li>Minor: 0x0A</li>
+                    <li>Minor: 0x01</li>
                 </ul>
             </section>
 
             <section>
-                <h2>Core Location</h2>
-                <p>(not Core Bluetooth)</p>
+              <img width="40%" src="images/ibeacon-scan.png"/>
             </section>
 
             <section>
-                <h2>Region</h2>
-            </section>
-
-            <section>
-                <h2>Ranging</h2>
-            </section>
-
-            <section>
-                <h2>Ranging a beacon</h2>
+                <h2>Eddystone Beacon</h2>
                 <ul>
-                  <li>CLLocationManager</li>
-                  <li>CLLocationManagerDelegate</li>
-                  <li>CLBeacon</li>
-                  <li>CLBeaconRegion</li>
+                    <li>http://example.com</li>
                 </ul>
             </section>
 
             <section>
-                <img src="images/init.png" />
+              <img src="images/nrf-eddystone.png" width="40%"/>
             </section>
 
             <section>
-                <img src="images/region.png" />
+              <img src="images/physical-web.png" width="40%"/>
             </section>
 
             <section>
-                <img src="images/range.png" />
-            </section>
-
-            <section>
-                <img  width="40%" src="images/ibeacon-ios.png" />
+                Create test beacons with Node.js
+                <small><a href="https://github.com/don/node-eddystone-beacon">https://github.com/don/node-eddystone-beacon</a></small>
             </section>
 
             <!--
@@ -442,70 +602,159 @@
             </section>
             -->
 
-            <!-- broadcast only -->
-            <section>
-                <h2>Creating a Beacon</h2>
-                <ul>
-                  <li>CBPeripheralManager
-</li>
-                  <li>CBPeripheralManagerDelegate
-</li>
-                </ul>
-            </section>
-
-            <!-- create the beacon -->
-            <section>
-              <img src="images/b_01_create_beacon.png"/>
-            </section>
-            <!-- advertise the beacon -->
-            <section>
-              <img src="images/b_02_advertise_beacon_in_callback.png"/>
-            </section>
-
-            <section>
-              <img width="40%" src="images/ibeacon-scan.png"/>
-            </section>
-
             <section>
                 <h2>Creating Peripherals</h2>
-            </section>
-
-            <!-- see https://gist.github.com/don/f8eeab2e524228fb2ec2 for source -->
-            <section>
-                <h2>Peripheral Manager</h2>
-                <img src=images/p_01_peripheral_manager.png />
+                <p>Requires Lollipop (21) &amp; compatible hardware</p>
             </section>
 
             <section>
-                <h2>Peripheral Manager Delegate</h2>
-                <img src=images/p_02_peripheral_manager_delegate.png />
+                bluetoothAdapter.isMultipleAdvertisementSupported()
             </section>
 
             <section>
-                <h3>Characteristic &amp; Descriptor</h3>
-                <img src=images/p_04_switch_characteristic.png />
-            </section>
-            <section>
-                <h3>Characteristic &amp; Descriptor</h3>
-                <img src=images/p_05_dimmer_characteristic.png />
-            </section>
-            <section>
-                <h3>Service</h3>
-                <img src=images/p_06_service_and_advertise.png />
+                <h3>Create Service &amp; Characteristics</h3>
+<!-- TODO move to gist -->
+<pre><code>BluetoothGattService service =
+    new BluetoothGattService(SERVICE_UUID, SERVICE_TYPE_PRIMARY);
+
+BluetoothGattCharacteristic switchCharacteristic =
+  new BluetoothGattCharacteristic(
+    SWITCH_UUID,
+    PROPERTY_READ | PROPERTY_WRITE,
+    PERMISSION_READ | PERMISSION_WRITE);
+
+BluetoothGattCharacteristic dimmerCharacteristic =
+  new BluetoothGattCharacteristic(
+    DIMMER_UUID,
+    PROPERTY_READ | PROPERTY_WRITE,
+    PERMISSION_READ | PERMISSION_WRITE);
+
+service.addCharacteristic(switchCharacteristic);
+service.addCharacteristic(dimmerCharacteristic);
+</code></pre>
             </section>
 
             <section>
-                <h2>Write Request</h2>
-                <img src=images/p_07_write_request.png />
+                <h3>BluetoothGattServerCallback</h3>
+<pre><code>
+BluetoothGattServerCallback callback = new BluetoothGattServerCallback(){
+     @Override
+     public void onCharacteristicReadRequest(BluetoothDevice device, int requestId, int offset, BluetoothGattCharacteristic characteristic) {
+     }
+
+     @Override
+     public void onCharacteristicWriteRequest(BluetoothDevice device, int requestId, BluetoothGattCharacteristic characteristic, boolean preparedWrite, boolean responseNeeded, int offset, byte[] value) {
+     }
+ };
+</code></pre>
             </section>
+
             <section>
-                <h2>Read Request</h2>
-                <img src=images/p_08_read_request.png />
+                <h3>onCharacteristicReadRequest</h3>
+<pre><code>
+  if (SWITCH_UUID.equals(characteristic.getUuid())) {
+      gattServer.sendResponse(device,
+              requestId,
+              BluetoothGatt.GATT_SUCCESS,
+              0,
+              getSwitchValue());
+  }
+
+</code></pre>
             </section>
+
+            <section>
+                <h3>onCharacteristicWriteRequest</h3>
+<pre><code>
+  if (SWITCH_UUID.equals(characteristic.getUuid())) {
+      setSwitchValue(value);
+  } else if (DIMMER_UUID.equals(characteristic.getUuid())) {
+      setDimmerValue(value);
+  }
+
+  if (responseNeeded) {
+      gattServer.sendResponse(device,
+            requestId,
+            BluetoothGatt.GATT_SUCCESS,
+            0,
+            value);
+  }
+
+</code></pre>
+            </section>
+
+            <section>
+                <h3>Add Service</h3>
+<pre><code>
+  gattServer = bluetoothManager.openGattServer(
+                    context, bluetoothGattServerCallback);
+  gattServer.addService(service);
+
+</code></pre>
+            </section>
+
+<section>
+    <h3>Advertise Settings</h3>
+    <pre><code>
+private AdvertiseSettings getAdvertiseSettings() {
+  AdvertiseSettings.Builder builder = new AdvertiseSettings.Builder();
+  builder.setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_BALANCED);
+  builder.setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH);
+
+  return builder.build();
+}
+    </code></pre>
+</section>
+<section>
+    <h3>Advertise Data</h3>
+    <pre><code>
+  private AdvertiseData getAdvertisementData() {
+    AdvertiseData.Builder builder = new AdvertiseData.Builder();
+    builder.setIncludeDeviceName(true);
+    builder.addServiceUuid(new ParcelUuid(SERVICE_UUID));
+
+    return builder.build();
+  }
+    </code></pre>
+</section>
+
+        <section>
+            <h3>Advertise Service</h3>
+<pre><code>
+  BluetoothLeAdvertiser bluetoothLeAdvertiser =
+        bluetoothAdapter.getBluetoothLeAdvertiser();
+  AdvertiseData advertisementData = getAdvertisementData();
+  AdvertiseSettings advertiseSettings = getAdvertiseSettings();
+
+  bluetoothLeAdvertiser.startAdvertising(advertiseSettings,
+                                       advertisementData,
+                                       advertiseCallback);
+
+</code></pre>
+        </section>
+
+            <section>
+            <h3>Check &amp; enable Bluetooth</h3>
+<pre><code>
+  if (!bluetoothAdapter.isEnabled()) {
+    Intent intent =
+         new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+    this.startActivityForResult(intent, ENABLE_BLUETOOTH_REQUEST);
+    // process the result in onActivityResult
+  }
+
+</code></pre>
+</section>
 
             <section>
               <h2>Demo</h2>
             </section>
+
+            <section>
+ <img width="50%" src="images/cover.png"><br/>
+ <small><a href="http://www.amazon.com/gp/product/1457187094?ie=UTF8&camp=1789&creativeASIN=1457187094&linkCode=xm2&tag=dongit-20">pre-order on Amazon</a></small>
+</section>
+
 
             <!-- <section>
               <h2>Handing Subscriptions</h2>
@@ -522,15 +771,12 @@
                 Slides <a href="http://don.github.io/slides/">
                     http://don.github.io/slides/</a>
                 </p>
-                Code <a href="http://github.com/don/phillycocoa">
-                    http://github.com/don/phillycocoa</a>
-                </p>
 
                 <!-- should be using css -->
                 <p>&nbsp;</p>
                 <p>
                     <small>
-                <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Bluetooth Low Energy</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2015-07-09-phillycocoa" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2015-07-09-phillycocoa" rel="dct:source">https://github.com/don/.../2015-07-09-phillycocoa</a>.
+                <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Bluetooth Low Energy for Android</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2015-11-11-phillyandroid" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2015-11-11-phillyandroid" rel="dct:source">https://github.com/don/.../2015-11-11-phillyandroid</a>.
                     </small>
                 </p>
             </section>
