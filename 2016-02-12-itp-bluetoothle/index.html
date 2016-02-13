@@ -343,14 +343,14 @@
 
             <section>
                 <pre><code class="javascript">
-  var onNotification = function(buffer) {
+  onNotification: function(buffer) {
       var data = new Uint8Array(buffer);
       if (data[0] === 0) {
           message = 'Button is released.';
       } else {
           message = 'Button is pressed.';
       }
-  }
+  },
                 </code></pre>
             </section>
 
@@ -460,11 +460,30 @@ if (serviceData) {
             </section>
 
             <section>
+                <h2>JSHint</h2>
+                <pre><code>
+$ jshint www/js/index.js
+www/js/index.js: line 26, col 33, Expected
+ an identifier and instead saw '5'.
+
+1 error
+                </code></pre>
+            </section>
+
+            <section>
+                Read the console output
+                <img src="images/console.png"/>
+            </section>
+
+            <section>
                 <pre style="font-size:0.8em"><code class="javascript">
  window.onerror = function (e, fileName, lineNumber) {
-   alert(fileName,
+   console.log(fileName,
          'Line:', lineNumber,
          'Error:', e.message);
+   alert(fileName +
+         'Line:' + lineNumber,
+         'Error:' + e.message);
  };
                 </code></pre>
 
@@ -472,20 +491,22 @@ if (serviceData) {
 
             <section>
                 <img src="images/android-debug.png"/>
+                <small>chrome://inspect requires debug version of PhoneGap Developer App</small>
             </section>
 
             <section>
                 <img src="images/ios-debug.png"/>
+                <small>Safari debugging requires debug version of PhoneGap Developer App</small>
             </section>
 
             <section>
                 Creating Apps without PhoneGap Developer App
                 <pre style="font-size:0.9em"><code class="sh">
- $ cd arduino/led_v2
- $ cordova platform add ios
- $ cordova plugin add cordova-plugin-ble-central
- $ cordova plugin add cordova-plugin-dialogs
- $ cordova run ios --device
+ $ cd phonegap/led_v2
+ $ phonegap platform add ios
+ $ phonegap plugin add cordova-plugin-ble-central
+ $ phonegap plugin add cordova-plugin-dialogs
+ $ phonegap run ios --device
                 </code></pre>
             </section>
 
