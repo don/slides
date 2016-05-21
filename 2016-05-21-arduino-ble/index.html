@@ -79,12 +79,23 @@
             </section>
 
             <section>
+              <img width="55%" src="http://makebluetooth.com/images/BluetoothBook_Cover.png">
+            </section>
+
+            <!-- <section>
               <img src="images/bluetooth.png">
+            </section> -->
+
+            <section>
+              <img src="images/iOS-Arduino-Bluetooth.png">
             </section>
 
             <section>
-              <h2>Peripheral</h2>
-              <p>Provides services</p>
+              <img src="images/iOS-Arduino-TxRx.png">
+            </section>
+
+            <section>
+              <img src="images/iOS-Arduino-BLE.png">
             </section>
 
             <section>
@@ -96,6 +107,11 @@
             </section>
 
             <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="images/uuid.png" />
+            </section>
+
+            <section>
               <h2>16 bit UUIDs</h2>
               <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
               <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
@@ -104,7 +120,7 @@
 
             <section>
               <h2>Lightbulb Service - FF10</h2>
-              <img src="images/uuid.png" />
+              <img src="images/lightbulb-service.png" />
             </section>
 
             <section>
@@ -112,11 +128,9 @@
               <img width="50%" src="images/advertise.svg" />
             </section>
 
-<!--
             <section>
-              <h2>Scan and Discover Peripherals</h2>
+              <img src="images/lightblue-discover.png" />
             </section>
--->
 
             <section>
               <h2>Connect</h2>
@@ -133,27 +147,32 @@
               <img width="80%" src="images/write.svg">
             </section>
 
-            <section>
+            <!-- <section>
               <h2>Write Command</h2>
               <img width="80%" src="images/command.svg">
-            </section>
+            </section> -->
 
             <section>
               <h2>Notification</h2>
               <img width="80%" src="images/notification.svg">
             </section>
 
-            <section>
+            <!-- <section>
               <h2>Indication</h2>
               <img width="80%" src="images/indication.svg">
+            </section> -->
+
+            <section>
+              <h2>Peripheral</h2>
+              <p>Provides services</p>
             </section>
 
             <section>
-              <h2>Lightbulb Service - FF10</h2>
-              <img src="images/lightbulb-service.png" />
+              <h2>Central</h2>
+              <p>Uses services on a peripheral</p>
             </section>
 
-            <section>
+            <!-- <section>
               <h2>Central</h2>
               <ul>
                 <li>Discover advertising peripherals</li>
@@ -162,7 +181,7 @@
                 <li>Read and write characteristics</li>
                 <li>Subscribe to be notified of changes</li>
               </ul>
-            </section>
+            </section> -->
 
 <!--
             <section>
@@ -170,9 +189,9 @@
             </section>
 -->
 
-            <section>
+            <!-- <section>
               <img src="images/iOS-Arduino-Bluetooth.png">
-            </section>
+            </section> -->
 
 <!--
             <section>
@@ -226,16 +245,16 @@
             </section>
 
             <section>
+              <h3>Arduino 101</h3>
+              <img style=" -webkit-transform: rotate(-90deg);" src="images/Arduino101.jpg">
+            </section>
+
+            <section>
               <h3>Arduino 101 - CurieBLE</h3>
               <img width="80%" src="images/CurieBLE.png"><br/>
               <small>
                 <a href="https://www.arduino.cc/en/Reference/CurieBLE">https://www.arduino.cc/en/Reference/CurieBLE</a>
               </small>
-            </section>
-
-            <section>
-              <h3>Arduino 101</h3>
-              <img style=" -webkit-transform: rotate(-90deg);" src="images/Arduino101.jpg">
             </section>
 
 <!--
@@ -291,7 +310,7 @@ BLEPeripheral blePeripheral;
 // Can also override default pins for
 //  nRF8001 based boards:
 //
-//             blePeripheral(req, rdy, rst);
+// blePeripheral(req, rdy, rst);
   </code></pre>
 </section>
 
@@ -406,14 +425,15 @@ const int LED_PIN = 6;
 <img width="75%" src="images/arduino-ide.png">
 </section>
 
-
+<!--
             <section>
               <h2>Recommended Tools</h2>
                 <ul>
                   <li>LightBlue (iOS and OS X)</li>
                   <li>nRF Master Control panel (Android)</li>
                 </ul>
-            </section>
+            </section> -->
+
 <!--
             <section>
               <h2>Advertising</h2>
@@ -426,12 +446,14 @@ const int LED_PIN = 6;
 -->
 
             <section>
-              <img src="images/lightblue.png" />
-            </section>
+                <section>
+                    <h2>Demo</h2>
+                    <!-- Lightblue &amp; iPhone App -->
+                </section>
 
-            <section>
-              <h2>Demo</h2>
-              <!-- Lightblue &amp; iPhone App -->
+                <section>
+                  <img src="images/lightblue.png" />
+                </section>
             </section>
 
             <section>
@@ -440,6 +462,18 @@ const int LED_PIN = 6;
             </section>
 
             <section>
+              <img width="70%" src="images/tmp36.jpg"/><br/>
+              <small>
+              <a href="https://www.adafruit.com/products/165">Analog Temperature Sensor TMP36</a><br/>
+              </small>
+            </section>
+
+            <section>
+              <img width="50%" src="images/Thermometer_bb.png"/>
+            </section>
+
+
+            <!-- <section>
               <img width="70%" src="images/bmi160.png"/><br/>
               <small>
               The Intel Curie module has a built-in Bosch BMI160 motion and temperature sensor
@@ -459,7 +493,7 @@ const int LED_PIN = 6;
               <pre><code>
 #include &lt;CurieIMU.h&gt;
               </code></pre>
-            </section>
+            </section> -->
 
             <section>
               <h3>Service, Characteristic, &amp; Descriptor</h3>
@@ -502,7 +536,23 @@ BLEDescriptor temperatureDescriptor("2901",
 </code></pre>
             </section>
 
-            <!-- probably skip -->
+            <section>
+                <h3>Calculate Temperature</h3>
+                <pre style="font-size:0.8em"><code>float calculateTemperature()
+{
+  // read the sensor value
+  int sensorValue = analogRead(TEMPERATURE_PIN);
+
+  float voltage = sensorValue * 5.0;
+  voltage /= 1024.0;
+  // 100 degrees per volt with 0.5 volt offset
+  float temperature = (voltage - 0.5) * 100;
+
+  return temperature;
+}</code></pre>
+            </section>
+
+<!-- Curie Version
             <section>
                 <h3>Calculate Temperature</h3>
                 <pre style="font-size:0.8em"><code>float calculateTemperature()
@@ -515,15 +565,17 @@ BLEDescriptor temperatureDescriptor("2901",
 
   return temperature;
 }</code></pre>
-            </section>
+            </section> -->
 
             <section>
-              <h2>Demo</h2>
-              <!-- Temperature App -->
-            </section>
+                <section>
+                  <h2>Demo</h2>
+                  <!-- Temperature App -->
+                </section>
 
-            <section>
-                <img width="30%" src="images/thermometer.png" />
+                <section>
+                    <img width="30%" src="images/BLE_Thermometer_framed.png" />
+                </section>
             </section>
 
             <section>
@@ -540,26 +592,20 @@ BLEDescriptor temperatureDescriptor("2901",
             </section>
 
             <section>
-              <img width="50%" src="http://makebluetooth.com/images/BluetoothBook_Cover.png"><br/>
-              <small><a href="http://makebluetooth.com">makebluetooth.com</a></small>
-            </section>
-
-<!--
-            <section>
-              <img width="80%" src="images/ITP-Bluetooth-LE-docathon.png"><br/>
-              <small>
-                <a href="https://github.com/tigoe/BLEDocs/wiki">https://github.com/tigoe/BLEDocs/wiki</a>
-              </small>
-            </section>
--->
-
-            <section>
               <section>
                 <img src="images/lamp-07-colors.jpg" />
               </section>
+              <!-- <section>
+                <img src="images/arduino-bluetooth.jpg" />
+              </section> -->
               <section>
                 <img width="70%" src="images/ios-neopixel.png" />
               </section>
+            </section>
+
+            <section>
+              <img width="50%" src="http://makebluetooth.com/images/BluetoothBook_Cover.png"><br/>
+              <small><a href="http://makebluetooth.com">makebluetooth.com</a></small>
             </section>
 
             <section>
@@ -577,7 +623,11 @@ BLEDescriptor temperatureDescriptor("2901",
                 </p>
                 <p>
                 Slides <a href="http://don.github.io/slides/2016-05-21-arduino-ble">
-                    don.github.io/slides/</a>
+                    don.github.io/slides</a>
+                </p>
+                <p>
+                Code <a href="https://github.com/don/mfba2016-arduino-ble">
+                    github.com/don/mfba2016-arduino-ble</a>
                 </p>
 
                 <!-- should be using css -->
