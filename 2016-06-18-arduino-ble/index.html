@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Don Coleman, Sandeep Mistry - Creating Bluetooth Low Energy Peripherals with Arduino - Maker Faire Bay Area 2016</title>
+
+        <meta name="description" content="Creating Bluetooth Low Energy Peripherals with Arduino">
+        <meta name="author" content="Don Coleman, Sandeep Mistry">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <!-- <link rel="stylesheet" href="css/theme/black.css" id="theme"> -->
+        <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <!-- hack the style a bit -->
+        <style>
+
+         .reveal pre {
+            font-size: 1em;
+            width: 100%;
+          }
+
+          .reveal h1,
+          .reveal h2,
+          .reveal h3,
+          .reveal h4,
+          .reveal h5,
+          .reveal h6 {
+            text-transform: none;
+          }
+
+          .reveal section img {
+              border: none;
+              box-shadow:0 0 0px;
+          }
+
+          .reveal ul {
+            list-style-type: none
+          }
+
+      </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+          <div class="slides">
+
+            <section>
+              <h2>Creating Bluetooth LE</h2>
+              <h2>Peripherals with Arduino</h2>
+              <p>Maker Faire Bay Area - May 21/22, 2016</p>
+              <p>Don Coleman - Chariot Solutions - <a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+              <p>Sandeep Mistry - Arduino - <a href="http://twitter.com/sandeepmistry">@sandeepmistry</a></p>
+            </section>
+
+            <section>
+              <img width="55%" src="http://makebluetooth.com/images/BluetoothBook_Cover.png">
+            </section>
+
+            <!-- <section>
+              <img src="images/bluetooth.png">
+            </section> -->
+
+            <section>
+              <img src="images/iOS-Arduino-Bluetooth.png">
+            </section>
+
+            <section>
+              <img src="images/iOS-Arduino-TxRx.png">
+            </section>
+
+            <section>
+              <img src="images/iOS-Arduino-BLE.png">
+            </section>
+
+            <section>
+              <h2>Lightbulb Service</h2>
+                <ul>
+                  <li>Light Switch</li>
+                  <li>Dimmer Setting</li>
+                </ul>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="images/uuid.png" />
+            </section>
+
+            <section>
+              <h2>16 bit UUIDs</h2>
+              <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="images/lightbulb-service.png" />
+            </section>
+
+            <section>
+              <h2>Advertising</h2>
+              <img width="50%" src="images/advertise.svg" />
+            </section>
+
+            <section>
+              <img src="images/lightblue-discover.png" />
+            </section>
+
+            <section>
+              <h2>Connect</h2>
+              <img width="80%" src="images/connect.svg" />
+            </section>
+
+           <section>
+              <h2>Read Value</h2>
+              <img width="80%" src="images/read.svg">
+            </section>
+
+            <section>
+              <h2>Write Value</h2>
+              <img width="80%" src="images/write.svg">
+            </section>
+
+            <!-- <section>
+              <h2>Write Command</h2>
+              <img width="80%" src="images/command.svg">
+            </section> -->
+
+            <section>
+              <h2>Notification</h2>
+              <img width="80%" src="images/notification.svg">
+            </section>
+
+            <!-- <section>
+              <h2>Indication</h2>
+              <img width="80%" src="images/indication.svg">
+            </section> -->
+
+            <section>
+              <h2>Peripheral</h2>
+              <p>Provides services</p>
+            </section>
+
+            <section>
+              <h2>Central</h2>
+              <p>Uses services on a peripheral</p>
+            </section>
+
+            <!-- <section>
+              <h2>Central</h2>
+              <ul>
+                <li>Discover advertising peripherals</li>
+                <li>Connect using MAC Address or UUID</li>
+                <li>Explore the services and characteristics</li>
+                <li>Read and write characteristics</li>
+                <li>Subscribe to be notified of changes</li>
+              </ul>
+            </section> -->
+
+<!--
+            <section>
+              <img src="images/iOS-Arduino.png">
+            </section>
+-->
+
+            <!-- <section>
+              <img src="images/iOS-Arduino-Bluetooth.png">
+            </section> -->
+
+<!--
+            <section>
+              <img src="images/iOS-Arduino-TxRx.png">
+            </section>
+
+            <section>
+              <img src="images/iOS-Arduino-BLE.png">
+            </section>
+-->
+
+            <section>
+              <h3>Arduino BLE Peripheral</h3>
+              <img width="80%" src="images/arduino-bleperipheral-github.png"><br/>
+              <small>
+                <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral">https://github.com/sandeepmistry/arduino-BLEPeripheral</a>
+              </small>
+            </section>
+
+<!--
+            <section>
+              <img width="80%" src="images/Adafruit-nRF8001.jpg"><br/>
+              <a href="https://www.adafruit.com/products/1697">Adafruit Bluefruit LE nRF8001 Breakout</a>
+            </section>
+
+            <section>
+              <img src="images/RedBearLabBLEShield.jpg"><br/>
+              <a href="http://www.makershed.com/products/bluetooth-low-energy-ble-shield-for-arduino-2-0">RedBearLab BLE Shield 2.1</a>
+            </section>
+
+            <section>
+              <img width="75%" src="images/RedBearLab.jpg"><br/>
+              <a href="http://redbearlab.com">Other RedBearLab boards</a>
+            </section>
+
+            <section>
+              <h2>Compatible Hardware</h2>
+              <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral#compatible-hardware">Compatible Hardware List</a>
+            </section>
+-->
+
+            <section>
+              <h2><a href="https://github.com/sandeepmistry/arduino-BLEPeripheral#compatible-hardware">Compatible Hardware List</a></h2>
+
+              <img width="70%" src="images/RBL-BLE.jpg">
+            </section>
+
+
+            <section>
+              <img src="images/arduino-library-manager.png">
+            </section>
+
+            <section>
+              <h3>Arduino 101</h3>
+              <img style=" -webkit-transform: rotate(-90deg);" src="images/Arduino101.jpg">
+            </section>
+
+            <section>
+              <h3>Arduino 101 - CurieBLE</h3>
+              <img width="80%" src="images/CurieBLE.png"><br/>
+              <small>
+                <a href="https://www.arduino.cc/en/Reference/CurieBLE">https://www.arduino.cc/en/Reference/CurieBLE</a>
+              </small>
+            </section>
+
+<!--
+            <section>
+              <h2>Lightbulb Service</h2>
+                <ul>
+                  <li>Light Switch</li>
+                  <li>Dimmer Setting</li>
+                </ul>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="images/uuid.png" />
+            </section>
+
+            <section>
+              <h2>16 bit UUIDs</h2>
+              <p>Can be expanded to 128 bit UUIDs</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="images/lightbulb-service.png" />
+            </section>
+-->
+            <section>
+              <img width="50%" src="images/LED_bb.png"/>
+            </section>
+
+<section>
+  <h3>LED.ino (BLEPeripheral library)</h3>
+  <pre><code>
+#include &lt;BLEPeripheral.h&gt;
+  </code></pre>
+</section>
+
+<section>
+  <h3>LED.ino (Arduino 101)</h3>
+  <pre><code>
+#include &lt;CurieBLE.h&gt;
+  </code></pre>
+</section>
+
+<section>
+  <h3>Create BLE Peripheral</h3>
+  <pre><code>
+BLEPeripheral blePeripheral;
+
+// Can also override default pins for
+//  nRF8001 based boards:
+//
+// blePeripheral(req, rdy, rst);
+  </code></pre>
+</section>
+
+<section>
+  <h3>Create Service</h3>
+  <pre><code>
+BLEService ledService("FF10");
+  </code></pre>
+</section>
+
+<section>
+  <h3>Characteristics &amp; Descriptors</h3>
+  <pre style="font-size:0.8em"><code>
+BLECharCharacteristic
+    switchCharacteristic("FF11", BLERead | BLEWrite);
+
+BLEDescriptor switchDescriptor("2901", "Switch");
+  </code></pre>
+</section>
+
+<section>
+  <h3>Characteristics &amp; Descriptors</h3>
+  <pre style="font-size:0.8em"><code>
+BLEUnsignedCharCharacteristic
+    dimmerCharacteristic("FF12", BLERead | BLEWrite);
+
+BLEDescriptor dimmerDescriptor("2901", "Dimmer");
+  </code></pre>
+</section>
+
+<section>
+  <h3>LED pin</h3>
+  <pre style="font-size:0.8em"><code>
+const int LED_PIN = 6;
+  </code></pre>
+</section>
+
+<section>
+  <h3>Setup</h3>
+  <pre style="font-size:0.8em"><code>void setup() {
+  Serial.begin(9600);
+  pinMode(LED_PIN, OUTPUT);
+
+  blePeripheral.addAttribute(ledService);
+  blePeripheral.addAttribute(switchCharacteristic);
+  blePeripheral.addAttribute(switchDescriptor);
+  blePeripheral.addAttribute(dimmerCharacteristic);
+  blePeripheral.addAttribute(dimmerDescriptor);
+
+  // ...
+}
+  </code></pre>
+</section>
+
+<section>
+  <h3>Setup</h3>
+  <pre style="font-size:0.8em"><code>void setup() {
+  // ...
+  switchCharacteristic.setEventHandler(
+              BLEWritten, switchCharacteristicWritten);
+  dimmerCharacteristic.setEventHandler(
+              BLEWritten, dimmerCharacteristicWritten);
+
+  blePeripheral.setAdvertisedServiceUuid(
+                                    ledService.uuid());
+  blePeripheral.setLocalName("LED");
+  blePeripheral.begin();
+}
+	</code></pre>
+</section>
+
+<section>
+  <h3>Loop</h3>
+  <pre><code>
+  void loop() {
+    blePeripheral.poll();
+  }
+  </code></pre>
+</section>
+
+<section>
+  <h3>Switch Characteristic Written</h3>
+  <pre style="font-size:0.8em"><code>void switchCharacteristicWritten(
+    BLECentral& central,
+    BLECharacteristic& characteristic) {
+
+  if (switchCharacteristic.value()) {
+    Serial.println(F("LED on"));
+    digitalWrite(LED_PIN, HIGH);
+  } else {
+    Serial.println(F("LED off"));
+    digitalWrite(LED_PIN, LOW);
+  }
+}
+  </code></pre>
+</section>
+
+<section>
+  <h3>Dimmer Characteristic Written</h3>
+  <pre style="font-size:0.8em"><code>void dimmerCharacteristicWritten(
+    BLECentral& central,
+    BLECharacteristic& characteristic) {
+  Serial.print(F("Dimmer set to: "));
+  Serial.println(dimmerCharacteristic.value());
+
+  analogWrite(LED_PIN, dimmerCharacteristic.value());
+}
+  </code></pre>
+</section>
+
+<section>
+<img width="75%" src="images/arduino-ide.png">
+</section>
+
+<!--
+            <section>
+              <h2>Recommended Tools</h2>
+                <ul>
+                  <li>LightBlue (iOS and OS X)</li>
+                  <li>nRF Master Control panel (Android)</li>
+                </ul>
+            </section> -->
+
+<!--
+            <section>
+              <h2>Advertising</h2>
+              <img width="50%" src="images/advertise.svg" />
+            </section>
+
+            <section>
+              <img src="images/lightblue-discover.png" />
+            </section>
+-->
+
+            <section>
+                <section>
+                    <h2>Demo</h2>
+                    <!-- Lightblue &amp; iPhone App -->
+                </section>
+
+                <section>
+                  <img src="images/lightblue.png" />
+                </section>
+            </section>
+
+            <section>
+              <h2>Thermometer Service - BBB0</h2>
+              <img src="images/thermometer_service.png" />
+            </section>
+
+            <section>
+              <img width="70%" src="images/tmp36.jpg"/><br/>
+              <small>
+              <a href="https://www.adafruit.com/products/165">Analog Temperature Sensor TMP36</a><br/>
+              </small>
+            </section>
+
+            <section>
+              <img width="50%" src="images/Thermometer_bb.png"/>
+            </section>
+
+
+            <!-- <section>
+              <img width="70%" src="images/bmi160.png"/><br/>
+              <small>
+              The Intel Curie module has a built-in Bosch BMI160 motion and temperature sensor
+              </small>
+            </section>
+
+            <section>
+              <h3>Arduino 101 - CurieIMU</h3>
+              <img width="80%" src="images/CurieIMU.png"><br/>
+              <small>
+                <a href="https://www.arduino.cc/en/Reference/CurieIMU">https://www.arduino.cc/en/Reference/CurieIMU</a>
+              </small>
+            </section>
+
+            <section>
+              <h3>Temperature.ino</h3>
+              <pre><code>
+#include &lt;CurieIMU.h&gt;
+              </code></pre>
+            </section> -->
+
+            <section>
+              <h3>Service, Characteristic, &amp; Descriptor</h3>
+              <pre style="font-size:0.8em"><code>
+BLEService thermometerService("BBB0");
+
+BLEFloatCharacteristic
+     temperatureCharacteristic("BBB1",
+                               BLERead | BLENotify);
+
+BLEDescriptor temperatureDescriptor("2901",
+                                    "degrees C");
+              </code></pre>
+            </section>
+
+            <section>
+                <h3>Loop</h3>
+                <pre><code>void loop()
+{
+  blePeripheral.poll();
+
+  if(millis() - previousMillis > interval) {
+    pollTemperatureSensor();
+    previousMillis = millis();
+  }
+}</code></pre>
+            </section>
+
+            <section>
+                <h3>Poll Temperature Sensor</h3>
+                <pre><code>void pollTemperatureSensor()
+{
+  float temp = calculateTemperature();
+
+  if (tempCharac.value() != temp) {
+    tempCharac.setValue(temp);
+    Serial.println(temp);
+  }
+}
+</code></pre>
+            </section>
+
+            <section>
+                <h3>Calculate Temperature</h3>
+                <pre style="font-size:0.8em"><code>float calculateTemperature()
+{
+  // read the sensor value
+  int sensorValue = analogRead(TEMPERATURE_PIN);
+
+  float voltage = sensorValue * 5.0;
+  voltage /= 1024.0;
+  // 100 degrees per volt with 0.5 volt offset
+  float temperature = (voltage - 0.5) * 100;
+
+  return temperature;
+}</code></pre>
+            </section>
+
+<!-- Curie Version
+            <section>
+                <h3>Calculate Temperature</h3>
+                <pre style="font-size:0.8em"><code>float calculateTemperature()
+{
+  // read the raw sensor value
+  int sensorValue = CurieIMU.readTemperature();
+
+  // convert raw value to Celcius
+  float temperature = (sensorValue / 32767.0) + 23;
+
+  return temperature;
+}</code></pre>
+            </section> -->
+
+            <section>
+                <section>
+                  <h2>Demo</h2>
+                  <!-- Temperature App -->
+                </section>
+
+                <section>
+                    <img width="30%" src="images/BLE_Thermometer_framed.png" />
+                </section>
+            </section>
+
+            <section>
+              <h2>BLE Peripheral can also</h2>
+              <ul>
+                <li>Create iBeacons on nRF51822 and Arduino 101</li>
+                <li>Create Eddystone Beacons *</li>
+                <li>Create HID devices (mouse, keyboard) *</li>
+              </ul>
+
+              <br/>
+              <br/>
+              <h4>* Not available in CurieBLE yet</h4>
+            </section>
+
+            <section>
+              <section>
+                <img src="images/lamp-07-colors.jpg" />
+              </section>
+              <!-- <section>
+                <img src="images/arduino-bluetooth.jpg" />
+              </section> -->
+              <section>
+                <img width="70%" src="images/ios-neopixel.png" />
+              </section>
+            </section>
+
+            <section>
+              <img width="50%" src="http://makebluetooth.com/images/BluetoothBook_Cover.png"><br/>
+              <small><a href="http://makebluetooth.com">makebluetooth.com</a></small>
+            </section>
+
+            <section>
+                <h2>Thank You</h2>
+                <p>
+                  Don Coleman -
+                  <a href="http://twitter.com/doncoleman">@doncoleman</a>
+                  <br/>
+                  <a href="mailto:&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;">&#100;&#111;&#110;&#0064;&#99;&#104;&#97;&#114;&#105;&#111;&#116;&#115;&#111;&#108;&#117;&#116;&#105;&#111;&#110;&#115;.&#99;&#111;&#109;</a>
+                </p>
+                <p>Sandeep Mistry -
+                  <a href="http://twitter.com/sandeepmistry">@sandeepmistry</a>
+                  <br/>
+                  <a href="mailto:&#x0073;&#x002e;&#x006d;&#x0069;&#x0073;&#x0074;&#x0072;&#x0079;&#x0040;&#x0061;&#x0072;&#x0064;&#x0075;&#x0069;&#x006e;&#x006f;&#x002e;&#x0063;&#x0063;">&#x0073;&#x002e;&#x006d;&#x0069;&#x0073;&#x0074;&#x0072;&#x0079;&#x0040;&#x0061;&#x0072;&#x0064;&#x0075;&#x0069;&#x006e;&#x006f;&#x002e;&#x0063;&#x0063;</a>
+                </p>
+                <p>
+                Slides <a href="http://don.github.io/slides/2016-05-21-arduino-ble">
+                    don.github.io/slides</a>
+                </p>
+                <p>
+                Code <a href="https://github.com/don/mfba2016-arduino-ble">
+                    github.com/don/mfba2016-arduino-ble</a>
+                </p>
+
+                <!-- should be using css -->
+                <p>&nbsp;</p>
+                <p>
+                    <small>
+                <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Creating Bluetooth Low Energy Peripherals with Arduino</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2015-09-26-arduino-ble" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2016-05-21-arduino-ble" rel="dct:source">https://github.com/don/.../2016-05-21-arduino-ble</a>.
+                    </small>
+                </p>
+            </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+            });
+
+        </script>
+
+    </body>
+</html>
