@@ -7,7 +7,7 @@
         <title>Don Coleman - Creating Bluetooth Low Energy Peripherals with Arduino - National Maker Faire 2016</title>
 
         <meta name="description" content="Creating Bluetooth Low Energy Peripherals with Arduino">
-        <meta name="author" content="Don Coleman, Sandeep Mistry">
+        <meta name="author" content="Don Coleman">
 
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -74,7 +74,8 @@
               <h2>Creating Bluetooth LE</h2>
               <h2>Peripherals with Arduino</h2>
               <p>National Maker Faire - June 18, 2016</p>
-              <p>Don Coleman - Chariot Solutions - <a href="http://twitter.com/doncoleman">@doncoleman</a></p>
+              <p>Don Coleman - Chariot Solutions</p>
+              <p><a href="http://twitter.com/doncoleman">@doncoleman</a></p>
             </section>
 
             <section>
@@ -97,39 +98,7 @@
               <img src="images/iOS-Arduino-BLE.png">
             </section>
 
-            <section>
-              <h2>Lightbulb Service</h2>
-                <ul>
-                  <li>Light Switch</li>
-                  <li>Dimmer Setting</li>
-                </ul>
-            </section>
-
-            <section>
-              <h2>Lightbulb Service - FF10</h2>
-              <img src="images/uuid.png" />
-            </section>
-
-            <section>
-              <h2>16 bit UUIDs</h2>
-              <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
-              <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
-              <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
-            </section>
-
-            <section>
-              <h2>Lightbulb Service - FF10</h2>
-              <img src="images/lightbulb-service.png" />
-            </section>
-
-            <section>
-              <h2>Advertising</h2>
-              <img width="50%" src="images/advertise.svg" />
-            </section>
-
-            <section>
-              <img src="images/lightblue-discover.png" />
-            </section>
+            <!-- <section>
 
             <section>
               <h2>Connect</h2>
@@ -144,32 +113,32 @@
             <section>
               <h2>Write Value</h2>
               <img width="80%" src="images/write.svg">
-            </section>
+            </section> -->
 
             <!-- <section>
               <h2>Write Command</h2>
               <img width="80%" src="images/command.svg">
             </section> -->
 
-            <section>
+            <!-- <section>
               <h2>Notification</h2>
               <img width="80%" src="images/notification.svg">
-            </section>
+            </section> -->
 
             <!-- <section>
               <h2>Indication</h2>
               <img width="80%" src="images/indication.svg">
             </section> -->
 
-            <section>
+            <!-- <section>
               <h2>Peripheral</h2>
               <p>Provides services</p>
-            </section>
+            </section> -->
 
-            <section>
+            <!-- <section>
               <h2>Central</h2>
               <p>Uses services on a peripheral</p>
-            </section>
+            </section> -->
 
             <!-- <section>
               <h2>Central</h2>
@@ -210,7 +179,6 @@
               </small>
             </section>
 
-<!--
             <section>
               <img width="80%" src="images/Adafruit-nRF8001.jpg"><br/>
               <a href="https://www.adafruit.com/products/1697">Adafruit Bluefruit LE nRF8001 Breakout</a>
@@ -230,18 +198,10 @@
               <h2>Compatible Hardware</h2>
               <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral#compatible-hardware">Compatible Hardware List</a>
             </section>
--->
 
-            <section>
-              <h2><a href="https://github.com/sandeepmistry/arduino-BLEPeripheral#compatible-hardware">Compatible Hardware List</a></h2>
-
-              <img width="70%" src="images/RBL-BLE.jpg">
-            </section>
-
-
-            <section>
+            <!-- <section>
               <img src="images/arduino-library-manager.png">
-            </section>
+            </section> -->
 
             <section>
               <h3>Arduino 101</h3>
@@ -255,6 +215,41 @@
                 <a href="https://www.arduino.cc/en/Reference/CurieBLE">https://www.arduino.cc/en/Reference/CurieBLE</a>
               </small>
             </section>
+
+          <section>
+            <h2>Lightbulb Service</h2>
+              <ul>
+                <li>Light Switch</li>
+                <li>Dimmer Setting</li>
+              </ul>
+          </section>
+
+          <section>
+            <h2>Lightbulb Service - FF10</h2>
+            <img src="images/uuid.png" />
+          </section>
+
+          <section>
+            <h2>16 bit UUIDs</h2>
+            <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
+            <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
+            <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
+          </section>
+
+          <section>
+            <h2>Lightbulb Service - FF10</h2>
+            <img src="images/lightbulb-service.png" />
+          </section>
+
+          <!-- <section>
+            <h2>Advertising</h2>
+            <img width="50%" src="images/advertise.svg" />
+          </section>
+
+          <section>
+            <img src="images/lightblue-discover.png" />
+          </section> -->
+
 
 <!--
             <section>
@@ -305,11 +300,6 @@
   <h3>Create BLE Peripheral</h3>
   <pre><code>
 BLEPeripheral blePeripheral;
-
-// Can also override default pins for
-//  nRF8001 based boards:
-//
-// blePeripheral(req, rdy, rst);
   </code></pre>
 </section>
 
