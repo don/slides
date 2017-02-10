@@ -4,9 +4,9 @@
 	<head>
 		<meta charset="utf-8">
 
-        <title>ITP Bluetooth LE - Week 2</title>
+        <title>ITP Bluetooth LE - Week 3</title>
 
-        <meta name="description" content="Hands-on Bluetooth Low Energy Workshop">
+        <meta name="description" content="NYU ITP Spring 2017 - Bluetooth LE ITPG-GT.2789.1">
         <meta name="author" content="Don Coleman">
 
 		<meta name="apple-mobile-web-app-capable" content="yes">
@@ -71,41 +71,12 @@
 
             <section>
                 <h2 style="margin-top:-30px;">Bluetooth LE</h2>
-                <p>ITP | Week 2 | February 12, 2016</p>
+                <p>ITP | Week 3 | February 10, 2017</p>
                 <p>Don Coleman</p>
             </section>
 
             <section>
-              <img src="images/iOS-Arduino-BLE.jpg">
-            </section>
-
-            <section>
-                Local Name vs Device Name
-                <pre style="font-size:0.9em"><code>void setup() {
-  // In Advertising Data 0x09
-  blePeripheral.setLocalName("LOCAL NAME");
-
-  // Generic Access Service 0x1800, 0x2A00
-  blePeripheral.setDeviceName("DEVICE NAME");
-
-  // ...
-}
-                </code></pre>
-            </section>
-
-            <section>
-                <img src="images/ios-device-local-name.png"/>
-            </section>
-
-            <section>
-                <img src="images/android-device-local-name.png"/>
-            </section>
-
-            <section>
-                <p>Local Name is 0x09 in <a href="https://www.bluetooth.org/en-us/specification/assigned-numbers/generic-access-profile">Advertising Data</a></p>
-
-                <p>The <a href="https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.generic_access.xml">Generic Access Service 0x1800</a> contains<br/> the <a href="https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.gap.device_name.xml">Device Name Characteristic 0x2A00</a></p>
-
+              <img src="images/iOS-Arduino-BLE.png">
             </section>
 
             <section>
@@ -451,13 +422,10 @@ if (serviceData) {
             </section>
 
             <section>
-                <img src="images/bluefruit-uart.jpg" width="80%"/>
-                <small><a href="http://adafru.it/2479">Adafruit Bluefruit LE UART</a></small>
-            </section>
-
-            <section>
                 <h2>Debugging</h2>
             </section>
+
+            <!--http://docs.phonegap.com/references/developer-app/debugging/-->
 
             <section>
                 <h2>JSHint</h2>
@@ -479,14 +447,18 @@ www/js/index.js: line 26, col 33, Expected
                 <pre style="font-size:0.8em"><code class="javascript">
  window.onerror = function (e, fileName, lineNumber) {
    console.log(fileName,
-         'Line:', lineNumber,
+         'Line:', lineNumber, '\n', 
          'Error:', e.message);
    alert(fileName +
-         'Line:' + lineNumber,
+         'Line:' + lineNumber, '\n',
          'Error:' + e.message);
  };
                 </code></pre>
 
+            </section>
+            
+            <section>
+                <script src="https://gist.github.com/don/596289071a45b4d19a4362cd04be48ad.js"></script>
             </section>
 
             <section>
@@ -511,23 +483,18 @@ www/js/index.js: line 26, col 33, Expected
             </section>
 
             <section>
-                <img src="images/MakeBluetooth.jpg" width="50%"><br/>
-                <a href="http://bit.ly/bluetooth-book">http://bit.ly/bluetooth-book</a>
-            </section>
-
-            <section>
                 <p>Don Coleman</p>
                 <a href="mailto:&#100;&#099;&#049;&#053;&#057;&#064;&#110;&#121;&#117;&#046;&#101;&#100;&#117;">&#100;&#099;&#049;&#053;&#057;&#064;&#110;&#121;&#117;&#046;&#101;&#100;&#117;</a>
                 <p>
-                <a href="http://don.github.io/slides/2016-02-12-itp-bluetoothle">
-                    http://don.github.io/slides/2016-02-12-itp-bluetoothle</a>
+                <a href="http://don.github.io/slides/2017-02-10-nyu-itp-bluetoothle">
+                    http://don.github.io/slides/</a>
                 </p>
                 <!-- should be using css -->
                 <p>&nbsp;</p>
                 <p>&nbsp;</p>
                 <p>
                     <small>
-                <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Bluetooth LE ITP Week 2</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2016-02-12-itp-bluetoothle" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> <br/>is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/3.0/deed.en_US">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href="https://github.com/don/slides/tree/gh-pages/2016-02-12-itp-bluetoothle" rel="dct:source">https://github.com/don/.../2016-02-12-itp-bluetoothle</a>.
+                      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">NYU ITP Bluetooth Spring 2017 Week 3</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2017-02-10-nyu-itp-bluetooth" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                     </small>
                 </p>
             </section>
