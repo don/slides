@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+        <title>ITP Bluetooth LE - Week 6</title>
+
+        <meta name="description" content="NYU ITP Spring 2017 - Bluetooth LE ITPG-GT.2789.1">
+        <meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<!-- <link rel="stylesheet" href="css/theme/black.css" id="theme"> -->
+        <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <!-- hack the style a bit -->
+        <style>
+
+            .reveal pre {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .reveal h1,
+            .reveal h2,
+            .reveal h3,
+            .reveal h4,
+            .reveal h5,
+            .reveal h6 {
+                text-transform: none;
+            }
+
+            .reveal section img {
+                border: none;
+            }
+
+            .reveal ul {
+                list-style-type: none
+            }
+
+        </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+            <section>
+                <h2 style="margin-top:-30px;">Bluetooth LE</h2>
+                <p>ITP | Week 6 | March 3, 2017</p>
+                <p>Don Coleman</p>
+            </section>
+
+            <section>
+                <h1>Beacons</h1>
+            </section>
+            <section>
+                <img src="images/20029108500_78267fc33f_k.jpg">
+                <small><p>Photo credit: Lars Plougmann <a href="https://flic.kr/p/wvUq9U">https://flic.kr/p/wvUq9U</a></p></small>
+            </section>
+
+            <!-- broadcast only -->
+            <!-- location technology -->
+            <!-- GAP Advertising -->
+
+            <section>
+                <h2>Connectionless Data Transfer</h2>
+            </section>
+
+            <section>
+              <h2>Advertising</h2>
+              <img width="50%" src="images/advertise.svg" />
+            </section>
+
+            <section>
+              <h2>Advertising</h2>
+              <ul>
+                <li>MAC Address: AA:BB:CC:DD:EE:FF</li>
+                <li>Services: [ 0x180A, 0xFF10, 0XFF20, …] </li>
+                <li>Manufacturer Data: <00007465 6d70></li>
+                <li>Connectable: True</li>
+                <li>TX Power Level: 4</li>
+                <li>RSSI: -80</li>
+                <li>Name: Smart Lightbulb</li>
+              </ul>
+            </section>
+
+            <section>
+              <img width="100%" src="images/ble_advertisement.png" />
+            </section>
+
+            <section>
+                <img src="images/led-advertising.png" />
+            </section>
+
+            <section>
+              <h2>Beacon Advertising</h2>
+              <img width="50%" src="images/beacon-advertise.png" />
+            </section>
+
+            <section>
+              <img width="100%" src="images/ble_beacon_advertisement.png" />
+            </section>
+
+            <section>
+                <img src="images/ibeacon-advertising.png" />
+            </section>
+
+            <!-- hardware -->
+            <section>
+                <img width="80%" src="images/beacons.jpg" />
+            </section>
+
+            <section>
+                <img width="80%" src="images/estimote.jpg" />
+            </section>
+
+            <section>
+                <h2>iBeacon</h2>
+                <ul>
+                    <li>UUID: b9407f30-f5f8-466e-aff9-25556b57fe6d</li>
+                    <li>Major: 0x01</li>
+                    <li>Minor: 0x0A</li>
+                </ul>
+            </section>
+
+            <section>
+                <img src="images/estimote-screenshot.jpg" />
+            </section>
+
+            <section>
+                <h3>Scan for iBeacons</h3>
+                <pre><code>var Bleacon = require('bleacon')
+Bleacon.on('discover', function (beacon) {
+  console.log(
+	beacon.uuid  + ' | ' +
+	beacon.major + ' | ' + 
+	beacon.minor
+  );
+});
+Bleacon.startScanning();
+                </code></pre>
+                <small><a href="https://github.com/sandeepmistry/node-bleacon">node-bleacon</a></small>
+            </section>
+
+            <section>
+                <img src="images/bleacon-scan.png"/>
+            </section>
+
+            <section>
+                <h3>Create an iBeacon</h3>
+                <pre><code>  var Bleacon = require('bleacon');
+  var uuid = '12345678-aaaa-bbbb-cccc-123456789abc';
+  var major = 0; // 0 - 65535
+  var minor = 0; // 0 - 65535
+  var measuredPower = -59; // -128 - 127
+  Bleacon.startAdvertising(uuid, major, 
+                    minor, measuredPower);
+                </code></pre>
+            </section>
+                
+            <section>
+                <a href="https://github.com/RFduino/RFduino/blob/master/libraries/RFduinoBLE/examples/AdvertisementRawiBeacon/AdvertisementRawiBeacon.ino#L41"><img src="images/rfduino-raw-ibeacon.png"/></a>
+            </section>
+
+                
+            <section>
+                <h3>Create an iBeacon with Arduino</h3>
+<pre><code>iBeacon beacon;
+
+void setup() {
+  char* uuid = "a196c876-de8c-4c47-ab5a-d7afd5ae7127";
+  unsigned short major = 1;
+  unsigned short minor = 3;
+  unsigned short measuredPower = -55;
+  beacon.begin(uuid, major, minor, measuredPower);
+}
+
+void loop() {
+  beacon.loop();
+}
+            </code></pre>
+                <small><a href="https://github.com/sandeepmistry/arduino-BLEPeripheral/blob/master/examples/iBeacon/iBeacon.ino">iBeacon.ino</a></small>
+            </section>            
+
+            <section>
+                <h2>Core Location</h2>
+                <p>(not Core Bluetooth)</p>
+            </section>
+
+            <section>
+                <h2>Region</h2>
+                <ul>
+                    <li class="fragment">Inside Region</li>
+                    <li class="fragment">Outside Region</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Ranging</h2>
+                <ul>
+                    <li class="fragment">Immediate</li>
+                    <li class="fragment">Near</li>
+                    <li class="fragment">Far</li>
+                    <li class="fragment">Unknown</li>
+                </ul>
+            </section>
+
+            <section>
+                <section>
+                    <h2>Demo</h2>
+                </section>
+
+                <section>
+                    <img src="images/NSLocationAlwaysUsageDescription.png" />
+                </section>
+
+                <section>
+                    <img  width="40%" src="images/ibeacon-ios.png" />
+                </section>
+            </section>
+
+            <section>
+                <h3>Measured Power</h2>
+                <p>Measured RSSI at 1 meter</p>
+                <p>Between -40 dBm and +10 dBm</p>
+                <p>Tradeoff between range &amp; battery life</p>
+            </section>
+
+            <section>
+                <h3>Advertising Interval</h3>
+                <p>Between 100 ms and 2 seconds</p>
+                <p>Shorter interval has better visibility</p>
+                <p>Longer interval can increase battery life</p>
+            </section>
+
+            <section>
+                <img width="40%" src="images/works-with-apple-ibeacon-badge.svg"><br/>
+                <small><i>Requires a <a href="https://developer.apple.com/ibeacon/">license</a> from Apple</i></small>
+            </section>
+
+            <section>
+                <h2>Eddystone Beacons</h2>
+            </section>
+
+            <section>
+                <img src="images/physical-web.png" /><br/>
+                <a href="https://google.github.io/physical-web/">google.github.io/physical-web/</a>
+            </section>
+
+            <section>
+                <h3>An Eddystone beacon broadcasts a URL</h3>
+                <p><a href="https://tisch.nyu.edu/itp">https://tisch.nyu.edu/itp</a></p>
+            </section>
+
+            <section>
+              <img src="images/physical-web-android-notification.png" width="40%"/>
+            </section>
+
+            <section>
+              <img src="images/physical-web-android.png" width="40%"/>
+            </section>
+
+            <section>
+              <img src="images/physical-web-nrf.png" />
+            </section>
+
+            <section>
+              <img src="images/physical-web-ios-notification.png" />
+            </section>
+
+            <section>
+                <h3>Scan for Eddystone Beacons</h3>
+                <pre><code>var Scanner = 
+        require('eddystone-beacon-scanner');
+
+Scanner.on('found', function(beacon) {
+  console.log('found Eddystone Beacon:\n',
+         JSON.stringify(beacon, null, 2));
+});
+
+Scanner.startScanning(true);
+                </code></pre>
+                <small><a href="https://github.com/sandeepmistry/node-eddystone-beacon-scanner">node-eddystone-beacon-scanner</a></small>
+            </section>
+
+            <section>
+              <img src="images/eddystone-scan.png" />
+            </section>
+            
+            <section>
+                <h3>Create an Eddystone Beacon</h3>
+                <pre><code>
+  var beacon = require('eddystone-beacon');
+  var url = 'https://tisch.nyu.edu/itp';
+  beacon.advertiseUrl(url);
+                </code></pre>
+                <small><a href="https://github.com/don/node-eddystone-beacon">node-eddystone-beacon</a></small>
+            </section>
+                
+            <section>
+                <a href="https://github.com/google/eddystone/blob/master/eddystone-url/implementations/RFduino/eddystone-url.ino"><img src="images/rfduino-eddystone.png"/></a>
+            </section>
+                
+            <section>
+                <h3>Create an Eddystone Beacon with Arduino</h3>
+<pre><code>#include &lt;EddystoneBeacon.h&gt;
+EddystoneBeacon eddystoneBeacon;
+
+void setup() {
+  delay(1000);
+  int power = -18;
+  String uri = "https://eff.org";
+  eddystoneBeacon.begin(power, uri);
+}
+
+void loop() {
+  eddystoneBeacon.loop();
+}
+            </code></pre>
+                <small><a href="https://github.com/sandeepmistry/arduino-BLEPeripheral/blob/master/examples/Eddystone/EddystoneURL/EddystoneURL.ino">EddystoneURL.ino</a></small>
+            </section>      
+
+            <section>
+                <img width="90%" src="images/google-beacons.png" /><br/>
+                <a href="https://g.co/beacons">g.co/beacons</a>
+            </section>
+
+                        <!-- TODO move this -->
+            <section>
+                <h3>Eddystone Frame Types</h3>
+                <ul>
+                    <li>URL - compressed URL</li>
+                    <li>UID - unique static ID</li>
+                    <li>TLM - telemetry</li>
+                    <li>EID - ephemeral ID</li>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Eddystone Ephemeral Identifier</h3>
+                <ul>
+                    <li>Eddystone-EID identifier changes every few minutes</li>
+                    <li>Needs Ephemeral Identity Key (EIK) to get useful info</li>
+                    <li>Use with Google Proximity Beacon API</li>
+                    <li><a href="https://developers.google.com/beacons/eddystone-eid">developers.google.com/beacons/eddystone-eid</a></li>
+                </ul>
+            </section>
+
+
+            <section>
+                <img src="images/beacon-dashboard.png" /><br/>
+                <a href="https://youtu.be/3nYyApSiSLQ">youtu.be/3nYyApSiSLQ</a>
+            </section>
+
+            <section>
+                <h2>Fat Beacons</h2>
+                <p>URI Beacon + Web Page</p>
+                <!--
+                https://github.com/google/physical-web/tree/master/nodejs/FatBeaconPeripheral
+                https://plus.google.com/+FrancoisBeaufort/posts/58rxEgh7Vhf
+                https://github.com/google/physical-web/issues/784
+                -->
+            </section>
+
+            <section>
+                <img src="images/alt-beacon.png" /><br/>
+                <a href="http://altbeacon.org">altbeacon.org</a>
+            </section> 
+
+                        <section>
+                <h2>Broadcast Characteristic</h2>
+            </section>
+
+            <section>
+                <pre><code>
+BLEFloatCharacteristic characteristic =
+  BLEFloatCharacteristic("BBB1", 
+      BLERead | BLENotify | BLEBroadcast);
+                </code></pre>
+                <a href="https://github.com/don/ITP-BluetoothLE/blob/master/arduino/Thermometer_v2/Thermometer_v2.ino#L9">Temperature_v2.ino</a>
+            </section>
+
+            <section>
+                <img src="images/broadcast.png" width="70%">
+            </section>
+
+            <section>
+                <pre style="font-size:0.8em"><code class="javascript">
+// iOS
+serviceData = device.advertising.kCBAdvDataServiceData;
+if (serviceData &amp;&amp; serviceData.BBB0) {
+    celsius = new Float32Array(serviceData.BBB0)[0];
+}
+                </code></pre>
+                <a href="https://github.com/don/ITP-BluetoothLE/blob/master/phonegap/thermometer_v2/www/js/index.js#L87-L91">thermometer_v2/www/index.js</a>
+            </section>
+
+            <section>
+                <pre style="font-size:0.8em"><code class="javascript">// Android
+var advertisingData = parseAdvertisingData(device.advertising);
+serviceData = advertisingData[SERVICE_DATA_KEY];
+if (serviceData) {
+  // first 2 bytes are the 16 bit UUID
+  var uuidBytes = new Uint16Array(serviceData.slice(0,2));
+  var uuid = uuidBytes[0].toString(16); // hex string
+  // remaining bytes are the service data
+  var data = new Float32Array(serviceData.slice(2));
+  celsius = data[0];
+}
+                </code></pre>
+                <a href="https://github.com/don/ITP-BluetoothLE/blob/master/phonegap/thermometer_v2/www/js/index.js#L92-L104">thermometer_v2/www/index.js</a>
+            </section>
+
+            <section>
+                <p>Don Coleman</p>
+                <a href="mailto:&#100;&#099;&#049;&#053;&#057;&#064;&#110;&#121;&#117;&#046;&#101;&#100;&#117;">&#100;&#099;&#049;&#053;&#057;&#064;&#110;&#121;&#117;&#046;&#101;&#100;&#117;</a>
+                <p>
+                <a href="http://don.github.io/slides/2017-03-03-nyu-itp-bluetoothle">
+                    http://don.github.io/slides/</a>
+                </p>
+                <!-- should be using css -->
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>
+                    <small>
+                      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">NYU ITP Bluetooth Spring 2017 Week 6</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2017-03-03-nyu-itp-bluetooth" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+                    </small>
+                </p>
+            </section>
+
+			</div> <!-- end slides -->
+
+		</div>  <!-- end reveal -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
