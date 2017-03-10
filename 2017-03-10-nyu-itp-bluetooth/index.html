@@ -135,7 +135,11 @@
             </section>
 
             <section>
-                <h3>Live Sniffing</h3>
+                <img src="images/switchbot-cordova.png"/>
+            </section>
+
+            <section>
+                <h3>Sniffing Bluetooth LE Packets</h3>
                 <ul>
                     <li>Requires Windows</li>
                     <li><a href="https://www.adafruit.com/products/2269">Bluefruit LE Sniffer</a> (hardware)</li>
@@ -159,15 +163,35 @@
             </section>
 
             <section>
+                <h3>Switchbot Timer</h3>
+                <pre><code>57 09 03 01 00 &lt;repeat&gt; &lt;hour&gt; &lt;min&gt; 00 00
+
+repeat
+00 - Never
+01 - Monday
+02 - Tuesday
+04 - Wednesday
+08 - Thursday
+10 - Friday
+20 - Saturday
+40 - Sunday
+7f - Everyday
+80 - Once
+
+hour 
+0 - 23 (0x0 - 0x17)
+min
+0 - 59 (0x0 - 0x3b)
+</code></pre>
+            </section>
+
+            <section>
                 <img src="images/gatttool.png"/>
             </section>
 
-            <section>
-                <img src="images/switchbot-cordova.png"/>
-            </section>
 
             <section>
-                <h3>Bluetooth HID</h3>
+                <h2>Bluetooth HID</h2>
                 <a href="https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.service.human_interface_device.xml">org.bluetooth.service.human_interface_device.xml</a>
             </section>
 
@@ -258,7 +282,7 @@
             </section>
 
             <section>
-                <h3>Bluetooth MIDI</h3>
+                <h2>Bluetooth MIDI</h2>
             </section>
 
             <!-- midi is from the 80s -->
@@ -274,7 +298,7 @@
                 <h4>03b80e5a-ede8-4b33-a751-6ce34ec4c700</h4>
                 <h3>MIDI Data I/O Characteristic</h3>
                 <h4>7772e5db-3868-4112-a1a9-f2669d106bf3</h4>
-                <h4>read, writeWithoutResponse, notify</h4>
+                <h4>read, write, writeWithoutResponse, notify</h4>
                 <p></p>
                 <p>
                   <small><a href="https://www.midi.org/specifications/item/bluetooth-le-midi">Bluetooth LE MIDI Specification</a></small>
@@ -328,11 +352,7 @@
             </section>
 
             <section>
-                <h3>Bonding</h3>
-            </section>
-
-            <section>
-                <h3>Security</h3>
+                <h3>Pairing &amp; Bonding</h3>
             </section>
 
             <section>
@@ -341,6 +361,19 @@
 
             <section>
                 <h3>Bluetooth Mesh</h3>
+            </section>
+
+            <section>
+                <h3>Bluetooth 5</h3>
+                <ul>
+                    <li>Longer Range</li>
+                    <li>Faster Data Transfer</li>
+                    <li>Larger Advertising Packets</li>
+                    <li>Larger Characteristics</li>
+                </ul>
+                <p>
+                    <a href="https://www.bluetooth.com/specifications/bluetooth-core-specification/bluetooth5">Bluetooth 5 Specification</a>
+                </p>
             </section>
 
             <section>
