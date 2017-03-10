@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+        <title>ITP Bluetooth LE - Week 7</title>
+
+        <meta name="description" content="NYU ITP Spring 2017 - Bluetooth LE ITPG-GT.2789.1">
+        <meta name="author" content="Don Coleman">
+
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<!-- <link rel="stylesheet" href="css/theme/black.css" id="theme"> -->
+        <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+        <!-- hack the style a bit -->
+        <style>
+
+            .reveal pre {
+                font-size: 1em;
+                width: 100%;
+            }
+
+            .reveal h1,
+            .reveal h2,
+            .reveal h3,
+            .reveal h4,
+            .reveal h5,
+            .reveal h6 {
+                text-transform: none;
+            }
+
+            .reveal section img {
+                border: none;
+            }
+
+            .reveal ul {
+                list-style-type: none
+            }
+
+        </style>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+            <section>
+                <h2 style="margin-top:-30px;">Bluetooth LE</h2>
+                <p>ITP | Week 7 | March 10, 2017</p>
+                <p>Don Coleman</p>
+            </section>
+
+            <section>
+                <img width="80%" src="images/adafruit-pi-zero-w.jpg"/><br/>
+                <small><a href="https://www.adafruit.com/products/3400">adafru.it/3400</a></small>
+            </section>
+
+            <section>
+                <h2>Beacon Project</h2>
+            </section>
+
+            <section>
+                <h2>Course Evaluations</h2>
+                <a href="https://goo.gl/NQ2w2Z">https://goo.gl/NQ2w2Z</a>
+            </section>
+
+            <section>
+                <h2>Reverse Engineering</h2>
+            </section>
+
+            <section>
+                <h3>SwitchBot</h3>
+                <img src="images/switchbot.gif" /><br/>
+                <a href="https://www.switch-bot.com">switch-bot.com</a>
+            </section>
+
+            <section>
+               <img src="images/switchbot-app.png" />
+            </section>
+
+            <section>
+               <img src="images/enable-btsnoop_hci.log.png" />
+            </section>
+
+            <section>
+                adb pull /sdcard/btsnoop_hci.log
+            </section>
+            
+            <section>
+                <img src="images/wireshark.png"/>
+            </section>
+
+            <section>
+                <img src="images/wireshark-btatt.png"/>
+            </section>
+
+            <section>
+                <img src="images/wireshark-write.png"/>
+            </section>
+
+            <section>
+                <img src="images/lightblue-switchbot.png"/>
+            </section>
+
+            <section>
+                <p>Scan for FEE7</p>
+                <p>Use service cba20d00-224d-11e6-9fb8-0002a5d5c51b</p>
+                <p>Characteristic cba20002-224d-11e6-9fb8-0002a5d5c51b</p>
+                <p>Write 0x5701 to activate switchbot</p>
+            </section>
+
+            <section>
+                <h3>Live Sniffing</h3>
+                <ul>
+                    <li>Requires Windows</li>
+                    <li><a href="https://www.adafruit.com/products/2269">Bluefruit LE Sniffer</a> (hardware)</li>
+                    <li><a href="http://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF-Sniffer">Nordic nRF-Sniffer</a> (software)</li>
+                    <li><a href="https://1.na.dl.wireshark.org/win64/all-versions/">Wireshark-win64-1.12.13.exe</a> (a really old version)</li>
+                    <li><a href="https://learn.adafruit.com/introducing-the-adafruit-bluefruit-le-sniffer/nordic-nrfsniffer">Adafruit Tutorial</a></li>
+                </ul>
+            </section>
+
+            <section>
+                <img width="80%" src="images/BluefruitLE_Sniffer.jpg" /><br/>
+                <a href="https://www.adafruit.com/products/2269">Bluefruit LE Sniffer</a>
+            </section>
+
+            <section>
+                <img src="images/nrf-sniffer.png"/>
+            </section>
+
+            <section>
+                <img src="images/wireshark-live-windows.png"/>
+            </section>
+
+            <section>
+                <img src="images/gatttool.png"/>
+            </section>
+
+            <section>
+                <img src="images/switchbot-cordova.png"/>
+            </section>
+
+            <section>
+                <h3>Bluetooth HID</h3>
+                <a href="https://www.bluetooth.com/specifications/gatt/viewer?attributeXmlFile=org.bluetooth.service.human_interface_device.xml">org.bluetooth.service.human_interface_device.xml</a>
+            </section>
+
+            <section>
+                <h2>Mouse</h2>
+                <pre><code>
+    #include &lt;BLEHIDPeripheral.h&gt;
+    #include &lt;BLEMouse.h&gt;
+    BLEHIDPeripheral bleHIDPeripheral;
+    BLEMouse bleMouse;
+    bleHIDPeripheral.addHID(bleMouse);
+                </pre></code>
+            </section>
+
+            <section>
+                <h2>Mouse</h2>
+                <pre><code>
+    bleMouse.move(x, y);
+    bleMouse.click();
+    bleMouse.press();
+    bleMouse.release();
+                </pre></code>
+                <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral/blob/5c20a1b76f5c60875706ee738a665d16cee3e160/src/BLEMouse.h">BLEMouse.h</a>
+            </section>
+
+            <section>
+                <img src="images/mouse.jpg"/>
+            </section>
+
+            <section>
+                <h2>Keyboard</h2>
+                <pre><code>
+    #include &lt;BLEHIDPeripheral.h&gt;
+    #include &lt;BLEKeyboard.h&gt;
+    BLEHIDPeripheral bleHIDPeripheral;
+    BLEKeyboard bleKeyboard;
+    bleHIDPeripheral.addHID(bleKeyboard);
+                </pre></code>
+            </section>
+
+            <section>
+                <h2>Keyboard</h2>
+                <pre><code>
+    bleKeyboard.write(char);
+    bleKeyboard.press(key);
+    bleKeyboard.release(key);
+    bleKeyboard.releaseAll();
+                </pre></code>
+                <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral/blob/5c20a1b76f5c60875706ee738a665d16cee3e160/src/BLEKeyboard.h">BLEKeyboard.h</a>
+            </section>
+
+            <section>
+                <img src="images/keyboard.jpg"/>
+            </section>
+
+            <section>
+                <h2>Mulitmedia</h2>
+                <pre><code>
+    #include &lt;BLEHIDPeripheral.h&gt;
+    #include &lt;BLEMultimedia.h&gt;
+    BLEHIDPeripheral bleHIDPeripheral;
+    bleHIDPeripheral.addHID(bleMultimedia);
+                </pre></code>
+            </section>
+
+            <section>
+                <h2>Mulitmedia</h2>
+                <pre><code>
+    bleMultimedia.write(MMKEY_VOL_UP);
+    bleMultimedia.write(MMKEY_VOL_DOWN);
+    bleMultimedia.write(MMKEY_MUTE);
+                </pre></code>
+            </section>
+
+            <section>
+                <img src="images/volume.jpg"/>
+            </section>
+
+            <section>
+                <h3>Unpair</h3>
+                <pre><code>
+  // Hold down button on start to unpair
+  if (buttonState == LOW) {
+    Serial.println("clearing bond data");
+    bleHIDPeripheral.clearBondStoreData();
+  }
+                </code></pre>
+            </section>
+
+            <section>
+                <h3>Bluetooth MIDI</h3>
+            </section>
+
+            <!-- midi is from the 80s -->
+            <section>
+                <h3>MIDI</h3>
+                <p>MIDI is a music protocol that sends description of the notes rather than actual music.</p>
+                <a href="https://www.midi.org/">https://midi.org/</a>                
+            </section>
+
+            <!-- midi-over-ble 2015 -->
+            <section>
+                <h3>MIDI Service</h3>
+                <h4>03b80e5a-ede8-4b33-a751-6ce34ec4c700</h4>
+                <h3>MIDI Data I/O Characteristic</h3>
+                <h4>7772e5db-3868-4112-a1a9-f2669d106bf3</h4>
+                <h4>read, writeWithoutResponse, notify</h4>
+                <p></p>
+                <p>
+                  <small><a href="https://www.midi.org/specifications/item/bluetooth-le-midi">Bluetooth LE MIDI Specification</a></small>
+                </p>
+            </section>
+
+            <section>
+                <pre><code>
+  BLEPeripheral blePeripheral;
+  BLEService midiService(
+      "03B80E5A-EDE8-4B33-A751-6CE34EC4C700");
+  BLECharacteristic midiChar(
+      "7772E5DB-3868-4112-A1A9-F2669D106BF3", 
+      BLEWrite | BLEWriteWithoutResponse | BLENotify | BLERead, 
+      5);
+                </code></pre>
+            </section>
+
+
+            <section>
+                <pre><code>
+    uint8_t channel = 10;
+    uint8_t note = 38; // snare drum
+    uint8_t velocity = 127;
+    uint8_t data[] = { 0x80, 0x80, 
+        0x90 + channel, note, velocity
+    };
+    midiChar.setValue(data, sizeof(data));
+                </code></pre>
+            </section>
+
+            <section>
+                <img src="images/drums.jpg"/>
+            </section>
+
+            <section>
+                <img src="images/drums-close.jpg"/>
+            </section>
+
+<section>
+    <script src="https://gist.github.com/don/88fd43c1066972c83c8c8b3c4568344a.js?file=midi-ble-peripheral.js"></script>
+    <a href="https://github.com/don/cordova-plugin-ble-peripheral">cordova-plugin-ble-peripheral</a>
+</section>
+
+<section>
+    <script src="https://gist.github.com/don/88fd43c1066972c83c8c8b3c4568344a.js?file=send-note.js"></script>
+</section>
+
+            <section>
+                 <img src="images/cordova-drum-machine.png"/>
+            </section>
+
+            <section>
+                <h3>Bonding</h3>
+            </section>
+
+            <section>
+                <h3>Security</h3>
+            </section>
+
+            <section>
+                <h3>Bluetooth Gateways</h3>
+            </section>
+
+            <section>
+                <h3>Bluetooth Mesh</h3>
+            </section>
+
+            <section>
+                <h3>Review</h3>
+            </section>
+
+            <section>
+                <h3>Peripherals</h3>
+                <ul>
+                <li>Peripheral provides services</li>
+                <li>Services are collections of characteristics</li>
+                <li>Characteristics</li>
+                <ul>
+                <li>read data</li>
+                <li>write data</li>
+                <li>notify when data changes</li>
+                </ul>
+                </ul>
+            </section>
+
+            <section>
+                <h3>Central</h3>
+                <ul>
+                <li>Scans to discover peripheral</li>
+                <li>Connects to peripheral</li>
+                <li>Discovers services and characteristics</li>
+                <li>Read data from characteristics</li>
+                <li>Write data to characteristics</li>
+                <li>Subscribe to be notified when values changes</li>
+                </ul>
+            </section>
+
+            <section>
+                <p>Service &amp; Characteristics live on the Peripheral.</p>
+                <p>The Central device remotely accesses the Characteristics on the Peripheral using Bluetooth Low Energy.</p>
+            </section>
+
+            <section>
+                <p>Don Coleman</p>
+                <a href="mailto:&#100;&#099;&#049;&#053;&#057;&#064;&#110;&#121;&#117;&#046;&#101;&#100;&#117;">&#100;&#099;&#049;&#053;&#057;&#064;&#110;&#121;&#117;&#046;&#101;&#100;&#117;</a>
+                <p>
+                <a href="http://don.github.io/slides/2017-03-10-nyu-itp-bluetoothle">
+                    http://don.github.io/slides/</a>
+                </p>
+                <!-- should be using css -->
+                <p>&nbsp;</p>
+                <p>&nbsp;</p>
+                <p>
+                    <small>
+                      <a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">NYU ITP Bluetooth Spring 2017 Week 7</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2017-03-10-nyu-itp-bluetooth" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+                    </small>
+                </p>
+            </section>
+
+			</div> <!-- end slides -->
+
+		</div>  <!-- end reveal -->
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
