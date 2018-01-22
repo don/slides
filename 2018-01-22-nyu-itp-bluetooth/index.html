@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+
+        <title>Don Coleman - NYU ITP - Bluetooth LE</title>
+
+        <meta name="description" content="NYU ITP Spring 2018 - Bluetooth LE ITPG-GT 2789">
+        <meta name="author" content="Don Coleman">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <!-- <link rel="stylesheet" href="css/theme/black.css" id="theme"> -->
+        <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+
+        <!-- Code syntax highlighting -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+
+        <!--[if lt IE 9]>
+        <script src="lib/js/html5shiv.js"></script>
+        <![endif]-->
+
+        <!-- hack the style a bit -->
+        <style>
+
+         .reveal pre {
+            font-size: 1em;
+            width: 100%;
+          }
+
+          .reveal h1,
+          .reveal h2,
+          .reveal h3,
+          .reveal h4,
+          .reveal h5,
+          .reveal h6 {
+            text-transform: none;
+          }
+
+          .reveal section img {
+              border: none;
+              box-shadow:0 0 0px;
+          }
+
+          .reveal ul {
+            list-style-type: none
+          }
+
+          html.intro body {
+	          background:url("../2017-01-27-nyu-itp-bluetooth/images/arduino-bluetooth.jpg");
+	          background-position:center;
+	          background-size: 100%;
+          }
+
+      </style>
+    </head>
+
+    <body>
+
+        <div class="reveal">
+
+            <!-- Any section element inside of this container is displayed as a slide -->
+          <div class="slides">
+
+            <!-- Ken's awesome photo, can I put his name on the slide? -->
+            <section data-state="intro">
+              <!--<span style="color:#b7b7b7; position: absolute; margin-top: 70%; margin-left: -550px;font-size:0.5em">photo by ken rimple</span>-->
+              <!--<span style="color:#a3a3a3; position: absolute; margin-top: 70%; margin-left: 310px;font-size:0.5em">photo by ken rimple</span>-->
+            </section>
+
+            <section>
+              <h2>Bluetooth LE</h2>
+              <p>NYU ITP Spring 2018</p>
+              <p>Week 1</p>
+              <p>Don Coleman</p>
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/bluetooth.png">
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino-Bluetooth.png">
+            </section>
+
+            <!--<section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino-TxRx.png">
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino-BLE.png">
+            </section>-->
+
+            <section>
+              <!-- based on - Figure 3.1 from “Bluetooth Low Energy” by Robin Heydon -->
+              <img width="60%" src="../2017-01-27-nyu-itp-bluetooth/images/architecture.svg">
+              <small>Based on Figure 3.1 from “Bluetooth Low Energy” by Robin Heydon</small>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service</h2>
+                <ul>
+                  <li>Light Switch</li>
+                  <li>Dimmer Setting</li>
+                  <li>Power Consumption</li>
+                </ul>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/uuid.png" />
+            </section>
+
+            <section>
+              <h2>16 bit UUIDs</h2>
+              <p style="color:#888">0000<span style="color:#000"><b>FF10</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF11</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF12</b></span>-0000-1000-8000-00805F9B34FB</p>
+              <p style="color:#888">0000<span style="color:#000"><b>FF16</b></span>-0000-1000-8000-00805F9B34FB</p>
+            </section>
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/lightbulb-service.png" />
+            </section>
+
+            <section>
+              <h2>Advertising</h2>
+              <img width="50%" src="../2017-01-27-nyu-itp-bluetooth/images/advertise.svg" />
+            </section>
+
+            <section>
+              <h2>Advertising</h2>
+              <ul>
+                <li>MAC Address: AA:BB:CC:DD:EE:FF</li>
+                <li>Services: [ 0x180A, 0xFF10, 0XFF20, …] </li>
+                <li>Manufacturer Data: <00007465 6d70></li>
+                <li>Connectable: True</li>
+                <li>TX Power Level: 4</li>
+                <li>RSSI: -80</li>
+                <li>Name: Smart Lightbulb</li>
+              </ul>
+            </section>
+
+            <section>
+              <h2>Advertising</h2>
+              <ul>
+                <li>5425B44A-024A-4D39-88D2-D9F016199B29</li>
+                <li>Services: [ 0x180A, 0xFF10, 0XFF20, …] </li>
+                <li>Manufacturer Data: <00007465 6d70></li>
+                <li>Connectable: True</li>
+                <li>TX Power Level: 4</li>
+                <li>RSSI: -80</li>
+                <li>Name: Smart Lightbulb</li>
+              </ul>
+            </section>
+
+            <section>
+              <img width="100%" src="../2017-01-27-nyu-itp-bluetooth/images/ble_advertisement.png" />
+            </section>
+
+            <section>
+              <img width="100%" src="../2017-01-27-nyu-itp-bluetooth/images/ble_connection.png" />
+            </section>
+
+            <!--<section>
+              <h2>Connect</h2>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/connect.svg" />
+            </section>-->
+            
+            <section>
+              <h2>After Connecting...</h2>
+              <!-- discover -->
+              <ul>
+              <li class="fragment">Get a list of services</li>
+              <li class="fragment">For each service, get a list of characteristics</li>
+              <li class="fragment">For each characteristic, get properties</li>
+              <li class="fragment">Save handle to read or write later</li>
+              <li class="fragment">Subscribe to be notified on changes</li>
+              <ul>
+            </section>
+
+           <section>
+              <h2>Read Value</h2>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/read.svg">
+            </section>
+
+            <section>
+              <h2>Write Value</h2>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/write.svg">
+            </section>
+
+             <section>
+              <h2>Write Command</h2>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/command.svg">
+            </section> 
+
+            <section>
+              <h2>Lightbulb Service - FF10</h2>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/lightbulb-service.png" />
+            </section>
+
+            <section>
+                <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/robosmart.jpg" />
+            </section>
+
+            <section>
+                <img width="40%" src="../2017-01-27-nyu-itp-bluetooth/images/lightblue-peripherals.png" />
+            </section>
+            <section>
+                <img width="40%" src="../2017-01-27-nyu-itp-bluetooth/images/lightblue-service.png" />
+            </section>
+            <section>
+                <img width="40%" src="../2017-01-27-nyu-itp-bluetooth/images/lightblue-characteristic.png" />
+            </section>
+
+            <section>
+                <img width="40%" src="../2017-01-27-nyu-itp-bluetooth/images/robosmart-app.png" />
+            </section>
+
+            <section>
+              <h2>Battery Service</h2>
+              <p>0x180F</p>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/battery_service.png" />
+            </section>
+
+            <section>
+              <h2>Heart Rate Service - 180d</h2>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/heart_rate_service.png" />
+              <small>
+              <a href="https://developer.bluetooth.org/gatt/services/Pages/ServiceViewer.aspx?u=org.bluetooth.service.heart_rate.xml">org.bluetooth.service.heart_rate.xml</a><br/>
+              <a href="https://developer.bluetooth.org/gatt/characteristics/Pages/CharacteristicViewer.aspx?u=org.bluetooth.characteristic.heart_rate_measurement.xml">org.bluetooth.characteristic.heart_rate_measurement.xml</a>
+              </small>
+            </section>
+            
+             <section>
+              <h2>Notification</h2>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/notification.svg">
+            </section> 
+
+             <section>
+              <h2>Indication</h2>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/indication.svg">
+            </section> 
+
+             <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/nordic-hrm.png">
+            </section> 
+
+            <section>
+              <img width="100%" src="../2017-01-27-nyu-itp-bluetooth/images/data_transfer.png" />
+            </section>
+
+             <section>
+              <h2>Peripheral</h2>
+              <p>Provides services</p>
+            </section>
+
+            <section>
+              <h2>Central</h2>
+              <p>Uses services on a peripheral</p>
+            </section> 
+
+            <!-- <section>
+              <h2>Central</h2>
+              <ul>
+                <li>Discover advertising peripherals</li>
+                <li>Connect using MAC Address or UUID</li>
+                <li>Explore the services and characteristics</li>
+                <li>Read and write characteristics</li>
+                <li>Subscribe to be notified of changes</li>
+              </ul>
+            </section> -->
+
+<!--
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino.png">
+            </section>
+-->
+
+            <!-- <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino-Bluetooth.png">
+            </section> -->
+
+<!--
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino-TxRx.png">
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/iOS-Arduino-BLE.png">
+            </section>
+-->
+
+            <section>
+              <h2>Hardware</h2>
+            </section>
+
+            <section>
+              <h3>Arduino 101</h3>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/Arduino101.jpg"><br/>
+              <small><a href="https://www.arduino.cc/en/Main/ArduinoBoard101">https://www.arduino.cc/en/Main/ArduinoBoard101</a></small>
+            </section>
+
+            <section>
+              <img width="60%" src="../2017-01-27-nyu-itp-bluetooth/images/nano.mbed.png"><br/>
+              <a href="https://redbear.cc/product/ble/ble-nano-kit.html">RedBear BLE Nano Kit</a>
+            </section>
+
+            <section>
+                <img width="100%" src="../2017-01-27-nyu-itp-bluetooth/images/rfduino.jpg">
+                <a href="http://rfduino.com">RFduino</a>
+            </section>
+
+            <section>
+              <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/Adafruit-nRF8001.jpg"><br/>
+              <a href="https://www.adafruit.com/products/1697">Adafruit Bluefruit LE nRF8001 Breakout</a>
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/RedBearLabBLEShield.jpg"><br/>
+              <a href="http://www.makershed.com/products/bluetooth-low-energy-ble-shield-for-arduino-2-0">RedBearLab BLE Shield 2.1</a>
+            </section>
+
+            <section>
+              <img width="75%" src="../2017-01-27-nyu-itp-bluetooth/images/RedBearLab.jpg"><br/>
+              <a href="http://redbearlab.com">Other RedBearLab boards</a>
+            </section>
+
+            <section>
+              <h2>Compatible Hardware List</h2>
+              <a href="https://github.com/sandeepmistry/arduino-BLEPeripheral#compatible-hardware">github.com/sandeepmistry/android-BLEPeripheral</a>
+            </section>
+
+            <section>
+              <img width="75%" src="../2017-01-27-nyu-itp-bluetooth/images/RaspberryPi-AdafruitImage.jpg"><br/>
+              <a href="https://www.adafruit.com/products/3055">Raspberry Pi 3</a>              
+            </section>
+
+            <!-- <section>
+              <img width="75%" src="../2017-01-27-nyu-itp-bluetooth/images/PiZeroRedBearHat-AdafruitImage.jpg"><br/>
+              <a href="https://www.adafruit.com/products/3283">Raspberry Pi Zero with RedBear WiFi + BTLE pHAT</a>                            
+            </section> -->
+
+            <section>
+              <img width="75%" src="images/RPiZeroWireless-AdafruitImage.jpg"><br/>
+              <a href="https://www.adafruit.com/products/3400">Raspberry Pi Zero Wireless</a>                            
+            </section>
+
+            <section>
+              <img width="75%" src="images/RPiZeroWirelessWithHeaders-AdafruitImage.jpg"><br/>
+              <a href="https://www.adafruit.com/products/3708">Raspberry Pi Zero Wireless with Headers</a>                            
+            </section>
+
+            <section>
+              <img width="75%" src="images/BBCMicroBit-AdafruitImage.jpg"><br/>
+              <a href="https://www.adafruit.com/products/3362">BBC micro:bit</a>                            
+            </section>
+
+            <section>
+              <img width="75%" src="../2017-01-27-nyu-itp-bluetooth/images/usb-bluetooth-AdafruitImage.jpg"><br/>
+              <a href="https://www.adafruit.com/products/1327">Bluetooth 4.0 USB Module</a>                            
+            </section>
+
+            <section>
+                <img src="../2017-01-27-nyu-itp-bluetooth/images/cc2541-cc2650-sensor-tag.png" width="80%"><br/>
+                <a href="http://ti.com/sensortag">CC2541 &amp; CC2650 SensorTag</a>                            
+            </section>
+
+            <!-- probably remove this one -->
+            <section>
+                <h3>CC2650 Sensors &amp; Services</h3>
+                <ul>
+                    <li>IR &amp; Ambient Temperature Sensor</li>
+                    <li>Ambient Light Sensor</li>
+                    <li>Humidity Sensor</li>
+                    <li>Barometric Pressure Sensor</li>
+                    <li>9-axis Motion Tracking</li>
+                    <li>Magnet Sensor</li>
+                    <li>OTA Download</li>
+                </ul>
+                <p>
+                    <small><a href="http://bit.ly/sensortag-guide">http://bit.ly/sensortag-guide</a></small>
+                </p>
+            </section>
+
+            <section>
+                <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/beacons.jpg" />
+            </section>
+
+            <section>
+                <img width="80%" src="../2017-01-27-nyu-itp-bluetooth/images/estimote.jpg" />
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/lamp-07-colors.jpg" />
+            </section>
+
+            <section>
+              <img src="../2017-01-27-nyu-itp-bluetooth/images/arduino-bluetooth.jpg" />
+            </section> 
+
+            <section>
+              <!-- <section>
+                <img src="../2017-01-27-nyu-itp-bluetooth/images/arduino-bluetooth.jpg" />
+              </section> -->
+              <section>
+                <img width="70%" src="../2017-01-27-nyu-itp-bluetooth/images/ios-neopixel.png" />
+              </section>
+            </section>
+
+            <section>
+              <img width="50%" src="http://makebluetooth.com/images/BluetoothBook_Cover.png"><br/>
+              <small><a href="http://makebluetooth.com">makebluetooth.com</a></small>
+            </section>
+
+            <section>
+                <p>Next Week...</p>
+                <h2>Arduino and Bluetooth LE</h2>
+                <p>Use Arduino to build Bluetooth LE peripherals</p>
+
+                <!-- should be using css -->
+                <p>&nbsp;</p>
+                <p>
+                <small>
+<a rel="license" href="http://creativecommons.org/licenses/by/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" /></a><br /><span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">NYU ITP Bluetooth Spring 2018 Week 1</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="http://don.github.io/slides/2018-01-22-nyu-itp-bluetooth" property="cc:attributionName" rel="cc:attributionURL">Don Coleman</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+                </small>
+                </p>
+            </section>
+
+            </div>
+
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+
+            // Full list of configuration options available at:
+            // https://github.com/hakimel/reveal.js#configuration
+            Reveal.initialize({
+                controls: true,
+                progress: false,
+                history: true,
+                center: true,
+                // width: '100%',
+                // height: '100%',
+
+                transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+                // Optional reveal.js plugins
+                dependencies: [
+                    { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+                    { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+                    { src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/zoom-js/zoom.js', async: true },
+                    { src: 'plugin/notes/notes.js', async: true }
+                ]
+
+            });
+
+        </script>
+
+    </body>
+</html>
